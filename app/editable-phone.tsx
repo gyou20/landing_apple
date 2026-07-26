@@ -3,10 +3,12 @@
 import {
   type ChangeEvent,
   type CSSProperties,
+  type ReactNode,
   useEffect,
   useRef,
   useState,
 } from "react";
+import { createPortal } from "react-dom";
 
 const STORAGE_KEY = "aether-wallpaper-v1";
 
@@ -85,14 +87,31 @@ function optimizeImage(file: File): Promise<string> {
   });
 }
 
-export function EditablePhone() {
+function clamp(value: number, minimum = 0, maximum = 1) {
+  return Math.min(maximum, Math.max(minimum, value));
+}
+
+function smoothstep(start: number, end: number, value: number) {
+  const progress = clamp((value - start) / (end - start));
+  return progress * progress * (3 - 2 * progress);
+}
+
+export function EditablePhone({
+  transitionContent,
+}: {
+  transitionContent: ReactNode;
+}) {
+  const [isMounted, setIsMounted] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [settings, setSettings] =
     useState<WallpaperSettings>(DEFAULT_SETTINGS);
   const [status, setStatus] = useState("이 기기에 자동 저장됩니다.");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLDivElement>(null);
+  const screenRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setIsMounted(true);
     try {
       const saved = window.localStorage.getItem(STORAGE_KEY);
       if (!saved) return;
@@ -111,6 +130,21 @@ export function EditablePhone() {
   }, []);
 
   useEffect(() => {
+    const root = document.documentElement;
+    const imageValue = settings.image ? `url("${settings.image}")` : "none";
+
+    root.style.setProperty("--experience-wallpaper-color", settings.color);
+    root.style.setProperty("--experience-wallpaper-image", imageValue);
+    root.style.setProperty("--experience-wallpaper-fit", settings.fit);
+    root.style.setProperty(
+      "--experience-wallpaper-position",
+      `${50 + settings.x}% ${50 + settings.y}%`,
+    );
+    root.style.setProperty(
+      "--experience-wallpaper-scale",
+      String(settings.scale / 100),
+    );
+
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
       console.info("[aether:editor:save]", {
@@ -123,6 +157,94 @@ export function EditablePhone() {
       console.error("[aether:editor:save-failed]", error);
     }
   }, [settings]);
+
+  useEffect(() => {
+    const hero = document.querySelector<HTMLElement>('[data-section="hero"]');
+    const screen = screenRef.current;
+    if (!hero || !screen) {
+      console.error("[aether:zoom:missing-element]", {
+        heroFound: Boolean(hero),
+        screenFound: Boolean(screen),
+      });
+      return;
+    }
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    let frameId = 0;
+    let lastPhase = "";
+
+    const updateZoom = () => {
+      const travel = Math.max(1, hero.offsetHeight - window.innerHeight);
+      const progress = clamp(-hero.getBoundingClientRect().top / travel);
+      const mobile = window.innerWidth < 700;
+      const startX = mobile ? 50 : 72;
+      const startY = mobile ? 67 : 57;
+      const centerProgress = smoothstep(0.08, 0.46, progress);
+      const zoomProgress = smoothstep(0.2, 0.9, progress);
+      const revealProgress = smoothstep(0.76, 0.94, progress);
+      const screenWidth = Math.max(1, screen.offsetWidth);
+      const screenHeight = Math.max(1, screen.offsetHeight);
+      const coverScale =
+        Math.max(
+          window.innerWidth / screenWidth,
+          window.innerHeight / screenHeight,
+        ) * 1.08;
+      const phoneScale = reducedMotion
+        ? 1
+        : 1 + (coverScale - 1) * zoomProgress;
+      const copyOpacity = 1 - smoothstep(0.12, 0.42, progress);
+      const hardwareOpacity = 1 - smoothstep(0.66, 0.86, progress);
+      const phase =
+        progress >= 0.76 ? "inside" : progress >= 0.18 ? "zoom" : "intro";
+
+      hero.style.setProperty(
+        "--phone-center-x",
+        `${startX + (50 - startX) * centerProgress}%`,
+      );
+      hero.style.setProperty(
+        "--phone-center-y",
+        `${startY + (50 - startY) * centerProgress}%`,
+      );
+      hero.style.setProperty("--phone-scale", String(phoneScale));
+      hero.style.setProperty("--hero-copy-opacity", String(copyOpacity));
+      hero.style.setProperty(
+        "--hardware-opacity",
+        String(hardwareOpacity),
+      );
+      hero.style.setProperty(
+        "--section-two-reveal",
+        reducedMotion ? "0" : String(revealProgress),
+      );
+      hero.style.setProperty("--scroll-progress", String(progress));
+      hero.dataset.zoomPhase = phase;
+
+      if (phase !== lastPhase) {
+        lastPhase = phase;
+        console.info("[aether:zoom:phase]", {
+          phase,
+          progress: Number(progress.toFixed(3)),
+          phoneScale: Number(phoneScale.toFixed(3)),
+        });
+      }
+    };
+
+    const requestUpdate = () => {
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(updateZoom);
+    };
+
+    updateZoom();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate, { passive: true });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+    };
+  }, []);
 
   const updateSettings = (patch: Partial<WallpaperSettings>) => {
     setSettings((current) => ({ ...current, ...patch }));
@@ -162,16 +284,8 @@ export function EditablePhone() {
     "--wallpaper-scale": settings.scale / 100,
   } as CSSProperties;
 
-  return (
-    <div
-      className="phone-stage"
-      id="device"
-      data-testid="hero-product-visual"
-      aria-label="배경화면을 편집할 수 있는 Aether One 스마트폰"
-    >
-      <div className="ambient ambient-one" aria-hidden="true" />
-      <div className="ambient ambient-two" aria-hidden="true" />
-
+  const editor = (
+    <>
       <button
         className="edit-mode-toggle"
         type="button"
@@ -184,14 +298,6 @@ export function EditablePhone() {
         {isEditing ? "편집 닫기" : "Edit Mode"}
       </button>
 
-      <div className="phone phone-front">
-        <div className="phone-screen" style={wallpaperStyle}>
-          <div className="wallpaper-layer" aria-hidden="true" />
-          <div className="screen-reflection" aria-hidden="true" />
-          <div className="dynamic-island" aria-hidden="true" />
-        </div>
-      </div>
-
       <aside
         className={`wallpaper-editor${isEditing ? " is-open" : ""}`}
         id="wallpaper-editor"
@@ -203,7 +309,7 @@ export function EditablePhone() {
         <div className="editor-heading">
           <div>
             <span>Wallpaper Studio</span>
-            <strong>배경화면 편집</strong>
+            <strong>휴대폰 화면 편집</strong>
           </div>
           <button
             type="button"
@@ -307,13 +413,55 @@ export function EditablePhone() {
             type="button"
             onClick={() => {
               setSettings(DEFAULT_SETTINGS);
-              setStatus("기본 검정 배경으로 되돌렸습니다.");
+              setStatus("기본 검정 화면으로 되돌렸습니다.");
             }}
           >
             초기화
           </button>
         </div>
       </aside>
-    </div>
+    </>
+  );
+
+  return (
+    <>
+      <div
+        className="phone-stage"
+        id="device"
+        data-testid="hero-product-visual"
+        aria-label="스크롤하면 화면 안으로 확대되는 Aether One 스마트폰"
+      >
+        <div className="ambient ambient-one" aria-hidden="true" />
+        <div className="ambient ambient-two" aria-hidden="true" />
+
+        <div
+          ref={phoneRef}
+          className="phone phone-front"
+          data-testid="scroll-zoom-phone"
+        >
+          <div
+            ref={screenRef}
+            className="phone-screen"
+            style={wallpaperStyle}
+          >
+            <div className="wallpaper-layer" aria-hidden="true" />
+            <div className="screen-reflection" aria-hidden="true" />
+            <div className="dynamic-island" aria-hidden="true" />
+          </div>
+        </div>
+
+        <div
+          className="zoom-destination"
+          aria-hidden="true"
+          data-testid="zoom-destination"
+        >
+          <div className="zoom-destination-wallpaper" />
+          <div className="section-two-scrim" />
+          {transitionContent}
+        </div>
+      </div>
+
+      {isMounted ? createPortal(editor, document.body) : null}
+    </>
   );
 }

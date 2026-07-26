@@ -4,41 +4,49 @@ import { useEffect } from "react";
 
 export function HeroDiagnostics() {
   useEffect(() => {
-    const hero = document.querySelector<HTMLElement>('[data-section="hero"]');
-    const productVisual = document.querySelector<HTMLElement>(
-      '[data-testid="hero-product-visual"]',
-    );
-    const editorToggle = document.querySelector<HTMLElement>(
-      '[data-testid="edit-mode-toggle"]',
-    );
-    const vortexCanvas = document.querySelector<HTMLCanvasElement>(
-      '[data-testid="vortex-canvas"]',
-    );
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const frameId = window.requestAnimationFrame(() => {
+      const hero = document.querySelector<HTMLElement>('[data-section="hero"]');
+      const productVisual = document.querySelector<HTMLElement>(
+        '[data-testid="hero-product-visual"]',
+      );
+      const zoomPhone = document.querySelector<HTMLElement>(
+        '[data-testid="scroll-zoom-phone"]',
+      );
+      const zoomDestination = document.querySelector<HTMLElement>(
+        '[data-testid="zoom-destination"]',
+      );
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
 
-    console.info("[aether:hero:init]", {
-      heroFound: Boolean(hero),
-      productVisualFound: Boolean(productVisual),
-      editorToggleFound: Boolean(editorToggle),
-      vortexCanvasFound: Boolean(vortexCanvas),
-      webglState: vortexCanvas?.dataset.webgl ?? "missing",
-      viewport: `${window.innerWidth}x${window.innerHeight}`,
-    });
-    console.info("[aether:hero:motion]", {
-      reducedMotion,
-      animationsEnabled: !reducedMotion,
-    });
-
-    if (!hero || !productVisual || !editorToggle || !vortexCanvas) {
-      console.error("[aether:hero:missing-element]", {
+      console.info("[aether:hero:init]", {
         heroFound: Boolean(hero),
         productVisualFound: Boolean(productVisual),
-        editorToggleFound: Boolean(editorToggle),
-        vortexCanvasFound: Boolean(vortexCanvas),
+        zoomPhoneFound: Boolean(zoomPhone),
+        zoomDestinationFound: Boolean(zoomDestination),
+        viewport: `${window.innerWidth}x${window.innerHeight}`,
       });
-    }
+      console.info("[aether:hero:motion]", {
+        reducedMotion,
+        animationsEnabled: !reducedMotion,
+      });
+
+      if (
+        !hero ||
+        !productVisual ||
+        !zoomPhone ||
+        !zoomDestination
+      ) {
+        console.error("[aether:hero:missing-element]", {
+          heroFound: Boolean(hero),
+          productVisualFound: Boolean(productVisual),
+          zoomPhoneFound: Boolean(zoomPhone),
+          zoomDestinationFound: Boolean(zoomDestination),
+        });
+      }
+    });
+
+    return () => window.cancelAnimationFrame(frameId);
   }, []);
 
   return null;

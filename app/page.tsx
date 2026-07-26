@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { EditablePhone } from "./editable-phone";
 import { HeroDiagnostics } from "./hero-diagnostics";
-import { VortexBackground } from "./vortex-background";
 
 export const metadata: Metadata = {
   title: "Aether One | Pro의 새로운 기준",
@@ -20,6 +19,29 @@ function Wordmark() {
   );
 }
 
+function SectionTwoContent() {
+  return (
+    <div className="section-two-content">
+      <p className="section-two-eyebrow">Aether OS · Inside</p>
+      <h2>
+        화면의 경계가
+        <br />
+        <span>사라지는 순간.</span>
+      </h2>
+      <p className="section-two-description">
+        당신이 선택한 화면에서 새로운 경험이 이어집니다.
+        <br />
+        빠르고, 조용하고, 온전히 당신답게.
+      </p>
+      <div className="section-two-meta" aria-label="Aether OS 주요 특징">
+        <span>Adaptive UI</span>
+        <span>120Hz Motion</span>
+        <span>Private by design</span>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <main className="site-shell" id="top">
@@ -29,58 +51,73 @@ export default function Home() {
         className="hero"
         data-section="hero"
         data-testid="hero-section"
+        data-zoom-phase="intro"
         aria-labelledby="hero-title"
       >
-        <VortexBackground />
-
-        <nav className="hero-nav" aria-label="메인 내비게이션">
-          <a className="brand-link" href="#top" aria-label="Aether 홈">
-            <Wordmark />
-          </a>
-          <div className="nav-meta">
-            <span>One Pro</span>
-            <a href="#device">디자인 보기</a>
-          </div>
-        </nav>
-
-        <div className="hero-copy">
-          <p className="eyebrow">Aether One Pro</p>
-          <h1 id="hero-title">
-            깊이를 넘어,
-            <br />
-            <span>경험이 되다.</span>
-          </h1>
-          <p className="hero-description">
-            항공우주 등급 티타늄의 섬세한 질감.
-            <br />
-            손끝에서 시작되는 가장 선명한 몰입.
-          </p>
-          <div className="hero-actions" aria-label="제품 바로가기">
-            <a className="action action-primary" href="#device">
-              디자인 살펴보기
-              <span aria-hidden="true">↘</span>
+        <div className="hero-sticky">
+          <nav className="hero-nav" aria-label="메인 내비게이션">
+            <a className="brand-link" href="#top" aria-label="Aether 홈">
+              <Wordmark />
             </a>
-            <span className="availability">올가을 공개</span>
+            <div className="nav-meta">
+              <span>One Pro</span>
+              <a href="#experience">Inside Aether</a>
+            </div>
+          </nav>
+
+          <div className="hero-copy">
+            <p className="eyebrow">Aether One Pro</p>
+            <h1 id="hero-title">
+              깊이를 넘어,
+              <br />
+              <span>경험이 되다.</span>
+            </h1>
+            <p className="hero-description">
+              항공우주 등급 티타늄의 섬세한 질감.
+              <br />
+              스크롤해 화면 안으로 들어가 보세요.
+            </p>
+            <div className="hero-actions" aria-label="제품 탐색 안내">
+              <a className="action action-primary" href="#experience">
+                화면 안으로
+                <span aria-hidden="true">↓</span>
+              </a>
+              <span className="availability">Scroll to enter</span>
+            </div>
+          </div>
+
+          <EditablePhone transitionContent={<SectionTwoContent />} />
+
+          <div className="hero-foot">
+            <p>
+              Precision.
+              <br />
+              Reimagined.
+            </p>
+            <a href="#experience" aria-label="두 번째 섹션으로 이동">
+              <span aria-hidden="true">↓</span>
+            </a>
+            <p className="hero-foot-right">
+              Scroll
+              <br />
+              To Enter
+            </p>
           </div>
         </div>
+      </section>
 
-        <EditablePhone />
-
-        <div className="hero-foot">
-          <p>
-            Precision.
-            <br />
-            Reimagined.
-          </p>
-          <a href="#device" aria-label="제품 이미지로 이동">
-            <span aria-hidden="true">↓</span>
-          </a>
-          <p className="hero-foot-right">
-            Titanium
-            <br />
-            Series 01
-          </p>
+      <section
+        className="section-two"
+        id="experience"
+        data-section="experience"
+        aria-labelledby="section-two-title"
+      >
+        <div className="section-two-wallpaper" aria-hidden="true" />
+        <div className="section-two-scrim" aria-hidden="true" />
+        <div id="section-two-title" className="sr-only">
+          Aether OS
         </div>
+        <SectionTwoContent />
       </section>
     </main>
   );
