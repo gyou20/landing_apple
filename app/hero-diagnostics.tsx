@@ -8,6 +8,9 @@ export function HeroDiagnostics() {
     const productVisual = document.querySelector<HTMLElement>(
       '[data-testid="hero-product-visual"]',
     );
+    const editorToggle = document.querySelector<HTMLElement>(
+      '[data-testid="edit-mode-toggle"]',
+    );
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -15,6 +18,7 @@ export function HeroDiagnostics() {
     console.info("[aether:hero:init]", {
       heroFound: Boolean(hero),
       productVisualFound: Boolean(productVisual),
+      editorToggleFound: Boolean(editorToggle),
       viewport: `${window.innerWidth}x${window.innerHeight}`,
     });
     console.info("[aether:hero:motion]", {
@@ -22,10 +26,11 @@ export function HeroDiagnostics() {
       animationsEnabled: !reducedMotion,
     });
 
-    if (!hero || !productVisual) {
+    if (!hero || !productVisual || !editorToggle) {
       console.error("[aether:hero:missing-element]", {
         heroFound: Boolean(hero),
         productVisualFound: Boolean(productVisual),
+        editorToggleFound: Boolean(editorToggle),
       });
     }
   }, []);

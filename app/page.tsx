@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { EditablePhone } from "./editable-phone";
 import { HeroDiagnostics } from "./hero-diagnostics";
 
 export const metadata: Metadata = {
@@ -15,44 +16,6 @@ function Wordmark() {
       </span>
       Aether
     </span>
-  );
-}
-
-function PhoneStage() {
-  return (
-    <div
-      className="phone-stage"
-      id="device"
-      data-testid="hero-product-visual"
-      aria-label="Aether One 스마트폰 전면과 후면 디자인"
-      role="img"
-    >
-      <div className="ambient ambient-one" />
-      <div className="ambient ambient-two" />
-
-      <div className="phone phone-back" aria-hidden="true">
-        <div className="camera-island">
-          <span />
-          <span />
-          <span />
-          <i />
-        </div>
-        <div className="back-mark">◐</div>
-      </div>
-
-      <div className="phone phone-front" aria-hidden="true">
-        <div className="phone-screen">
-          <div className="dynamic-island" />
-          <div className="screen-orbit orbit-one" />
-          <div className="screen-orbit orbit-two" />
-          <div className="screen-glow" />
-        </div>
-      </div>
-
-      <div className="phone phone-edge" aria-hidden="true">
-        <span />
-      </div>
-    </div>
   );
 }
 
@@ -98,7 +61,7 @@ export default function Home() {
           </div>
         </div>
 
-        <PhoneStage />
+        <EditablePhone />
 
         <div className="hero-foot">
           <p>
