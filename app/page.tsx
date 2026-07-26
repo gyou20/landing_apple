@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { EditablePhone } from "./editable-phone";
 import { HeroDiagnostics } from "./hero-diagnostics";
+import { VortexBackground } from "./vortex-background";
 
 export const metadata: Metadata = {
   title: "Aether One | Pro의 새로운 기준",
@@ -30,6 +31,8 @@ export default function Home() {
         data-testid="hero-section"
         aria-labelledby="hero-title"
       >
+        <VortexBackground />
+
         <nav className="hero-nav" aria-label="메인 내비게이션">
           <a className="brand-link" href="#top" aria-label="Aether 홈">
             <Wordmark />

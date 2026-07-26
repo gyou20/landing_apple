@@ -11,6 +11,9 @@ export function HeroDiagnostics() {
     const editorToggle = document.querySelector<HTMLElement>(
       '[data-testid="edit-mode-toggle"]',
     );
+    const vortexCanvas = document.querySelector<HTMLCanvasElement>(
+      '[data-testid="vortex-canvas"]',
+    );
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -19,6 +22,8 @@ export function HeroDiagnostics() {
       heroFound: Boolean(hero),
       productVisualFound: Boolean(productVisual),
       editorToggleFound: Boolean(editorToggle),
+      vortexCanvasFound: Boolean(vortexCanvas),
+      webglState: vortexCanvas?.dataset.webgl ?? "missing",
       viewport: `${window.innerWidth}x${window.innerHeight}`,
     });
     console.info("[aether:hero:motion]", {
@@ -26,11 +31,12 @@ export function HeroDiagnostics() {
       animationsEnabled: !reducedMotion,
     });
 
-    if (!hero || !productVisual || !editorToggle) {
+    if (!hero || !productVisual || !editorToggle || !vortexCanvas) {
       console.error("[aether:hero:missing-element]", {
         heroFound: Boolean(hero),
         productVisualFound: Boolean(productVisual),
         editorToggleFound: Boolean(editorToggle),
+        vortexCanvasFound: Boolean(vortexCanvas),
       });
     }
   }, []);
