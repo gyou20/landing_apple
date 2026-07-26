@@ -86,7 +86,22 @@ export default function Home() {
             </div>
           </div>
 
-          <EditablePhone transitionContent={<SectionTwoContent />} />
+          <EditablePhone
+            screenContent={
+              <section
+                className="section-two"
+                data-section="experience"
+                data-testid="phone-section-two"
+                aria-labelledby="section-two-title"
+              >
+                <div className="section-two-scrim" aria-hidden="true" />
+                <div id="section-two-title" className="sr-only">
+                  Aether OS
+                </div>
+                <SectionTwoContent />
+              </section>
+            }
+          />
 
           <div className="hero-foot">
             <p>
@@ -104,20 +119,11 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </section>
-
-      <section
-        className="section-two"
-        id="experience"
-        data-section="experience"
-        aria-labelledby="section-two-title"
-      >
-        <div className="section-two-wallpaper" aria-hidden="true" />
-        <div className="section-two-scrim" aria-hidden="true" />
-        <div id="section-two-title" className="sr-only">
-          Aether OS
-        </div>
-        <SectionTwoContent />
+        <span
+          className="experience-anchor"
+          id="experience"
+          aria-hidden="true"
+        />
       </section>
     </main>
   );

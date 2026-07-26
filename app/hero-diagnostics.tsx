@@ -12,8 +12,17 @@ export function HeroDiagnostics() {
       const zoomPhone = document.querySelector<HTMLElement>(
         '[data-testid="scroll-zoom-phone"]',
       );
-      const zoomDestination = document.querySelector<HTMLElement>(
-        '[data-testid="zoom-destination"]',
+      const phoneExperience = document.querySelector<HTMLElement>(
+        '[data-testid="phone-experience"]',
+      );
+      const sectionTwo = document.querySelector<HTMLElement>(
+        '[data-testid="phone-section-two"]',
+      );
+      const sectionTwoCount = document.querySelectorAll(
+        '[data-section="experience"]',
+      ).length;
+      const sectionTwoInsidePhone = Boolean(
+        phoneExperience && sectionTwo && phoneExperience.contains(sectionTwo),
       );
       const reducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
@@ -23,7 +32,9 @@ export function HeroDiagnostics() {
         heroFound: Boolean(hero),
         productVisualFound: Boolean(productVisual),
         zoomPhoneFound: Boolean(zoomPhone),
-        zoomDestinationFound: Boolean(zoomDestination),
+        phoneExperienceFound: Boolean(phoneExperience),
+        sectionTwoCount,
+        sectionTwoInsidePhone,
         viewport: `${window.innerWidth}x${window.innerHeight}`,
       });
       console.info("[aether:hero:motion]", {
@@ -35,13 +46,19 @@ export function HeroDiagnostics() {
         !hero ||
         !productVisual ||
         !zoomPhone ||
-        !zoomDestination
+        !phoneExperience ||
+        !sectionTwo ||
+        sectionTwoCount !== 1 ||
+        !sectionTwoInsidePhone
       ) {
         console.error("[aether:hero:missing-element]", {
           heroFound: Boolean(hero),
           productVisualFound: Boolean(productVisual),
           zoomPhoneFound: Boolean(zoomPhone),
-          zoomDestinationFound: Boolean(zoomDestination),
+          phoneExperienceFound: Boolean(phoneExperience),
+          sectionTwoFound: Boolean(sectionTwo),
+          sectionTwoCount,
+          sectionTwoInsidePhone,
         });
       }
     });

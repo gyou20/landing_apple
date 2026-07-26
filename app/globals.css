@@ -66,6 +66,7 @@ a {
   --hero-copy-opacity: 1;
   --hardware-opacity: 1;
   --section-two-reveal: 0;
+  --screen-content-counter-scale: 0.22;
   position: relative;
   height: 280svh;
   isolation: isolate;
@@ -300,9 +301,7 @@ a {
   background: #000;
 }
 
-.wallpaper-layer,
-.section-two-wallpaper,
-.zoom-destination-wallpaper {
+.wallpaper-layer {
   position: absolute;
   inset: -3%;
   background-color: var(--experience-wallpaper-color, #000);
@@ -327,6 +326,21 @@ a {
   transform: scale(var(--wallpaper-scale, 1));
   transform-origin:
     var(--wallpaper-position-x, 50%) var(--wallpaper-position-y, 50%);
+}
+
+.phone-experience {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: 100vw;
+  height: 100svh;
+  opacity: calc(0.22 + (var(--section-two-reveal) * 0.78));
+  transform:
+    translate(-50%, -50%)
+    scale(var(--screen-content-counter-scale));
+  transform-origin: center;
+  will-change: transform, opacity;
 }
 
 .screen-reflection {
@@ -355,15 +369,6 @@ a {
   background: rgba(1, 1, 1, var(--hardware-opacity));
   opacity: var(--hardware-opacity);
   transform: translateX(-50%);
-}
-
-.zoom-destination {
-  position: absolute;
-  inset: 0;
-  z-index: 8;
-  overflow: hidden;
-  opacity: var(--section-two-reveal);
-  pointer-events: none;
 }
 
 .section-two-scrim {
@@ -636,13 +641,9 @@ a {
 
 .section-two {
   position: relative;
-  min-height: 120svh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
-  background: var(--experience-wallpaper-color, #000);
-}
-
-.section-two-wallpaper {
-  z-index: 0;
 }
 
 .section-two-content {
@@ -666,8 +667,7 @@ a {
   text-transform: uppercase;
 }
 
-.section-two h2,
-.zoom-destination h2 {
+.section-two h2 {
   margin: 0;
   font-size: clamp(54px, 7.2vw, 118px);
   font-weight: 540;
@@ -675,9 +675,16 @@ a {
   line-height: 0.92;
 }
 
-.section-two h2 span,
-.zoom-destination h2 span {
+.section-two h2 span {
   color: rgba(255, 255, 255, 0.42);
+}
+
+.experience-anchor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
 }
 
 .section-two-description {
@@ -811,8 +818,7 @@ a {
     display: none;
   }
 
-  .section-two h2,
-  .zoom-destination h2 {
+  .section-two h2 {
     font-size: clamp(48px, 14vw, 70px);
   }
 
@@ -840,7 +846,7 @@ a {
     height: 100svh;
   }
 
-  .zoom-destination {
-    display: none;
+  .phone-experience {
+    opacity: 1;
   }
 }

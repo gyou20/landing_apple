@@ -97,9 +97,9 @@ function smoothstep(start: number, end: number, value: number) {
 }
 
 export function EditablePhone({
-  transitionContent,
+  screenContent,
 }: {
-  transitionContent: ReactNode;
+  screenContent: ReactNode;
 }) {
   const [isMounted, setIsMounted] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -191,6 +191,7 @@ export function EditablePhone({
           window.innerWidth / screenWidth,
           window.innerHeight / screenHeight,
         ) * 1.08;
+      const contentCounterScale = 1 / coverScale;
       const phoneScale = reducedMotion
         ? 1
         : 1 + (coverScale - 1) * zoomProgress;
@@ -208,15 +209,16 @@ export function EditablePhone({
         `${startY + (50 - startY) * centerProgress}%`,
       );
       hero.style.setProperty("--phone-scale", String(phoneScale));
+      hero.style.setProperty(
+        "--screen-content-counter-scale",
+        String(contentCounterScale),
+      );
       hero.style.setProperty("--hero-copy-opacity", String(copyOpacity));
       hero.style.setProperty(
         "--hardware-opacity",
         String(hardwareOpacity),
       );
-      hero.style.setProperty(
-        "--section-two-reveal",
-        reducedMotion ? "0" : String(revealProgress),
-      );
+      hero.style.setProperty("--section-two-reveal", String(revealProgress));
       hero.style.setProperty("--scroll-progress", String(progress));
       hero.dataset.zoomPhase = phase;
 
@@ -445,19 +447,15 @@ export function EditablePhone({
             style={wallpaperStyle}
           >
             <div className="wallpaper-layer" aria-hidden="true" />
+            <div
+              className="phone-experience"
+              data-testid="phone-experience"
+            >
+              {screenContent}
+            </div>
             <div className="screen-reflection" aria-hidden="true" />
             <div className="dynamic-island" aria-hidden="true" />
           </div>
-        </div>
-
-        <div
-          className="zoom-destination"
-          aria-hidden="true"
-          data-testid="zoom-destination"
-        >
-          <div className="zoom-destination-wallpaper" />
-          <div className="section-two-scrim" />
-          {transitionContent}
         </div>
       </div>
 
