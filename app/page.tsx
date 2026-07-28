@@ -55,6 +55,14 @@ export default function Home() {
         aria-labelledby="hero-title"
       >
         <div className="hero-sticky">
+          <span
+            className="section-index section-index-one"
+            aria-hidden="true"
+            data-testid="section-index-one"
+          >
+            Section 01
+          </span>
+
           <nav className="hero-nav" aria-label="메인 내비게이션">
             <a className="brand-link" href="#top" aria-label="Aether 홈">
               <Wordmark />
@@ -94,6 +102,13 @@ export default function Home() {
                 data-testid="phone-section-two"
                 aria-labelledby="section-two-title"
               >
+                <span
+                  className="section-index section-index-two"
+                  aria-hidden="true"
+                  data-testid="section-index-two"
+                >
+                  Section 02
+                </span>
                 <div className="section-two-scrim" aria-hidden="true" />
                 <div id="section-two-title" className="sr-only">
                   Aether OS
