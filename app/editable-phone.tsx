@@ -193,8 +193,8 @@ export function EditablePhone({
       const parallaxInfluence = pointerParallaxEnabled
         ? 1 - smoothstep(0, 0.08, progress)
         : 0;
-      const parallaxX = pointerCurrentX * 1.6 * parallaxInfluence;
-      const parallaxY = pointerCurrentY * 1.15 * parallaxInfluence;
+      const parallaxX = pointerCurrentX * 1.0 * parallaxInfluence;
+      const parallaxY = pointerCurrentY * 0.7 * parallaxInfluence;
       const zoomProgress = smoothstep(0.2, 0.9, progress);
       const revealProgress = smoothstep(0.76, 0.94, progress);
       const screenWidth = Math.max(1, screen.offsetWidth);
@@ -281,8 +281,8 @@ export function EditablePhone({
       if (!parallaxLogged) {
         parallaxLogged = true;
         console.info("[aether:parallax:active]", {
-          rangeX: "±1.6%",
-          rangeY: "±1.15%",
+          rangeX: "±1.0%",
+          rangeY: "±0.7%",
           scrollCutoff: 0.08,
         });
       }
