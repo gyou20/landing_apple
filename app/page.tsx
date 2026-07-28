@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AgencySections } from "./agency-sections";
 import { EditablePhone } from "./editable-phone";
 import { HeroDiagnostics } from "./hero-diagnostics";
 
@@ -140,6 +141,8 @@ export default function Home() {
           aria-hidden="true"
         />
       </section>
+
+      <AgencySections />
     </main>
   );
 }
