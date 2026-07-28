@@ -68,7 +68,7 @@ a {
   --section-two-reveal: 0;
   --screen-content-counter-scale: 0.22;
   position: relative;
-  height: 280svh;
+  height: 180svh;
   isolation: isolate;
   background:
     radial-gradient(circle at 72% 58%, rgba(32, 42, 49, 0.55), transparent 34%),
@@ -747,7 +747,7 @@ a {
   .hero {
     --phone-center-x: 50%;
     --phone-center-y: 67%;
-    height: 260svh;
+    height: 170svh;
   }
 
   .hero-nav,
