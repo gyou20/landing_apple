@@ -172,8 +172,16 @@ export function EditablePhone({
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    let frameId = 0;
+    const pointerParallaxEnabled =
+      !reducedMotion && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    let zoomFrameId = 0;
+    let parallaxFrameId = 0;
     let lastPhase = "";
+    let parallaxLogged = false;
+    let pointerTargetX = 0;
+    let pointerTargetY = 0;
+    let pointerCurrentX = 0;
+    let pointerCurrentY = 0;
 
     const updateZoom = () => {
       const travel = Math.max(1, hero.offsetHeight - window.innerHeight);
@@ -182,6 +190,11 @@ export function EditablePhone({
       const startX = mobile ? 50 : 72;
       const startY = mobile ? 67 : 57;
       const centerProgress = smoothstep(0.08, 0.46, progress);
+      const parallaxInfluence = pointerParallaxEnabled
+        ? 1 - smoothstep(0, 0.08, progress)
+        : 0;
+      const parallaxX = pointerCurrentX * 1.6 * parallaxInfluence;
+      const parallaxY = pointerCurrentY * 1.15 * parallaxInfluence;
       const zoomProgress = smoothstep(0.2, 0.9, progress);
       const revealProgress = smoothstep(0.76, 0.94, progress);
       const screenWidth = Math.max(1, screen.offsetWidth);
@@ -202,11 +215,11 @@ export function EditablePhone({
 
       hero.style.setProperty(
         "--phone-center-x",
-        `${startX + (50 - startX) * centerProgress}%`,
+        `${startX + (50 - startX) * centerProgress + parallaxX}%`,
       );
       hero.style.setProperty(
         "--phone-center-y",
-        `${startY + (50 - startY) * centerProgress}%`,
+        `${startY + (50 - startY) * centerProgress + parallaxY}%`,
       );
       hero.style.setProperty("--phone-scale", String(phoneScale));
       hero.style.setProperty(
@@ -221,6 +234,8 @@ export function EditablePhone({
       hero.style.setProperty("--section-two-reveal", String(revealProgress));
       hero.style.setProperty("--scroll-progress", String(progress));
       hero.dataset.zoomPhase = phase;
+      hero.dataset.parallaxState =
+        parallaxInfluence > 0 ? "cursor-active" : "scroll-locked";
 
       if (phase !== lastPhase) {
         lastPhase = phase;
@@ -233,18 +248,75 @@ export function EditablePhone({
     };
 
     const requestUpdate = () => {
-      window.cancelAnimationFrame(frameId);
-      frameId = window.requestAnimationFrame(updateZoom);
+      window.cancelAnimationFrame(zoomFrameId);
+      zoomFrameId = window.requestAnimationFrame(updateZoom);
+    };
+
+    const animateParallax = () => {
+      pointerCurrentX += (pointerTargetX - pointerCurrentX) * 0.1;
+      pointerCurrentY += (pointerTargetY - pointerCurrentY) * 0.1;
+      updateZoom();
+
+      const unsettled =
+        Math.abs(pointerTargetX - pointerCurrentX) > 0.001 ||
+        Math.abs(pointerTargetY - pointerCurrentY) > 0.001;
+
+      if (unsettled) {
+        parallaxFrameId = window.requestAnimationFrame(animateParallax);
+      }
+    };
+
+    const requestParallaxUpdate = () => {
+      window.cancelAnimationFrame(parallaxFrameId);
+      parallaxFrameId = window.requestAnimationFrame(animateParallax);
+    };
+
+    const handlePointerMove = (event: PointerEvent) => {
+      if (!pointerParallaxEnabled) return;
+
+      pointerTargetX = clamp(event.clientX / window.innerWidth, 0, 1) * 2 - 1;
+      pointerTargetY = clamp(event.clientY / window.innerHeight, 0, 1) * 2 - 1;
+      requestParallaxUpdate();
+
+      if (!parallaxLogged) {
+        parallaxLogged = true;
+        console.info("[aether:parallax:active]", {
+          rangeX: "±1.6%",
+          rangeY: "±1.15%",
+          scrollCutoff: 0.08,
+        });
+      }
+    };
+
+    const resetParallax = () => {
+      pointerTargetX = 0;
+      pointerTargetY = 0;
+      requestParallaxUpdate();
     };
 
     updateZoom();
     window.addEventListener("scroll", requestUpdate, { passive: true });
     window.addEventListener("resize", requestUpdate, { passive: true });
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    document.documentElement.addEventListener("pointerleave", resetParallax);
+
+    if (!pointerParallaxEnabled) {
+      console.info("[aether:parallax:disabled]", {
+        reducedMotion,
+        finePointer: window.matchMedia("(pointer: fine)").matches,
+      });
+    }
 
     return () => {
-      window.cancelAnimationFrame(frameId);
+      window.cancelAnimationFrame(zoomFrameId);
+      window.cancelAnimationFrame(parallaxFrameId);
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
+      window.removeEventListener("pointermove", handlePointerMove);
+      document.documentElement.removeEventListener(
+        "pointerleave",
+        resetParallax,
+      );
     };
   }, []);
 
