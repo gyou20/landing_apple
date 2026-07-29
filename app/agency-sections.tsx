@@ -68,7 +68,7 @@ function DraggableCopy({
       if (!isDragPoint(parsed)) return;
 
       const restored = clampDrag(parsed);
-      setPoint(restored);
+      queueMicrotask(() => setPoint(restored));
       pointCurrent.current = restored;
       console.info("[aether:agency:drag-restore]", {
         dragId,

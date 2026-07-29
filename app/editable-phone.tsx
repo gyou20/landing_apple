@@ -111,14 +111,14 @@ export function EditablePhone({
   const screenRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setIsMounted(true);
+    queueMicrotask(() => setIsMounted(true));
     try {
       const saved = window.localStorage.getItem(STORAGE_KEY);
       if (!saved) return;
 
       const parsed: unknown = JSON.parse(saved);
       if (isWallpaperSettings(parsed)) {
-        setSettings(parsed);
+        queueMicrotask(() => setSettings(parsed));
         console.info("[aether:editor:restore]", {
           hasImage: Boolean(parsed.image),
           fit: parsed.fit,
@@ -153,7 +153,9 @@ export function EditablePhone({
         scale: settings.scale,
       });
     } catch (error) {
-      setStatus("저장 공간이 부족합니다. 더 작은 이미지를 선택해 주세요.");
+      queueMicrotask(() =>
+        setStatus("저장 공간이 부족합니다. 더 작은 이미지를 선택해 주세요."),
+      );
       console.error("[aether:editor:save-failed]", error);
     }
   }, [settings]);

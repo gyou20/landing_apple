@@ -49,7 +49,11 @@ export default function VlogPage() {
           <article key={topic.number} data-vlog-topic={topic.number}>
             <span>{topic.number}</span>
             <p>{topic.category}</p>
-            <h2>{topic.title}</h2>
+            <h2>
+              <a href={`/vlog/${topic.category.toLowerCase().replaceAll(" ", "-")}`}>
+                {topic.title}
+              </a>
+            </h2>
             <small>Article coming soon</small>
           </article>
         ))}

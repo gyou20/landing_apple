@@ -210,6 +210,107 @@
   color: rgba(17, 17, 15, 0.44);
 }
 
+.vlog-article-body,
+.admin-image-processor {
+  width: min(100% - 64px, 1080px);
+  margin: 0 auto;
+  padding: clamp(88px, 14vh, 180px) 0 120px;
+}
+
+.vlog-article-body h1,
+.admin-image-copy h1 {
+  max-width: 980px;
+  margin: 0;
+  font-size: clamp(52px, 8vw, 126px);
+  font-weight: 540;
+  letter-spacing: -0.075em;
+  line-height: 0.9;
+}
+
+.vlog-article-placeholder,
+.admin-image-copy > p:not(.route-page-kicker),
+.admin-auth-note {
+  max-width: 720px;
+  margin-top: 38px;
+  color: rgba(17, 17, 15, 0.58);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.admin-image-processor {
+  min-height: 100svh;
+  color: #f7f7f5;
+}
+
+.route-page-admin {
+  background: #050607;
+}
+
+.route-page-admin .route-page-kicker {
+  color: #c7ff4a;
+}
+
+.admin-image-copy > p:not(.route-page-kicker),
+.admin-auth-note {
+  color: rgba(247, 247, 245, 0.58);
+}
+
+.admin-auth-note {
+  padding: 16px 20px;
+  border-left: 2px solid #c7ff4a;
+  background: rgba(199, 255, 74, 0.06);
+  font-size: 13px;
+}
+
+.admin-image-upload {
+  display: inline-flex;
+  margin-top: 48px;
+  padding: 14px 20px;
+  border: 1px solid #c7ff4a;
+  border-radius: 999px;
+  color: #c7ff4a;
+  cursor: pointer;
+}
+
+.admin-image-upload input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.admin-image-status {
+  margin-top: 24px;
+  color: rgba(247, 247, 245, 0.68);
+  font-size: 13px;
+}
+
+.admin-image-result {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 42px 0 0;
+  background: rgba(247, 247, 245, 0.18);
+}
+
+.admin-image-result div {
+  padding: 20px;
+  background: #0d1011;
+}
+
+.admin-image-result dt {
+  color: rgba(247, 247, 245, 0.42);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.admin-image-result dd {
+  margin: 12px 0 0;
+  color: #c7ff4a;
+  font-size: 18px;
+}
+
 @media (max-width: 760px) {
   .route-site-header,
   .route-page-intro,
@@ -256,5 +357,14 @@
 
   .route-page-foot {
     gap: 24px;
+  }
+
+  .vlog-article-body,
+  .admin-image-processor {
+    width: min(100% - 36px, 1480px);
+  }
+
+  .admin-image-result {
+    grid-template-columns: 1fr;
   }
 }

@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import { headers } from "next/headers";
 import "./globals.css";
 import "./route-pages.css";
+import { PerformanceDiagnostics } from "./performance-diagnostics";
 
 const geist = Geist({
   variable: "--font-geist",
@@ -72,7 +73,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={geist.variable}>{children}</body>
+      <body className={geist.variable}>
+        <PerformanceDiagnostics />
+        {children}
+      </body>
     </html>
   );
 }
