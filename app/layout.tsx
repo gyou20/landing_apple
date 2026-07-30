@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import { headers } from "next/headers";
 import "./globals.css";
 import "./route-pages.css";
+import "./admin/admin.css";
 import { PerformanceDiagnostics } from "./performance-diagnostics";
 
 const geist = Geist({

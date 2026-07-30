@@ -7,6 +7,13 @@ export type ChatGPTUser = {
   fullName: string | null;
 };
 
+export type AdminUser = {
+  email: string;
+  displayName: string;
+};
+
+const CLOUDFLARE_ACCESS_EMAIL_HEADER = "cf-access-authenticated-user-email";
+
 const USER_EMAIL_HEADER = "oai-authenticated-user-email";
 const USER_FULL_NAME_HEADER = "oai-authenticated-user-full-name";
 const USER_FULL_NAME_ENCODING_HEADER =
@@ -33,6 +40,34 @@ export async function getChatGPTUser(): Promise<ChatGPTUser | null> {
     email,
     fullName,
   };
+}
+
+export async function getAdminUser(): Promise<AdminUser | null> {
+  assertAdminTestBypassSafety();
+  const requestHeaders = await headers();
+  const accessEmail = requestHeaders
+    .get(CLOUDFLARE_ACCESS_EMAIL_HEADER)
+    ?.trim();
+  if (accessEmail) {
+    return { email: accessEmail, displayName: accessEmail };
+  }
+
+  if (process.env.ADMIN_TEST_BYPASS === "true") {
+    return { email: "local-admin@example.test", displayName: "Local admin" };
+  }
+
+  return null;
+}
+
+function assertAdminTestBypassSafety() {
+  if (
+    process.env.ADMIN_TEST_BYPASS === "true" &&
+    process.env.NODE_ENV === "production"
+  ) {
+    throw new Error(
+      "ADMIN_TEST_BYPASS must only be enabled in development environments.",
+    );
+  }
 }
 
 export async function requireChatGPTUser(

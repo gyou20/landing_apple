@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import { getChatGPTUser } from "../chatgpt-auth";
-import { ImageProcessor } from "./image-processor";
+import { getAdminUser } from "../chatgpt-auth";
+import { AdminLoginScreen } from "./login-screen";
+import { AdminShell } from "./admin-shell";
 
-export const metadata: Metadata = { title: "Admin image processing" };
+export const metadata: Metadata = { title: "Admin" };
 
 export default async function AdminPage() {
-  const user = await getChatGPTUser();
-  return (
-    <main className="route-page route-page-admin" data-page-id="admin">
-      <ImageProcessor authenticated={Boolean(user)} />
-    </main>
-  );
+  const user = await getAdminUser();
+  if (!user) return <AdminLoginScreen />;
+  return <AdminShell user={user} />;
 }
