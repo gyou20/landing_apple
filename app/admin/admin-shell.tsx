@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type DragEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type DragEvent } from "react";
 import type { AdminUser } from "../chatgpt-auth";
 import type { HomeSectionContent, SiteContent } from "../site-content";
 import { saveSiteContent, useSiteContent } from "../use-site-content";
@@ -24,6 +24,20 @@ type DeletionRecord = DeleteTarget & {
   updatedAt: string;
 };
 type UndoState = { operationId: string; count: number; expiresAt: number };
+type PageApiRecord = {
+  id: string;
+  draft: { title: string; slug: string; type: string; summary: string; body: string; status: "draft" | "published" };
+};
+type AdminSectionContent = Omit<HomeSectionContent, "id">;
+type SectionApiRecord = {
+  id: string;
+  pageId: string;
+  draft: { title: string; content: AdminSectionContent; status: "draft" | "published" };
+};
+type VlogApiRecord = {
+  id: string;
+  draft: { title: string; slug: string; category: string; summary: string; body: string; status: "draft" | "published" };
+};
 type DragState = {
   list: OrderList;
   sourceId: string;
@@ -37,6 +51,8 @@ type AdminPageItem = {
   type: string;
   status: Status;
   sections: AdminPageSection[];
+  summary?: string;
+  body?: string;
   visibility: VisibilityState;
 };
 
@@ -44,14 +60,18 @@ type AdminPageSection = {
   id: string;
   title: string;
   visibility: VisibilityState;
+  status?: "draft" | "published";
+  content?: AdminSectionContent;
 };
 
 type AdminArticle = {
   id: string;
   title: string;
+  slug: string;
   category: string;
   status: Status;
   summary: string;
+  body: string;
   visibility: VisibilityState;
 };
 
@@ -65,9 +85,9 @@ const INITIAL_PAGES: AdminPageItem[] = [
 ];
 
 const INITIAL_ARTICLES: AdminArticle[] = [
-  { id: "brand-strategy", title: "좋은 브랜드는 무엇을 반복하는가", category: "Brand Strategy", status: "draft", summary: "브랜드가 오래 기억되는 방식에 대한 기록입니다.", visibility: DRAFT_VLOG_DEFAULT },
-  { id: "creative", title: "사람을 멈추게 하는 장면의 조건", category: "Creative", status: "draft", summary: "관심을 행동으로 바꾸는 크리에이티브의 구조입니다.", visibility: DRAFT_VLOG_DEFAULT },
-  { id: "culture", title: "문화에서 시작해 비즈니스로 이어지는 아이디어", category: "Culture", status: "draft", summary: "문화적 긴장을 브랜드의 다음 장면으로 연결합니다.", visibility: DRAFT_VLOG_DEFAULT },
+  { id: "brand-strategy", title: "좋은 브랜드는 무엇을 반복하는가", slug: "brand-strategy", category: "Brand Strategy", status: "draft", summary: "브랜드가 오래 기억되는 방식에 대한 기록입니다.", body: "", visibility: DRAFT_VLOG_DEFAULT },
+  { id: "creative", title: "사람을 멈추게 하는 장면의 조건", slug: "creative", category: "Creative", status: "draft", summary: "관심을 행동으로 바꾸는 크리에이티브의 구조입니다.", body: "", visibility: DRAFT_VLOG_DEFAULT },
+  { id: "culture", title: "문화에서 시작해 비즈니스로 이어지는 아이디어", slug: "culture", category: "Culture", status: "draft", summary: "문화적 긴장을 브랜드의 다음 장면으로 연결합니다.", body: "", visibility: DRAFT_VLOG_DEFAULT },
 ];
 
 const NAV_ITEMS: Array<{ id: AdminSection; label: string; description: string }> = [
@@ -122,17 +142,111 @@ export function AdminShell({ user }: { user: AdminUser }) {
   const [selectedDeleteKeys, setSelectedDeleteKeys] = useState<Set<string>>(new Set());
   const [deleteDialogTargets, setDeleteDialogTargets] = useState<DeleteTarget[] | null>(null);
   const [undoState, setUndoState] = useState<UndoState | null>(null);
+  const [createPageOpen, setCreatePageOpen] = useState(false);
+  const [createVlogOpen, setCreateVlogOpen] = useState(false);
+  const [createSectionPageId, setCreateSectionPageId] = useState<string | null>(null);
+  const pageSaveTimer = useRef<number | null>(null);
+  const sectionSaveTimers = useRef(new Map<string, number>());
+  const vlogSaveTimers = useRef(new Map<string, number>());
   const siteContent = useSiteContent();
 
   const draftDeletedKeys = useMemo(() => new Set(deletions.filter((record) => record.draftDeleted).map((record) => targetKey(record))), [deletions]);
   const filteredPages = useMemo(() => pages.filter((page) => page.visibility.menuVisible && page.status !== "deleted" && !draftDeletedKeys.has(targetKey({ entityType: "page", entityId: page.id })) && (page.title + " " + page.slug).toLowerCase().includes(query.toLowerCase())), [pages, query, draftDeletedKeys]);
-  const filteredArticles = useMemo(() => articles.filter((article) => article.visibility.menuVisible && article.status !== "deleted" && !draftDeletedKeys.has(targetKey({ entityType: "vlog", entityId: article.id })) && (article.title + " " + article.category).toLowerCase().includes(query.toLowerCase())), [articles, query, draftDeletedKeys]);
+  const filteredArticles = useMemo(() => articles.filter((article) => article.visibility.menuVisible && article.status !== "deleted" && !draftDeletedKeys.has(targetKey({ entityType: "vlog", entityId: article.id })) && (article.title + " " + article.slug + " " + article.category).toLowerCase().includes(query.toLowerCase())), [articles, query, draftDeletedKeys]);
   const selectedPage = filteredPages.find((page) => page.id === selectedPageId) ?? filteredPages[0] ?? pages[0];
   const selectedArticle = filteredArticles.find((article) => article.id === selectedArticleId) ?? filteredArticles[0] ?? articles[0];
   const selectedPageIndex = selectedPage ? filteredPages.findIndex((page) => page.id === selectedPage.id) : -1;
   const selectedArticleIndex = selectedArticle ? filteredArticles.findIndex((article) => article.id === selectedArticle.id) : -1;
   const dragDisabled = Boolean(query.trim());
 
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all([
+      fetch("/api/admin/pages", { cache: "no-store" }).then(async (response) => {
+        const data = await response.json() as { pages?: PageApiRecord[]; error?: string };
+        if (!response.ok) throw new Error(data.error ?? "page-load-failed");
+        return data.pages ?? [];
+      }),
+      fetch("/api/admin/visibility", { cache: "no-store" }).then(async (response) => {
+        const data = await response.json() as { records?: Array<{ entityType: "page" | "section" | "vlog"; entityId: string; draft: VisibilityState }>; error?: string };
+        if (!response.ok) throw new Error(data.error ?? "visibility-load-failed");
+        return data.records ?? [];
+      }),
+      fetch("/api/admin/sections", { cache: "no-store" }).then(async (response) => {
+        const data = await response.json() as { sections?: SectionApiRecord[]; error?: string };
+        if (!response.ok) throw new Error(data.error ?? "section-load-failed");
+        return data.sections ?? [];
+      }),
+    ]).then(([records, visibilityRecords, sectionRecords]) => {
+      if (cancelled) return;
+      const dynamicSections = (pageId: string): AdminPageSection[] => sectionRecords.filter((record) => record.pageId === pageId).map((record) => ({
+        id: record.id,
+        title: record.draft.title,
+        content: record.draft.content,
+        status: record.draft.status,
+        visibility: visibilityRecords.find((item) => item.entityType === "section" && item.entityId === record.id)?.draft ?? PUBLIC_DEFAULT,
+      }));
+      const createdPages = records.map((record): AdminPageItem => ({
+        id: record.id,
+        title: record.draft.title,
+        slug: record.draft.slug,
+        type: record.draft.type,
+        status: record.draft.status,
+        sections: dynamicSections(record.id),
+        summary: record.draft.summary,
+        body: record.draft.body,
+        visibility: visibilityRecords.find((item) => item.entityType === "page" && item.entityId === record.id)?.draft ?? PUBLIC_DEFAULT,
+      }));
+      setPages((current) => [
+        ...current.filter((page) => !page.id.startsWith("page-")).map((page) => ({ ...page, sections: [...page.sections.filter((section) => !section.id.startsWith("section-")), ...dynamicSections(page.id)] })),
+        ...createdPages,
+      ]);
+      console.info("[page:admin-hydrated]", { pageCount: createdPages.length, sectionCount: sectionRecords.length });
+    }).catch((error) => {
+      console.error("[page:admin-hydrate-failed]", { error });
+      if (!cancelled) setNotice("생성한 페이지·섹션 목록을 불러오지 못했습니다. 새로고침 후 다시 확인하세요.");
+    });
+    return () => { cancelled = true; };
+  }, []);
+  useEffect(() => () => {
+    if (pageSaveTimer.current) window.clearTimeout(pageSaveTimer.current);
+    for (const timer of sectionSaveTimers.current.values()) window.clearTimeout(timer);
+    for (const timer of vlogSaveTimers.current.values()) window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all([
+      fetch("/api/admin/vlogs", { cache: "no-store" }).then(async (response) => {
+        const data = await response.json() as { vlogs?: VlogApiRecord[]; error?: string };
+        if (!response.ok) throw new Error(data.error ?? "vlog-load-failed");
+        return data.vlogs ?? [];
+      }),
+      fetch("/api/admin/visibility", { cache: "no-store" }).then(async (response) => {
+        const data = await response.json() as { records?: Array<{ entityType: "page" | "section" | "vlog"; entityId: string; draft: VisibilityState }>; error?: string };
+        if (!response.ok) throw new Error(data.error ?? "visibility-load-failed");
+        return data.records ?? [];
+      }),
+    ]).then(([vlogRecords, visibilityRecords]) => {
+      if (cancelled) return;
+      const createdVlogs = vlogRecords.map((record): AdminArticle => ({
+        id: record.id,
+        title: record.draft.title,
+        slug: record.draft.slug,
+        category: record.draft.category,
+        status: record.draft.status,
+        summary: record.draft.summary,
+        body: record.draft.body,
+        visibility: visibilityRecords.find((item) => item.entityType === "vlog" && item.entityId === record.id)?.draft ?? PUBLIC_DEFAULT,
+      }));
+      setArticles((current) => [...current.filter((article) => !article.id.startsWith("vlog-")), ...createdVlogs]);
+      console.info("[vlog:admin-hydrated]", { count: createdVlogs.length });
+    }).catch((error) => {
+      console.error("[vlog:admin-hydrate-failed]", { error });
+      if (!cancelled) setNotice("생성한 Vlog 목록을 불러오지 못했습니다. 새로고침 후 다시 확인하세요.");
+    });
+    return () => { cancelled = true; };
+  }, []);
   useEffect(() => {
     let cancelled = false;
     fetch("/api/admin/visibility", { cache: "no-store" })
@@ -366,9 +480,115 @@ export function AdminShell({ user }: { user: AdminUser }) {
     await loadDeletions();
     setNotice("항목을 초안으로 복원했습니다. Publish해야 공개 사이트에 다시 반영됩니다.");
   }
+  async function createPageDraft(input: { title: string; slug: string; pageType: "blocks" | "article" }) {
+    console.info("[page:admin-create-request]", input);
+    const response = await fetch("/api/admin/pages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: input.title, slug: input.slug, type: input.pageType === "article" ? "Article page" : "Block page", summary: "", body: "" }),
+    });
+    const data = await response.json() as { page?: PageApiRecord; error?: string };
+    if (!response.ok || !data.page) throw new Error(data.error === "page-slug-already-exists" ? "이미 사용 중인 공개 경로입니다." : "페이지를 만들지 못했습니다.");
+    const page: AdminPageItem = { id: data.page.id, title: data.page.draft.title, slug: data.page.draft.slug, type: data.page.draft.type, status: data.page.draft.status, sections: [], summary: data.page.draft.summary, body: data.page.draft.body, visibility: PUBLIC_DEFAULT };
+    setPages((current) => [...current, page]);
+    setSelectedPageId(page.id);
+    setCreatePageOpen(false);
+    setNotice("새 페이지를 초안으로 저장했습니다. Publish 전에는 공개되지 않습니다.");
+    console.info("[page:admin-create-complete]", { pageId: page.id, slug: page.slug });
+  }
+
+  async function createVlogDraft(input: { title: string; slug: string; category: string }) {
+    console.info("[vlog:admin-create-request]", input);
+    const response = await fetch("/api/admin/vlogs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...input, summary: "", body: "" }),
+    });
+    const data = await response.json() as { vlog?: VlogApiRecord; error?: string };
+    if (!response.ok || !data.vlog) throw new Error(data.error === "vlog-slug-already-exists" ? "이미 사용 중인 Vlog 경로입니다." : data.error === "invalid-vlog-slug" ? "경로는 영문 소문자, 숫자, 하이픈으로 입력하세요." : "Vlog를 만들지 못했습니다.");
+    const visibilityResponse = await fetch("/api/admin/visibility", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ entityType: "vlog", entityId: data.vlog.id, menuVisible: true, searchIndexable: true }),
+    });
+    const visibilityData = await visibilityResponse.json() as { error?: string };
+    if (!visibilityResponse.ok) throw new Error(visibilityData.error ?? "Vlog 공개 설정을 저장하지 못했습니다.");
+    const article: AdminArticle = { id: data.vlog.id, title: data.vlog.draft.title, slug: data.vlog.draft.slug, category: data.vlog.draft.category, status: data.vlog.draft.status, summary: data.vlog.draft.summary, body: data.vlog.draft.body, visibility: PUBLIC_DEFAULT };
+    setArticles((current) => [...current, article]);
+    setSelectedArticleId(article.id);
+    setCreateVlogOpen(false);
+    setNotice("새 Vlog를 초안으로 저장했습니다. Publish 전에는 공개되지 않습니다.");
+    console.info("[vlog:admin-create-complete]", { vlogId: article.id, slug: article.slug });
+  }
+  async function createSectionDraft(title: string) {
+    if (!createSectionPageId) return;
+    console.info("[section:admin-create-request]", { pageId: createSectionPageId, title });
+    const response = await fetch("/api/admin/sections", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pageId: createSectionPageId, title }),
+    });
+    const data = await response.json() as { section?: SectionApiRecord; error?: string };
+    if (!response.ok || !data.section) throw new Error("섹션을 만들지 못했습니다.");
+    const section: AdminPageSection = { id: data.section.id, title: data.section.draft.title, content: data.section.draft.content, status: data.section.draft.status, visibility: PUBLIC_DEFAULT };
+    setPages((current) => current.map((page) => page.id === data.section!.pageId ? { ...page, sections: [...page.sections, section] } : page));
+    setCreateSectionPageId(null);
+    setNotice("새 섹션을 초안으로 저장했습니다. Publish 전에는 공개되지 않습니다.");
+    console.info("[section:admin-create-complete]", { pageId: data.section.pageId, sectionId: data.section.id });
+  }
+
+  function updateDynamicSection(sectionId: string, patch: Partial<AdminPageSection>) {
+    const currentSection = selectedPage.sections.find((section) => section.id === sectionId);
+    if (!currentSection?.content) return;
+    const next = { ...currentSection, ...patch, status: "draft" as const };
+    setPages((current) => current.map((page) => page.id === selectedPage.id ? { ...page, sections: page.sections.map((section) => section.id === sectionId ? next : section) } : page));
+    const previousTimer = sectionSaveTimers.current.get(sectionId);
+    if (previousTimer) window.clearTimeout(previousTimer);
+    setNotice("섹션 변경 내용을 임시저장하고 있습니다…");
+    const timer = window.setTimeout(() => {
+      console.info("[section:admin-save-request]", { pageId: selectedPage.id, sectionId });
+      void fetch("/api/admin/sections", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: sectionId, pageId: selectedPage.id, title: next.title, content: next.content }),
+      }).then(async (response) => {
+        const data = await response.json() as { error?: string };
+        if (!response.ok) throw new Error(data.error ?? "section-save-failed");
+        sectionSaveTimers.current.delete(sectionId);
+        setNotice("섹션 변경 내용을 초안으로 저장했습니다.");
+        console.info("[section:admin-save-complete]", { pageId: selectedPage.id, sectionId });
+      }).catch((error) => {
+        console.error("[section:admin-save-failed]", { pageId: selectedPage.id, sectionId, error });
+        setNotice("섹션을 저장하지 못했습니다.");
+      });
+    }, 450);
+    sectionSaveTimers.current.set(sectionId, timer);
+  }
   function updateSelectedPage(patch: Partial<AdminPageItem>) {
-    setPages((current) => current.map((page) => page.id === selectedPage.id ? { ...page, ...patch, status: "draft" } : page));
-    setNotice("변경 내용을 임시저장 대기 상태로 만들었습니다.");
+    const next = { ...selectedPage, ...patch, status: "draft" as const };
+    setPages((current) => current.map((page) => page.id === selectedPage.id ? next : page));
+    if (!selectedPage.id.startsWith("page-")) {
+      setNotice("변경 내용을 임시저장 대기 상태로 만들었습니다.");
+      return;
+    }
+    if (pageSaveTimer.current) window.clearTimeout(pageSaveTimer.current);
+    setNotice("페이지 변경 내용을 임시저장하고 있습니다…");
+    pageSaveTimer.current = window.setTimeout(() => {
+      console.info("[page:admin-save-request]", { pageId: next.id, slug: next.slug });
+      void fetch("/api/admin/pages", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: next.id, title: next.title, slug: next.slug, type: next.type, summary: next.summary ?? "", body: next.body ?? "" }),
+      }).then(async (response) => {
+        const data = await response.json() as { error?: string };
+        if (!response.ok) throw new Error(data.error === "page-slug-already-exists" ? "이미 사용 중인 공개 경로입니다." : data.error ?? "page-save-failed");
+        setNotice("페이지 변경 내용을 초안으로 저장했습니다.");
+        console.info("[page:admin-save-complete]", { pageId: next.id, slug: next.slug });
+      }).catch((error) => {
+        console.error("[page:admin-save-failed]", { pageId: next.id, error });
+        setNotice(error instanceof Error ? error.message : "페이지를 저장하지 못했습니다.");
+      });
+    }, 450);
   }
 
   function updateHomeContent(next: SiteContent, field: string) {
@@ -381,6 +601,52 @@ export function AdminShell({ user }: { user: AdminUser }) {
     setNotice("가시성과 배경 이미지 Publish를 진행하고 있습니다…");
     try {
       console.info("[section-background:admin-publish-request]");
+      if (pageSaveTimer.current) {
+        window.clearTimeout(pageSaveTimer.current);
+        pageSaveTimer.current = null;
+      }
+      for (const timer of sectionSaveTimers.current.values()) window.clearTimeout(timer);
+      sectionSaveTimers.current.clear();
+      for (const timer of vlogSaveTimers.current.values()) window.clearTimeout(timer);
+      vlogSaveTimers.current.clear();
+      const draftVlogs = articles.filter((article) => article.id.startsWith("vlog-"));
+      await Promise.all(draftVlogs.map(async (article) => {
+        const saveResponse = await fetch("/api/admin/vlogs", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: article.id, title: article.title, slug: article.slug, category: article.category, summary: article.summary, body: article.body }),
+        });
+        const saveData = await saveResponse.json() as { error?: string };
+        if (!saveResponse.ok) throw new Error(saveData.error ?? "vlog-save-before-publish-failed");
+      }));
+      const draftSections = pages.flatMap((page) => page.sections.filter((section) => section.id.startsWith("section-") && section.content).map((section) => ({ pageId: page.id, section })));
+      await Promise.all(draftSections.map(async ({ pageId, section }) => {
+        const saveResponse = await fetch("/api/admin/sections", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: section.id, pageId, title: section.title, content: section.content }),
+        });
+        const saveData = await saveResponse.json() as { error?: string };
+        if (!saveResponse.ok) throw new Error(saveData.error ?? "section-save-before-publish-failed");
+      }));
+      if (selectedPage?.id.startsWith("page-")) {
+        const pendingPageResponse = await fetch("/api/admin/pages", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: selectedPage.id, title: selectedPage.title, slug: selectedPage.slug, type: selectedPage.type, summary: selectedPage.summary ?? "", body: selectedPage.body ?? "" }),
+        });
+        const pendingPageData = await pendingPageResponse.json() as { error?: string };
+        if (!pendingPageResponse.ok) throw new Error(pendingPageData.error ?? "page-save-before-publish-failed");
+      }
+      const pageResponse = await fetch("/api/admin/pages/publish", { method: "POST" });
+      const pageData = await pageResponse.json() as { publishedCount?: number; error?: string };
+      if (!pageResponse.ok) throw new Error(pageData.error ?? "page-publish-failed");
+      const sectionResponse = await fetch("/api/admin/sections/publish", { method: "POST" });
+      const sectionData = await sectionResponse.json() as { publishedCount?: number; error?: string };
+      if (!sectionResponse.ok) throw new Error(sectionData.error ?? "section-publish-failed");
+      const vlogResponse = await fetch("/api/admin/vlogs/publish", { method: "POST" });
+      const vlogData = await vlogResponse.json() as { publishedCount?: number; error?: string };
+      if (!vlogResponse.ok) throw new Error(vlogData.error ?? "vlog-publish-failed");
       const visibilityResponse = await fetch("/api/admin/visibility/publish", { method: "POST" });
       const visibilityData = await visibilityResponse.json() as { publishedCount?: number; error?: string };
       if (!visibilityResponse.ok) throw new Error(visibilityData.error ?? "visibility-publish-failed");
@@ -393,7 +659,9 @@ export function AdminShell({ user }: { user: AdminUser }) {
       const count = data.publishedCount ?? 0;
       const visibilityCount = visibilityData.publishedCount ?? 0;
       await loadDeletions();
-      setNotice("가시성 " + visibilityCount + "건, 배경 이미지 " + count + "건, 삭제 " + (deletionData.deletedCount ?? 0) + "건, 복원 " + (deletionData.restoredCount ?? 0) + "건을 공개했습니다.");
+      setPages((current) => current.map((page) => ({ ...page, status: page.id.startsWith("page-") ? "published" : page.status, sections: page.sections.map((section) => section.id.startsWith("section-") ? { ...section, status: "published" } : section) })));
+      setArticles((current) => current.map((article) => article.id.startsWith("vlog-") ? { ...article, status: "published" } : article));
+      setNotice("페이지 " + (pageData.publishedCount ?? 0) + "건, 섹션 " + (sectionData.publishedCount ?? 0) + "건, Vlog " + (vlogData.publishedCount ?? 0) + "건, 가시성 " + visibilityCount + "건, 배경 이미지 " + count + "건, 삭제 " + (deletionData.deletedCount ?? 0) + "건, 복원 " + (deletionData.restoredCount ?? 0) + "건을 공개했습니다.");
       window.localStorage.setItem("section-background-published-at", String(Date.now()));
       window.dispatchEvent(new CustomEvent("section-background:published"));
       console.info("[section-background:admin-publish-complete]", { count });
@@ -406,8 +674,33 @@ export function AdminShell({ user }: { user: AdminUser }) {
   }
 
   function updateSelectedArticle(patch: Partial<AdminArticle>) {
-    setArticles((current) => current.map((article) => article.id === selectedArticle.id ? { ...article, ...patch, status: "draft" } : article));
-    setNotice("Vlog 글 변경 내용을 임시저장 대기 상태로 만들었습니다.");
+    const next = { ...selectedArticle, ...patch, status: "draft" as const };
+    setArticles((current) => current.map((article) => article.id === selectedArticle.id ? next : article));
+    if (!selectedArticle.id.startsWith("vlog-")) {
+      setNotice("기본 Vlog 글 변경 내용을 임시저장 대기 상태로 만들었습니다.");
+      return;
+    }
+    const previousTimer = vlogSaveTimers.current.get(selectedArticle.id);
+    if (previousTimer) window.clearTimeout(previousTimer);
+    setNotice("Vlog 변경 내용을 임시저장하고 있습니다…");
+    const timer = window.setTimeout(() => {
+      console.info("[vlog:admin-save-request]", { vlogId: next.id, slug: next.slug });
+      void fetch("/api/admin/vlogs", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: next.id, title: next.title, slug: next.slug, category: next.category, summary: next.summary, body: next.body }),
+      }).then(async (response) => {
+        const data = await response.json() as { error?: string };
+        if (!response.ok) throw new Error(data.error === "vlog-slug-already-exists" ? "이미 사용 중인 Vlog 경로입니다." : data.error === "invalid-vlog-slug" ? "경로는 영문 소문자, 숫자, 하이픈으로 입력하세요." : data.error ?? "vlog-save-failed");
+        vlogSaveTimers.current.delete(next.id);
+        setNotice("Vlog 변경 내용을 초안으로 저장했습니다.");
+        console.info("[vlog:admin-save-complete]", { vlogId: next.id, slug: next.slug });
+      }).catch((error) => {
+        console.error("[vlog:admin-save-failed]", { vlogId: next.id, error });
+        setNotice(error instanceof Error ? error.message : "Vlog를 저장하지 못했습니다.");
+      });
+    }, 450);
+    vlogSaveTimers.current.set(next.id, timer);
   }
 
   return (
@@ -426,16 +719,16 @@ export function AdminShell({ user }: { user: AdminUser }) {
         {activeSection === "dashboard" && <Dashboard pages={pages} articles={articles} onNavigate={setActiveSection} />}
         {activeSection === "pages" && (
           <div className="admin-content-grid">
-            <ListPanel title="페이지 목록" query={query} setQuery={setQuery} count={filteredPages.length} toolbar={<BulkDeleteBar count={selectedTargetsFor("page").length} onDelete={() => setDeleteDialogTargets(selectedTargetsFor("page"))} />}>
+            <ListPanel title="페이지 목록" query={query} setQuery={setQuery} count={filteredPages.length} toolbar={<PageListToolbar deleteCount={selectedTargetsFor("page").length} onDelete={() => setDeleteDialogTargets(selectedTargetsFor("page"))} onCreate={() => setCreatePageOpen(true)} />}>
               {filteredPages.map((page) => <SortableListRow key={page.id} index={filteredPages.findIndex((item) => item.id === page.id)} title={page.title} meta={page.slug + " · " + page.type} status={page.status} selected={selectedPage.id === page.id} checked={selectedDeleteKeys.has(targetKey({ entityType: "page", entityId: page.id }))} onCheckedChange={(checked) => toggleDeleteTarget({ entityType: "page", entityId: page.id }, checked)} dragDisabled={dragDisabled} dragging={dragState?.list === "pages" && dragState.sourceId === page.id} dropTarget={dragState?.list === "pages" && dragState.targetId === page.id} onSelect={() => setSelectedPageId(page.id)} onDragStart={(event) => beginDrag("pages", page.id, event)} onDragOver={(event) => dragOverItem("pages", page.id, event)} onDrop={(event) => dropItem("pages", page.id, event)} onDragEnd={() => setDragState(null)} />)}
             </ListPanel>
-            {filteredPages.length > 0 ? <PageEditor page={selectedPage} index={selectedPageIndex} total={filteredPages.length} siteContent={siteContent} onSiteContentChange={updateHomeContent} onChange={updateSelectedPage} onMove={movePage} onCopy={copyPage} onDelete={() => setDeleteDialogTargets([{ entityType: "page", entityId: selectedPage.id }])} visibility={selectedPage.visibility} onVisibilityChange={updatePageVisibility} onSectionVisibilityChange={updateSectionVisibility} selectedDeleteKeys={selectedDeleteKeys} draftDeletedKeys={draftDeletedKeys} onToggleDelete={toggleDeleteTarget} onDeleteSections={(targets) => setDeleteDialogTargets(targets)} /> : <EmptyEditor />}
+            {filteredPages.length > 0 ? <PageEditor page={selectedPage} index={selectedPageIndex} total={filteredPages.length} siteContent={siteContent} onSiteContentChange={updateHomeContent} onChange={updateSelectedPage} onMove={movePage} onCopy={copyPage} onDelete={() => setDeleteDialogTargets([{ entityType: "page", entityId: selectedPage.id }])} visibility={selectedPage.visibility} onVisibilityChange={updatePageVisibility} onSectionVisibilityChange={updateSectionVisibility} selectedDeleteKeys={selectedDeleteKeys} draftDeletedKeys={draftDeletedKeys} onToggleDelete={toggleDeleteTarget} onDeleteSections={(targets) => setDeleteDialogTargets(targets)} onCreateSection={() => setCreateSectionPageId(selectedPage.id)} onDynamicSectionChange={updateDynamicSection} /> : <EmptyEditor />}
           </div>
         )}
         {activeSection === "vlog" && (
           <div className="admin-content-grid">
-            <ListPanel title="Vlog 목록" query={query} setQuery={setQuery} count={filteredArticles.length} toolbar={<BulkDeleteBar count={selectedTargetsFor("vlog").length} onDelete={() => setDeleteDialogTargets(selectedTargetsFor("vlog"))} />}>
-              {filteredArticles.map((article) => <SortableListRow key={article.id} index={filteredArticles.findIndex((item) => item.id === article.id)} title={article.title} meta={article.category} status={article.status} selected={selectedArticle.id === article.id} checked={selectedDeleteKeys.has(targetKey({ entityType: "vlog", entityId: article.id }))} onCheckedChange={(checked) => toggleDeleteTarget({ entityType: "vlog", entityId: article.id }, checked)} dragDisabled={dragDisabled} dragging={dragState?.list === "vlog" && dragState.sourceId === article.id} dropTarget={dragState?.list === "vlog" && dragState.targetId === article.id} onSelect={() => setSelectedArticleId(article.id)} onDragStart={(event) => beginDrag("vlog", article.id, event)} onDragOver={(event) => dragOverItem("vlog", article.id, event)} onDrop={(event) => dropItem("vlog", article.id, event)} onDragEnd={() => setDragState(null)} />)}
+            <ListPanel title="Vlog 목록" query={query} setQuery={setQuery} count={filteredArticles.length} toolbar={<VlogListToolbar deleteCount={selectedTargetsFor("vlog").length} onDelete={() => setDeleteDialogTargets(selectedTargetsFor("vlog"))} onCreate={() => setCreateVlogOpen(true)} />}>
+              {filteredArticles.map((article) => <SortableListRow key={article.id} index={filteredArticles.findIndex((item) => item.id === article.id)} title={article.title} meta={article.category + " · /vlog/" + article.slug} status={article.status} selected={selectedArticle.id === article.id} checked={selectedDeleteKeys.has(targetKey({ entityType: "vlog", entityId: article.id }))} onCheckedChange={(checked) => toggleDeleteTarget({ entityType: "vlog", entityId: article.id }, checked)} dragDisabled={dragDisabled} dragging={dragState?.list === "vlog" && dragState.sourceId === article.id} dropTarget={dragState?.list === "vlog" && dragState.targetId === article.id} onSelect={() => setSelectedArticleId(article.id)} onDragStart={(event) => beginDrag("vlog", article.id, event)} onDragOver={(event) => dragOverItem("vlog", article.id, event)} onDrop={(event) => dropItem("vlog", article.id, event)} onDragEnd={() => setDragState(null)} />)}
             </ListPanel>
             {filteredArticles.length > 0 ? <ArticleEditor article={selectedArticle} index={selectedArticleIndex} total={filteredArticles.length} onChange={updateSelectedArticle} onMove={moveArticle} visibility={selectedArticle.visibility} onVisibilityChange={updateArticleVisibility} onDelete={() => setDeleteDialogTargets([{ entityType: "vlog", entityId: selectedArticle.id }])} /> : <EmptyEditor />}
           </div>
@@ -446,6 +739,9 @@ export function AdminShell({ user }: { user: AdminUser }) {
         {activeSection === "assets" && <div className="admin-assets-panel"><ImageProcessor authenticated={true} /></div>}
       </section>
       {deleteDialogTargets && <DeleteConfirmationDialog count={deleteDialogTargets.length} onCancel={() => setDeleteDialogTargets(null)} onConfirm={confirmDelete} />}
+      {createPageOpen && <CreatePageDialog onCancel={() => setCreatePageOpen(false)} onConfirm={createPageDraft} />}
+      {createVlogOpen && <CreateVlogDialog onCancel={() => setCreateVlogOpen(false)} onConfirm={createVlogDraft} />}
+      {createSectionPageId && <CreateSectionDialog onCancel={() => setCreateSectionPageId(null)} onConfirm={createSectionDraft} />}
       {undoState && <UndoToast count={undoState.count} onUndo={() => void undoDeletion().catch((error) => setNotice(error instanceof Error ? error.message : "되돌리지 못했습니다."))} />}
     </main>
   );
@@ -463,7 +759,7 @@ function SortableListRow({ index, title, meta, status, selected, checked, onChec
   const className = ["admin-list-row-wrap", selected && "is-selected", dragging && "is-dragging", dropTarget && "is-drop-target"].filter(Boolean).join(" ");
   return <div className={className}><label className="admin-list-select"><input type="checkbox" checked={checked} onChange={(event) => onCheckedChange(event.target.checked)} aria-label={title + " 삭제 선택"} /></label><button type="button" className="admin-list-row" draggable={!dragDisabled} aria-label={(index + 1) + ". " + title + ". " + (dragDisabled ? "검색 중 순서 변경 비활성화" : "드래그하여 순서 변경 가능")} onClick={onSelect} onDragStart={onDragStart} onDragOver={onDragOver} onDrop={onDrop} onDragEnd={onDragEnd}><span className="admin-list-order"><span className="admin-drag-handle" aria-hidden="true">⠿</span><span className="admin-list-number">{String(index + 1).padStart(2, "0")}</span></span><span><strong>{title}</strong><small>{meta}</small></span><StatusBadge status={status} /></button></div>;
 }
-function PageEditor({ page, index, total, siteContent, onSiteContentChange, onChange, onMove, onCopy, onDelete, visibility, onVisibilityChange, onSectionVisibilityChange, selectedDeleteKeys, draftDeletedKeys, onToggleDelete, onDeleteSections }: { page: AdminPageItem; index: number; total: number; siteContent: SiteContent; onSiteContentChange: (content: SiteContent, field: string) => void; onChange: (patch: Partial<AdminPageItem>) => void; onMove: (id: string, direction: -1 | 1) => void; onCopy: (page: AdminPageItem) => void; onDelete: () => void; visibility: VisibilityState; onVisibilityChange: (next: VisibilityState) => void; onSectionVisibilityChange: (id: string, next: VisibilityState) => void; selectedDeleteKeys: Set<string>; draftDeletedKeys: Set<string>; onToggleDelete: (target: DeleteTarget, checked: boolean) => void; onDeleteSections: (targets: DeleteTarget[]) => void }) {
+function PageEditor({ page, index, total, siteContent, onSiteContentChange, onChange, onMove, onCopy, onDelete, visibility, onVisibilityChange, onSectionVisibilityChange, selectedDeleteKeys, draftDeletedKeys, onToggleDelete, onDeleteSections, onCreateSection, onDynamicSectionChange }: { page: AdminPageItem; index: number; total: number; siteContent: SiteContent; onSiteContentChange: (content: SiteContent, field: string) => void; onChange: (patch: Partial<AdminPageItem>) => void; onMove: (id: string, direction: -1 | 1) => void; onCopy: (page: AdminPageItem) => void; onDelete: () => void; visibility: VisibilityState; onVisibilityChange: (next: VisibilityState) => void; onSectionVisibilityChange: (id: string, next: VisibilityState) => void; selectedDeleteKeys: Set<string>; draftDeletedKeys: Set<string>; onToggleDelete: (target: DeleteTarget, checked: boolean) => void; onDeleteSections: (targets: DeleteTarget[]) => void; onCreateSection: () => void; onDynamicSectionChange: (sectionId: string, patch: Partial<AdminPageSection>) => void }) {
   const [sectionDrag, setSectionDrag] = useState<{ sourceId: string; targetId: string | null } | null>(null);
   const [expandedSectionId, setExpandedSectionId] = useState<string | null>("home-section-01");
 
@@ -478,9 +774,11 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
   }
 
   function updateSectionTitle(sectionId: string, title: string) {
-    onChange({
-      sections: page.sections.map((section) => section.id === sectionId ? { ...section, title } : section),
-    });
+    if (sectionId.startsWith("section-")) {
+      onDynamicSectionChange(sectionId, { title });
+      return;
+    }
+    onChange({ sections: page.sections.map((section) => section.id === sectionId ? { ...section, title } : section) });
   }
 
   function updateBrandName(brandName: string) {
@@ -488,9 +786,14 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
   }
 
   function updateSectionContent(sectionId: string, patch: Partial<HomeSectionContent>) {
-    const nextSections = siteContent.homeSections.map((section) =>
-      section.id === sectionId ? { ...section, ...patch } : section,
-    );
+    const dynamicSection = page.sections.find((section) => section.id === sectionId && section.content);
+    if (dynamicSection?.content) {
+      const { id: _ignored, ...contentPatch } = patch;
+      void _ignored;
+      onDynamicSectionChange(sectionId, { content: { ...dynamicSection.content, ...contentPatch } });
+      return;
+    }
+    const nextSections = siteContent.homeSections.map((section) => section.id === sectionId ? { ...section, ...patch } : section);
     onSiteContentChange({ ...siteContent, homeSections: nextSections }, `${sectionId}:${Object.keys(patch)[0]}`);
   }
 
@@ -526,7 +829,7 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
       <EditorHeading eyebrow="Page editor" title={page.title} status={page.status} />
       <div className="admin-form">
         <p className="admin-editor-sync-note">
-          페이지와 섹션 문구를 변경하면 왼쪽 목록과 공개 홈페이지에 즉시 반영됩니다.
+          변경 내용은 왼쪽 목록과 초안에 저장되며, Publish 후 공개 사이트에 반영됩니다.
         </p>
         <label>
           페이지 제목
@@ -538,11 +841,13 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
         </label>
         <label>
           페이지 유형
-          <select value={page.type} onChange={(event) => onChange({ type: event.target.value })}>
-            <option>홈페이지</option>
-            <option>Contact</option>
-            <option>Vlog index</option>
-            <option>Custom page</option>
+          <select value={page.type} disabled={page.id.startsWith("page-")} onChange={(event) => onChange({ type: event.target.value })}>
+            <option value="홈페이지">홈페이지</option>
+            <option value="Contact">Contact</option>
+            <option value="Vlog index">Vlog index</option>
+            <option value="Custom page">블록 조합형 (기존)</option>
+            <option value="Block page">블록 조합형</option>
+            <option value="Article page">게시글형</option>
           </select>
         </label>
         <VisibilityControls value={visibility} onChange={onVisibilityChange} />
@@ -558,14 +863,19 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
         )}
       </div>
 
-      <div className="admin-section-list">
+      {page.type === "Article page" ? (
+        <div className="admin-form admin-article-page-fields">
+          <label>요약<textarea rows={5} value={page.summary ?? ""} maxLength={500} onChange={(event) => onChange({ summary: event.target.value })} /></label>
+          <label>본문<textarea rows={14} value={page.body ?? ""} maxLength={20000} onChange={(event) => onChange({ body: event.target.value })} placeholder="자유롭게 본문을 작성하세요." /></label>
+        </div>
+      ) : (      <div className="admin-section-list">
         <div className="admin-subheading">
-          <strong>섹션 구조와 문구</strong>
-          <small>섹션을 펼쳐 메인·서브 문구를 편집할 수 있습니다.</small>
+          <div><strong>섹션 구조와 문구</strong><small>섹션을 펼쳐 메인·서브 문구를 편집할 수 있습니다.</small></div>
+          <button type="button" className="admin-button" onClick={onCreateSection}>+ 새 섹션</button>
         </div>
         <BulkDeleteBar count={page.sections.filter((section) => selectedDeleteKeys.has(targetKey({ entityType: "section", entityId: section.id }))).length} onDelete={() => onDeleteSections(page.sections.filter((section) => selectedDeleteKeys.has(targetKey({ entityType: "section", entityId: section.id }))).map((section) => ({ entityType: "section", entityId: section.id })))} />
         {page.sections.filter((section) => section.visibility.menuVisible && !draftDeletedKeys.has(targetKey({ entityType: "section", entityId: section.id }))).map((section, sectionIndex) => {
-          const copy = siteContent.homeSections.find((item) => item.id === section.id);
+          const copy = section.content ? { id: section.id, ...section.content } : siteContent.homeSections.find((item) => item.id === section.id);
           const expanded = expandedSectionId === section.id;
           return (
             <div
@@ -641,7 +951,7 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
                     설명
                     <textarea rows={2} value={copy.description} data-content-field="description" onChange={(event) => updateSectionContent(copy.id, { description: event.target.value })} />
                   </label>
-                  {copy.id === "home-section-01" && (
+                  {(copy.id === "home-section-01" || Boolean(section.content)) && (
                     <label>
                       버튼 문구
                       <input value={copy.ctaLabel} data-content-field="ctaLabel" onChange={(event) => updateSectionContent(copy.id, { ctaLabel: event.target.value })} />
@@ -654,6 +964,7 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
           );
         })}
       </div>
+      )}
       <div className="admin-editor-actions">
         <button disabled={index <= 0} onClick={() => onMove(page.id, -1)}>페이지 위로</button>
         <button disabled={index >= total - 1} onClick={() => onMove(page.id, 1)}>페이지 아래로</button>
@@ -666,7 +977,68 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
 }
 
 function ArticleEditor({ article, index, total, onChange, onMove, visibility, onVisibilityChange, onDelete }: { article: AdminArticle; index: number; total: number; onChange: (patch: Partial<AdminArticle>) => void; onMove: (id: string, direction: -1 | 1) => void; visibility: VisibilityState; onVisibilityChange: (next: VisibilityState) => void; onDelete: () => void }) {
-  return <section className="admin-editor-panel"><EditorHeading eyebrow="Vlog editor" title={article.title} status={article.status} /><div className="admin-form"><VisibilityControls value={visibility} onChange={onVisibilityChange} /><label>제목<textarea rows={3} value={article.title} onChange={(event) => onChange({ title: event.target.value })} /></label><label>카테고리<input value={article.category} onChange={(event) => onChange({ category: event.target.value })} /></label><label>요약<textarea rows={5} value={article.summary} onChange={(event) => onChange({ summary: event.target.value })} /></label><label>본문 블록<small className="admin-field-note">Rich content 블록은 다음 단계에서 연결합니다. 현재는 초안 메타데이터를 안전하게 편집합니다.</small><textarea rows={8} placeholder="본문을 입력하세요." /></label></div><div className="admin-editor-actions"><button disabled={index <= 0} onClick={() => onMove(article.id, -1)}>Vlog 위로</button><button disabled={index >= total - 1} onClick={() => onMove(article.id, 1)}>Vlog 아래로</button><button onClick={() => onChange({ status: "draft" })}>임시저장</button><button onClick={() => onChange({ status: "published" })}>Publish 준비</button><button onClick={() => onVisibilityChange({ ...visibility, menuVisible: false })}>보관소로 숨기기</button><button className="is-danger" onClick={onDelete}>Soft Delete</button></div></section>;
+  const dynamic = article.id.startsWith("vlog-");
+  return <section className="admin-editor-panel"><EditorHeading eyebrow="Vlog editor" title={article.title} status={article.status} /><div className="admin-form"><VisibilityControls value={visibility} onChange={onVisibilityChange} /><label>제목<textarea rows={3} value={article.title} onChange={(event) => onChange({ title: event.target.value })} /></label><label>공개 경로<input value={article.slug} disabled={!dynamic} onChange={(event) => onChange({ slug: event.target.value })} /><small className="admin-field-note">공개 주소: /vlog/{article.slug}</small></label><label>카테고리<input value={article.category} onChange={(event) => onChange({ category: event.target.value })} /></label><label>요약<textarea rows={5} value={article.summary} onChange={(event) => onChange({ summary: event.target.value })} /></label><label>본문<textarea rows={12} value={article.body} onChange={(event) => onChange({ body: event.target.value })} placeholder="본문을 입력하세요." /></label></div><div className="admin-editor-actions"><button disabled={index <= 0} onClick={() => onMove(article.id, -1)}>Vlog 위로</button><button disabled={index >= total - 1} onClick={() => onMove(article.id, 1)}>Vlog 아래로</button><button onClick={() => onChange({ status: "draft" })}>임시저장</button><button onClick={() => onVisibilityChange({ ...visibility, menuVisible: false })}>보관소로 숨기기</button><button className="is-danger" onClick={onDelete}>Soft Delete</button></div></section>;
+}
+function PageListToolbar({ deleteCount, onDelete, onCreate }: { deleteCount: number; onDelete: () => void; onCreate: () => void }) {
+  return <div className="admin-page-toolbar"><button type="button" className="admin-button admin-button-primary" onClick={onCreate}>+ 새 페이지</button><BulkDeleteBar count={deleteCount} onDelete={onDelete} /></div>;
+}
+
+function VlogListToolbar({ deleteCount, onDelete, onCreate }: { deleteCount: number; onDelete: () => void; onCreate: () => void }) {
+  return <div className="admin-page-toolbar"><button type="button" className="admin-button admin-button-primary" onClick={onCreate}>+ 새 Vlog</button><BulkDeleteBar count={deleteCount} onDelete={onDelete} /></div>;
+}
+
+function CreateVlogDialog({ onCancel, onConfirm }: { onCancel: () => void; onConfirm: (input: { title: string; slug: string; category: string }) => Promise<void> }) {
+  const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
+  const [category, setCategory] = useState("General");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  async function submit(event: React.FormEvent) {
+    event.preventDefault();
+    setSubmitting(true);
+    setError("");
+    try { await onConfirm({ title, slug, category }); }
+    catch (cause) { setError(cause instanceof Error ? cause.message : "Vlog를 만들지 못했습니다."); }
+    finally { setSubmitting(false); }
+  }
+
+  return <div className="admin-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.currentTarget === event.target && !submitting) onCancel(); }}><form className="admin-delete-dialog admin-create-dialog" role="dialog" aria-modal="true" aria-labelledby="create-vlog-title" onSubmit={submit}><span className="admin-eyebrow">Create Vlog draft</span><h2 id="create-vlog-title">새 Vlog 만들기</h2><p>초안으로 저장되며 Publish를 누르기 전에는 공개되지 않습니다.</p><label>제목<input autoFocus value={title} maxLength={160} onChange={(event) => setTitle(event.target.value)} placeholder="예: 브랜드가 기억되는 순간" /></label><label>공개 경로<input value={slug} onChange={(event) => setSlug(event.target.value)} placeholder="예: memorable-brand" /><small>영문 소문자, 숫자, 하이픈만 사용할 수 있습니다.</small></label><label>카테고리<input value={category} maxLength={80} onChange={(event) => setCategory(event.target.value)} placeholder="예: Brand Strategy" /></label>{error && <p className="admin-dialog-error" role="alert">{error}</p>}<div><button type="button" onClick={onCancel} disabled={submitting}>취소</button><button type="submit" className="admin-button-primary" disabled={submitting || !title.trim() || !slug.trim() || !category.trim()}>{submitting ? "저장 중…" : "초안 만들기"}</button></div></form></div>;
+}
+function CreatePageDialog({ onCancel, onConfirm }: { onCancel: () => void; onConfirm: (input: { title: string; slug: string; pageType: "blocks" | "article" }) => Promise<void> }) {
+  const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
+  const [pageType, setPageType] = useState<"blocks" | "article">("blocks");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  async function submit(event: React.FormEvent) {
+    event.preventDefault();
+    setSubmitting(true);
+    setError("");
+    try { await onConfirm({ title, slug, pageType }); }
+    catch (cause) { setError(cause instanceof Error ? cause.message : "페이지를 만들지 못했습니다."); }
+    finally { setSubmitting(false); }
+  }
+
+  return <div className="admin-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.currentTarget === event.target && !submitting) onCancel(); }}><form className="admin-delete-dialog admin-create-dialog" role="dialog" aria-modal="true" aria-labelledby="create-page-title" onSubmit={submit}><span className="admin-eyebrow">Create draft</span><h2 id="create-page-title">새 페이지 만들기</h2><p>페이지 유형을 선택해 초안으로 만듭니다. Publish 전에는 공개되지 않습니다.</p><label>페이지 유형<select value={pageType} onChange={(event) => setPageType(event.target.value as "blocks" | "article")}><option value="blocks">블록 조합형</option><option value="article">게시글형</option></select><small>{pageType === "blocks" ? "여러 섹션을 조합하는 기존 페이지입니다." : "제목·요약·자유 본문으로 구성하는 페이지입니다."}</small></label><label>페이지 제목<input autoFocus value={title} maxLength={120} onChange={(event) => setTitle(event.target.value)} placeholder="예: 회사 소개" /></label><label>공개 경로<input value={slug} onChange={(event) => setSlug(event.target.value)} placeholder="예: about-us" /><small>영문 소문자, 숫자, 하이픈만 사용할 수 있습니다.</small></label>{error && <p className="admin-dialog-error" role="alert">{error}</p>}<div><button type="button" onClick={onCancel} disabled={submitting}>취소</button><button type="submit" className="admin-button-primary" disabled={submitting || !title.trim() || !slug.trim()}>{submitting ? "저장 중…" : "초안 만들기"}</button></div></form></div>;
+}
+function CreateSectionDialog({ onCancel, onConfirm }: { onCancel: () => void; onConfirm: (title: string) => Promise<void> }) {
+  const [title, setTitle] = useState("새 섹션");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  async function submit(event: React.FormEvent) {
+    event.preventDefault();
+    setSubmitting(true);
+    setError("");
+    try { await onConfirm(title); }
+    catch (cause) { setError(cause instanceof Error ? cause.message : "섹션을 만들지 못했습니다."); }
+    finally { setSubmitting(false); }
+  }
+
+  return <div className="admin-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.currentTarget === event.target && !submitting) onCancel(); }}><form className="admin-delete-dialog admin-create-dialog" role="dialog" aria-modal="true" aria-labelledby="create-section-title" onSubmit={submit}><span className="admin-eyebrow">Create section draft</span><h2 id="create-section-title">새 섹션 만들기</h2><p>기본 문구 필드가 포함된 섹션을 초안으로 만듭니다. Publish 전에는 공개되지 않습니다.</p><label>관리용 섹션 이름<input autoFocus value={title} maxLength={120} onChange={(event) => setTitle(event.target.value)} /></label>{error && <p className="admin-dialog-error" role="alert">{error}</p>}<div><button type="button" onClick={onCancel} disabled={submitting}>취소</button><button type="submit" className="admin-button-primary" disabled={submitting || !title.trim()}>{submitting ? "저장 중…" : "초안 만들기"}</button></div></form></div>;
 }
 function BulkDeleteBar({ count, onDelete }: { count: number; onDelete: () => void }) {
   return <div className="admin-bulk-bar" aria-live="polite"><span>{count > 0 ? count + "개 선택됨" : "삭제할 항목을 선택하세요."}</span><button type="button" className="is-danger" disabled={count === 0} onClick={onDelete}>선택 항목 삭제</button></div>;

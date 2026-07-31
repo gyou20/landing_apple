@@ -179,3 +179,10 @@
 .admin-undo-toast button { border: 0; background: transparent; color: #c7ff4a; font-weight: 700; cursor: pointer; }
 .admin-undo-toast small { color: rgba(247,245,237,.48); }
 @media (max-width: 650px) { .admin-section-row { grid-template-columns: 24px 42px minmax(0,1fr); } .admin-section-actions { grid-column: 2 / -1; } .admin-undo-toast { left: 16px; right: 16px; bottom: 16px; } }
+
+.admin-page-toolbar { display: grid; gap: 8px; margin: 8px 0 10px; }
+.admin-page-toolbar > .admin-button { width: 100%; }
+.admin-page-toolbar .admin-bulk-bar { margin: 0; }
+.admin-create-dialog small { color: rgba(17,17,15,.48); font-size: 10px; }
+.admin-subheading > div { display: grid; gap: 6px; }
+.admin-subheading > .admin-button { flex: 0 0 auto; }

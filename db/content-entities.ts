@@ -7,5 +7,9 @@ export const CONTENT_ENTITY_IDS: Record<ContentEntityType, readonly string[]> = 
 };
 
 export function isContentEntity(type: string, id: string): type is ContentEntityType {
-  return (type === "page" || type === "section" || type === "vlog") && CONTENT_ENTITY_IDS[type].includes(id);
+  if (type !== "page" && type !== "section" && type !== "vlog") return false;
+  if (CONTENT_ENTITY_IDS[type].includes(id)) return true;
+  if (type === "page") return /^page-[a-f0-9-]{36}$/.test(id);
+  if (type === "section") return /^section-[a-f0-9-]{36}$/.test(id);
+  return /^vlog-[a-f0-9-]{36}$/.test(id);
 }

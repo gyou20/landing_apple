@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { publishedVisibility, publishedVisibilityMap } from "../../db/content-visibility";
 import { isPublishedDeleted } from "../../db/content-deletions";
+import { loadPublicNavigation, type PublicNavigationItem } from "../../db/public-navigation";
 import { resolveHomeLeadMode } from "../../lib/home-lead-mode";
 import { AgencySections } from "../agency-sections";
 import { EditablePhone } from "../editable-phone";
@@ -9,14 +10,15 @@ import { HeroDiagnostics } from "../hero-diagnostics";
 import { SiteHeader } from "../site-header";
 import { HomeHeroCopy, SectionTwoContent } from "../home-section-copy";
 import { PublishedSectionBackgrounds } from "../published-section-backgrounds";
+import { PublishedCustomSections } from "../published-custom-sections";
 
 export async function generateMetadata(): Promise<Metadata> {
   const visibility = await publishedVisibility("page", "home");
   return { title: "Aether One | Pro의 새로운 기준", description: "티타늄의 정교함과 몰입감 있는 디스플레이를 담은 Aether One 프리미엄 스마트폰.", robots: visibility.searchIndexable ? { index: true, follow: true } : { index: false, follow: false } };
 }
 
-function HomeNavigation({ visiblePageIds, direct = false }: { visiblePageIds: string[]; direct?: boolean }) {
-  return <SiteHeader className={direct ? "hero-nav home-direct-nav" : "hero-nav"} currentPage="home" pageNumber="01" visiblePageIds={visiblePageIds} />;
+function HomeNavigation({ items, direct = false }: { items: PublicNavigationItem[]; direct?: boolean }) {
+  return <SiteHeader className={direct ? "hero-nav home-direct-nav" : "hero-nav"} currentPage="home" pageNumber="01" items={items} />;
 }
 
 function SectionTwo({ standalone = false }: { standalone?: boolean }) {
@@ -38,7 +40,7 @@ function SectionTwo({ standalone = false }: { standalone?: boolean }) {
   );
 }
 
-function HeroLead({ fullMotion, visiblePageIds }: { fullMotion: boolean; visiblePageIds: string[] }) {
+function HeroLead({ fullMotion, navigationItems }: { fullMotion: boolean; navigationItems: PublicNavigationItem[] }) {
   return (
     <section
       className={fullMotion ? "hero" : "hero hero-static"}
@@ -52,7 +54,7 @@ function HeroLead({ fullMotion, visiblePageIds }: { fullMotion: boolean; visible
     >
       <div className="hero-sticky">
         <span className="section-index section-index-one" aria-hidden="true" data-testid="section-index-one">Section 01</span>
-        <HomeNavigation visiblePageIds={visiblePageIds} />
+        <HomeNavigation items={navigationItems} />
         <HomeHeroCopy />
         <EditablePhone motionEnabled={fullMotion} screenContent={fullMotion ? <SectionTwo /> : null} />
         <div className="hero-foot">
@@ -66,10 +68,10 @@ function HeroLead({ fullMotion, visiblePageIds }: { fullMotion: boolean; visible
   );
 }
 
-function SectionTwoDirect({ visiblePageIds }: { visiblePageIds: string[] }) {
+function SectionTwoDirect({ navigationItems }: { navigationItems: PublicNavigationItem[] }) {
   return (
     <div className="section-two-direct">
-      <HomeNavigation direct visiblePageIds={visiblePageIds} />
+      <HomeNavigation direct items={navigationItems} />
       <SectionTwo standalone />
     </div>
   );
@@ -78,7 +80,7 @@ function SectionTwoDirect({ visiblePageIds }: { visiblePageIds: string[] }) {
 export default async function Home() {
   if (await isPublishedDeleted("page", "home")) notFound();
   const visibility = await publishedVisibilityMap();
-  const visiblePageIds = ["home", "contact", "vlog"].filter((id) => visibility["page:" + id]?.menuVisible);
+  const navigationItems = await loadPublicNavigation();
   const sectionVisible = (id: string) => visibility["section:" + id]?.menuVisible ?? true;
   const leadMode = resolveHomeLeadMode(sectionVisible("home-section-01"), sectionVisible("home-section-02"));
   const laterSectionIds = ["home-section-03", "home-section-04", "home-section-05", "home-section-06"].filter(sectionVisible);
@@ -88,14 +90,15 @@ export default async function Home() {
       {leadMode === "full-motion" && <HeroDiagnostics />}
       <PublishedSectionBackgrounds />
 
-      {leadMode === "full-motion" && <HeroLead fullMotion visiblePageIds={visiblePageIds} />}
-      {leadMode === "section-one-static" && <HeroLead fullMotion={false} visiblePageIds={visiblePageIds} />}
-      {leadMode === "section-two-direct" && <SectionTwoDirect visiblePageIds={visiblePageIds} />}
+      {leadMode === "full-motion" && <HeroLead fullMotion navigationItems={navigationItems} />}
+      {leadMode === "section-one-static" && <HeroLead fullMotion={false} navigationItems={navigationItems} />}
+      {leadMode === "section-two-direct" && <SectionTwoDirect navigationItems={navigationItems} />}
       {leadMode === "sections-hidden" && (
-        <div className="home-direct-start"><HomeNavigation direct visiblePageIds={visiblePageIds} /></div>
+        <div className="home-direct-start"><HomeNavigation direct items={navigationItems} /></div>
       )}
 
       <AgencySections visibleSectionIds={laterSectionIds} />
+      <PublishedCustomSections pageId="home" />
     </main>
   );
 }

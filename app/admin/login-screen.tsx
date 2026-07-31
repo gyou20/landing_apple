@@ -1,7 +1,11 @@
+import Link from "next/link";
+
 export function AdminLoginScreen() {
   return (
     <main className="admin-login-screen">
       <section className="admin-login-card" aria-labelledby="admin-login-title">
+        {/* Cloudflare Access is an authentication endpoint, not an application route. */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a className="admin-login-action" href="/cdn-cgi/access/login?returnTo=%2Fadmin">
           Cloudflare Access로 로그인
         </a>
@@ -11,9 +15,9 @@ export function AdminLoginScreen() {
           이 공간은 Cloudflare Access로 보호됩니다. 운영 도메인에서 인증을
           완료한 뒤 다시 접속해 주세요.
         </p>
-        <a className="admin-login-back" href="/home">
+        <Link className="admin-login-back" href="/home">
           공개 사이트로 돌아가기
-        </a>
+        </Link>
         <small>인증 없이 관리자 API와 콘텐츠 편집 기능은 사용할 수 없습니다.</small>
       </section>
     </main>

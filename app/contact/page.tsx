@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { publishedVisibility, publishedVisibilityMap } from "../../db/content-visibility";
 import { isPublishedDeleted } from "../../db/content-deletions";
+import { loadPublicNavigation } from "../../db/public-navigation";
 import { SiteHeader } from "../site-header";
+import { PublishedCustomSections } from "../published-custom-sections";
 
 export async function generateMetadata(): Promise<Metadata> {
   const visibility = await publishedVisibility("page", "contact");
@@ -12,10 +14,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ContactPage() {
   if (await isPublishedDeleted("page", "contact")) notFound();
   const visibility = await publishedVisibilityMap();
-  const visiblePageIds = ["home", "contact", "vlog"].filter((id) => visibility[`page:${id}`]?.menuVisible);
+  const navigationItems = await loadPublicNavigation();
   return (
     <main className="route-page route-page-contact" data-page-id="contact">
-      <SiteHeader currentPage="contact" pageNumber="02" visiblePageIds={visiblePageIds} />
+      <SiteHeader currentPage="contact" pageNumber="02" items={navigationItems} />
 
       <section
         className="route-page-intro"
@@ -40,6 +42,8 @@ export default async function ContactPage() {
           <span aria-hidden="true">↗</span>
         </a>
       </section>
+
+      <PublishedCustomSections pageId="contact" />
 
       <footer className="route-page-foot">
         <span>Page 02 · Contact</span>
