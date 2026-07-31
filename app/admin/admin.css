@@ -70,8 +70,17 @@
 .admin-section-list { border-top: 1px solid rgba(17,17,15,.18); }
 .admin-subheading { padding: 18px 0; }
 .admin-subheading small { color: rgba(17,17,15,.5); font-size: 10px; }
-.admin-section-row { display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; padding: 14px 0; border-top: 1px solid rgba(17,17,15,.12); }
-.admin-section-row span { color: rgba(17,17,15,.4); font-size: 10px; }
+.admin-section-row { display: grid; grid-template-columns: 48px 1fr auto; gap: 10px; align-items: center; padding: 12px 0; border-top: 1px solid rgba(17,17,15,.12); cursor: grab; transition: opacity .16s ease, background-color .16s ease, box-shadow .16s ease; }
+.admin-section-row:active { cursor: grabbing; }
+.admin-section-row.is-dragging { opacity: .38; }
+.admin-section-row.is-drop-target { background: rgba(90,56,255,.07); box-shadow: inset 0 2px #5a38ff; }
+.admin-section-order { display: flex; align-items: center; gap: 7px; color: rgba(17,17,15,.4); font-size: 10px; }
+.admin-section-drag-handle { color: rgba(17,17,15,.3); font-size: 15px; line-height: 1; }
+.admin-section-row:hover .admin-section-drag-handle { color: #5a38ff; }
+.admin-section-actions { display: flex; gap: 4px; }
+.admin-section-actions button { width: 28px; height: 28px; border: 1px solid rgba(17,17,15,.2); background: transparent; color: inherit; cursor: pointer; }
+.admin-section-actions button:hover:not(:disabled) { border-color: #5a38ff; color: #5a38ff; }
+.admin-section-actions button:disabled { opacity: .28; cursor: not-allowed; }
 .admin-editor-actions { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 24px; border-top: 1px solid rgba(17,17,15,.18); }
 .admin-editor-actions button { padding: 9px 12px; border: 1px solid rgba(17,17,15,.25); background: transparent; cursor: pointer; }
 .admin-editor-actions button:disabled { opacity: .34; cursor: not-allowed; }

@@ -6,7 +6,7 @@ import { ImageProcessor } from "./image-processor";
 
 type AdminSection = "dashboard" | "pages" | "vlog" | "contact" | "assets";
 type Status = "draft" | "published" | "deleted";
-type OrderList = "pages" | "vlog";
+type OrderList = "pages" | "vlog" | "sections";
 type DragState = {
   list: OrderList;
   sourceId: string;
@@ -19,7 +19,12 @@ type AdminPageItem = {
   slug: string;
   type: string;
   status: Status;
-  sections: string[];
+  sections: AdminPageSection[];
+};
+
+type AdminPageSection = {
+  id: string;
+  title: string;
 };
 
 type AdminArticle = {
@@ -31,9 +36,9 @@ type AdminArticle = {
 };
 
 const INITIAL_PAGES: AdminPageItem[] = [
-  { id: "home", title: "Home", slug: "/home", type: "홈페이지", status: "published", sections: ["Section 01", "Section 02", "Section 03", "Section 04", "Section 05", "Section 06"] },
-  { id: "contact", title: "Contact", slug: "/contact", type: "Contact", status: "published", sections: ["Contact intro", "Contact form"] },
-  { id: "vlog", title: "Vlog", slug: "/vlog", type: "Vlog index", status: "published", sections: ["Vlog intro", "Article list"] },
+  { id: "home", title: "Home", slug: "/home", type: "홈페이지", status: "published", sections: [{ id: "home-section-01", title: "Section 01" }, { id: "home-section-02", title: "Section 02" }, { id: "home-section-03", title: "Section 03" }, { id: "home-section-04", title: "Section 04" }, { id: "home-section-05", title: "Section 05" }, { id: "home-section-06", title: "Section 06" }] },
+  { id: "contact", title: "Contact", slug: "/contact", type: "Contact", status: "published", sections: [{ id: "contact-intro", title: "Contact intro" }, { id: "contact-form", title: "Contact form" }] },
+  { id: "vlog", title: "Vlog", slug: "/vlog", type: "Vlog index", status: "published", sections: [{ id: "vlog-intro", title: "Vlog intro" }, { id: "vlog-article-list", title: "Article list" }] },
 ];
 
 const INITIAL_ARTICLES: AdminArticle[] = [
@@ -221,7 +226,45 @@ function SortableListRow({ index, title, meta, status, selected, dragDisabled, d
 }
 
 function PageEditor({ page, index, total, onChange, onMove, onCopy, onDelete }: { page: AdminPageItem; index: number; total: number; onChange: (patch: Partial<AdminPageItem>) => void; onMove: (id: string, direction: -1 | 1) => void; onCopy: (page: AdminPageItem) => void; onDelete: (id: string) => void }) {
-  return <section className="admin-editor-panel"><EditorHeading eyebrow="Page editor" title={page.title} status={page.status} /><div className="admin-form"><label>페이지 제목<input value={page.title} onChange={(event) => onChange({ title: event.target.value })} /></label><label>공개 경로<input value={page.slug} onChange={(event) => onChange({ slug: event.target.value })} /></label><label>페이지 유형<select value={page.type} onChange={(event) => onChange({ type: event.target.value })}><option>홈페이지</option><option>Contact</option><option>Vlog index</option><option>Custom page</option></select></label></div><div className="admin-section-list"><div className="admin-subheading"><strong>섹션 구조</strong><small>기본 편집 단계에서는 순서와 상태만 관리합니다.</small></div>{page.sections.map((section, sectionIndex) => <div className="admin-section-row" key={section}><span>{String(sectionIndex + 1).padStart(2, "0")}</span><strong>{section}</strong><small>코드 블록</small></div>)}</div><div className="admin-editor-actions"><button disabled={index <= 0} onClick={() => onMove(page.id, -1)}>페이지 위로</button><button disabled={index >= total - 1} onClick={() => onMove(page.id, 1)}>페이지 아래로</button><button onClick={() => onCopy(page)}>복사</button><button className="is-danger" onClick={() => onDelete(page.id)}>Soft Delete</button></div></section>;
+  const [sectionDrag, setSectionDrag] = useState<{ sourceId: string; targetId: string | null } | null>(null);
+
+  function moveSection(sectionId: string, direction: -1 | 1) {
+    const currentIndex = page.sections.findIndex((section) => section.id === sectionId);
+    const targetId = page.sections[currentIndex + direction]?.id;
+    const next = moveItemById(page.sections, sectionId, direction);
+    if (next === page.sections || !targetId) return;
+    recordOrderChange("sections", sectionId, targetId, next.map((section) => section.id));
+    onChange({ sections: next });
+  }
+
+  function beginSectionDrag(sectionId: string, event: DragEvent<HTMLDivElement>) {
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", `sections:${page.id}:${sectionId}`);
+    setSectionDrag({ sourceId: sectionId, targetId: null });
+  }
+
+  function dragOverSection(targetId: string, event: DragEvent<HTMLDivElement>) {
+    if (!sectionDrag || sectionDrag.sourceId === targetId) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+    setSectionDrag((current) => current && current.targetId !== targetId ? { ...current, targetId } : current);
+  }
+
+  function dropSection(targetId: string, event: DragEvent<HTMLDivElement>) {
+    event.preventDefault();
+    if (!sectionDrag || sectionDrag.sourceId === targetId) {
+      setSectionDrag(null);
+      return;
+    }
+    const next = reorderItemById(page.sections, sectionDrag.sourceId, targetId);
+    if (next !== page.sections) {
+      recordOrderChange("sections", sectionDrag.sourceId, targetId, next.map((section) => section.id));
+      onChange({ sections: next });
+    }
+    setSectionDrag(null);
+  }
+
+  return <section className="admin-editor-panel"><EditorHeading eyebrow="Page editor" title={page.title} status={page.status} /><div className="admin-form"><label>페이지 제목<input value={page.title} onChange={(event) => onChange({ title: event.target.value })} /></label><label>공개 경로<input value={page.slug} onChange={(event) => onChange({ slug: event.target.value })} /></label><label>페이지 유형<select value={page.type} onChange={(event) => onChange({ type: event.target.value })}><option>홈페이지</option><option>Contact</option><option>Vlog index</option><option>Custom page</option></select></label></div><div className="admin-section-list"><div className="admin-subheading"><strong>섹션 구조</strong><small>드래그하거나 화살표 버튼으로 순서를 바꿀 수 있습니다.</small></div>{page.sections.map((section, sectionIndex) => <div className={["admin-section-row", sectionDrag?.sourceId === section.id && "is-dragging", sectionDrag?.targetId === section.id && "is-drop-target"].filter(Boolean).join(" ")} key={section.id} draggable onDragStart={(event) => beginSectionDrag(section.id, event)} onDragOver={(event) => dragOverSection(section.id, event)} onDrop={(event) => dropSection(section.id, event)} onDragEnd={() => setSectionDrag(null)}><span className="admin-section-order"><span className="admin-section-drag-handle" aria-hidden="true">⠿</span><span>{String(sectionIndex + 1).padStart(2, "0")}</span></span><strong>{section.title}</strong><span className="admin-section-actions"><button type="button" disabled={sectionIndex <= 0} aria-label={`${section.title} 위로 이동`} onClick={() => moveSection(section.id, -1)}>↑</button><button type="button" disabled={sectionIndex >= page.sections.length - 1} aria-label={`${section.title} 아래로 이동`} onClick={() => moveSection(section.id, 1)}>↓</button></span></div>)}</div><div className="admin-editor-actions"><button disabled={index <= 0} onClick={() => onMove(page.id, -1)}>페이지 위로</button><button disabled={index >= total - 1} onClick={() => onMove(page.id, 1)}>페이지 아래로</button><button onClick={() => onCopy(page)}>복사</button><button className="is-danger" onClick={() => onDelete(page.id)}>Soft Delete</button></div></section>;
 }
 
 function ArticleEditor({ article, index, total, onChange, onMove }: { article: AdminArticle; index: number; total: number; onChange: (patch: Partial<AdminArticle>) => void; onMove: (id: string, direction: -1 | 1) => void }) {
