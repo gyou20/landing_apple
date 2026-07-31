@@ -64,19 +64,23 @@
 .admin-status-deleted { background: rgba(220,60,40,.12); color: #b33a2b; }
 .admin-editor-heading { padding-bottom: 22px; border-bottom: 1px solid rgba(17,17,15,.18); }
 .admin-form { display: grid; gap: 24px; padding: 28px 0; }
+.admin-editor-sync-note { margin: 0; padding: 12px 14px; background: rgba(90,56,255,.07); color: rgba(17,17,15,.58); font-size: 11px; line-height: 1.5; }
 .admin-form label { display: grid; gap: 8px; color: rgba(17,17,15,.54); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
 .admin-form input, .admin-form textarea, .admin-form select { font-size: 15px; letter-spacing: 0; text-transform: none; resize: vertical; }
 .admin-field-note { display: block; margin-top: 8px; line-height: 1.5; text-transform: none; }
 .admin-section-list { border-top: 1px solid rgba(17,17,15,.18); }
 .admin-subheading { padding: 18px 0; }
 .admin-subheading small { color: rgba(17,17,15,.5); font-size: 10px; }
-.admin-section-row { display: grid; grid-template-columns: 48px 1fr auto; gap: 10px; align-items: center; padding: 12px 0; border-top: 1px solid rgba(17,17,15,.12); cursor: grab; transition: opacity .16s ease, background-color .16s ease, box-shadow .16s ease; }
-.admin-section-row:active { cursor: grabbing; }
+.admin-section-row { display: grid; grid-template-columns: 48px 1fr auto; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid rgba(17,17,15,.12); transition: opacity .16s ease, background-color .16s ease, box-shadow .16s ease; }
 .admin-section-row.is-dragging { opacity: .38; }
 .admin-section-row.is-drop-target { background: rgba(90,56,255,.07); box-shadow: inset 0 2px #5a38ff; }
 .admin-section-order { display: flex; align-items: center; gap: 7px; color: rgba(17,17,15,.4); font-size: 10px; }
-.admin-section-drag-handle { color: rgba(17,17,15,.3); font-size: 15px; line-height: 1; }
+.admin-section-drag-handle { color: rgba(17,17,15,.3); font-size: 15px; line-height: 1; cursor: grab; }
+.admin-section-drag-handle:active { cursor: grabbing; }
 .admin-section-row:hover .admin-section-drag-handle { color: #5a38ff; }
+.admin-section-title-input { min-width: 0; padding: 8px 4px; border: 0; border-bottom: 1px solid transparent; background: transparent; color: inherit; font: inherit; font-weight: 650; outline: none; }
+.admin-section-title-input:hover { border-bottom-color: rgba(17,17,15,.2); }
+.admin-section-title-input:focus { border-bottom-color: #5a38ff; }
 .admin-section-actions { display: flex; gap: 4px; }
 .admin-section-actions button { width: 28px; height: 28px; border: 1px solid rgba(17,17,15,.2); background: transparent; color: inherit; cursor: pointer; }
 .admin-section-actions button:hover:not(:disabled) { border-color: #5a38ff; color: #5a38ff; }
