@@ -9,6 +9,8 @@ import {
   useRef,
   useState,
 } from "react";
+import { DEFAULT_SITE_CONTENT } from "./site-content";
+import { useSiteContent } from "./use-site-content";
 
 type DragPoint = {
   x: number;
@@ -329,6 +331,12 @@ function AgencyDiagnostics() {
 }
 
 export function AgencySections() {
+  const { homeSections } = useSiteContent();
+  const section03 = homeSections.find((section) => section.id === "home-section-03") ?? DEFAULT_SITE_CONTENT.homeSections[2];
+  const section04 = homeSections.find((section) => section.id === "home-section-04") ?? DEFAULT_SITE_CONTENT.homeSections[3];
+  const section05 = homeSections.find((section) => section.id === "home-section-05") ?? DEFAULT_SITE_CONTENT.homeSections[4];
+  const section06 = homeSections.find((section) => section.id === "home-section-06") ?? DEFAULT_SITE_CONTENT.homeSections[5];
+
   return (
     <div
       className="agency-sections"
@@ -341,6 +349,7 @@ export function AgencySections() {
         className="agency-section agency-section-03"
         id="section-03"
         data-section-id="03"
+        data-background-section-id="home-section-03"
         data-section-kind="agency"
         data-motion-state="pending"
         data-motion-style="split-rise"
@@ -357,7 +366,7 @@ export function AgencySections() {
         </div>
         <div className="agency-section-body">
           <p className="agency-kicker" data-motion-item="03-kicker">
-            Attention is earned, not bought.
+            {section03.eyebrow}
           </p>
           <div className="agency-motion-item" data-motion-item="03-headline">
             <DraggableCopy
@@ -368,17 +377,17 @@ export function AgencySections() {
             >
               <h2 id="agency-title-03">
                 <span className="agency-motion-line">
-                  <span className="agency-motion-line-copy">Make noise.</span>
+                  <span className="agency-motion-line-copy">{section03.headlinePrimary}</span>
                 </span>
                 <span className="agency-motion-line agency-motion-line-accent">
-                  <span className="agency-motion-line-copy">Move minds.</span>
+                  <span className="agency-motion-line-copy">{section03.headlineAccent}</span>
                 </span>
               </h2>
             </DraggableCopy>
           </div>
           <div className="agency-subheads" data-motion-item="03-subheads">
-            <h3>브랜드가 문화의 한가운데 서는 방법.</h3>
-            <h4>Campaign systems · Brand worlds · Social ideas</h4>
+            <h3>{section03.subheadline}</h3>
+            <h4>{section03.description}</h4>
           </div>
           <div
             className="agency-lower-copy"
@@ -398,6 +407,7 @@ export function AgencySections() {
         className="agency-section agency-section-04"
         id="section-04"
         data-section-id="04"
+        data-background-section-id="home-section-04"
         data-section-kind="agency"
         data-motion-state="pending"
         data-motion-style="side-wipe"
@@ -417,7 +427,7 @@ export function AgencySections() {
             className="agency-kicker agency-kicker-dark"
             data-motion-item="04-kicker"
           >
-            Ordinary gets ignored.
+            {section04.eyebrow}
           </p>
           <div className="agency-motion-item" data-motion-item="04-headline">
             <DraggableCopy
@@ -428,17 +438,17 @@ export function AgencySections() {
             >
               <h2 id="agency-title-04">
                 <span className="agency-motion-line">
-                  <span className="agency-motion-line-copy">평범한 건</span>
+                  <span className="agency-motion-line-copy">{section04.headlinePrimary}</span>
                 </span>
                 <span className="agency-motion-line agency-motion-line-accent">
-                  <span className="agency-motion-line-copy">통과되지 않는다.</span>
+                  <span className="agency-motion-line-copy">{section04.headlineAccent}</span>
                 </span>
               </h2>
             </DraggableCopy>
           </div>
           <div className="agency-subheads" data-motion-item="04-subheads">
-            <h3>예쁜 광고보다 강한 관점을 설계합니다.</h3>
-            <h4>Selected transformations across brand, product and culture</h4>
+            <h3>{section04.subheadline}</h3>
+            <h4>{section04.description}</h4>
           </div>
           <div
             className="agency-case-list"
@@ -468,6 +478,7 @@ export function AgencySections() {
         className="agency-section agency-section-05"
         id="section-05"
         data-section-id="05"
+        data-background-section-id="home-section-05"
         data-section-kind="agency"
         data-motion-state="pending"
         data-motion-style="editorial-stack"
@@ -480,7 +491,7 @@ export function AgencySections() {
         </header>
         <div className="agency-section-body agency-section-body-05">
           <p className="agency-kicker" data-motion-item="05-kicker">
-            Strategy × Culture × Craft
+            {section05.eyebrow}
           </p>
           <div className="agency-motion-item" data-motion-item="05-headline">
             <DraggableCopy
@@ -491,17 +502,17 @@ export function AgencySections() {
             >
               <h2 id="agency-title-05">
                 <span className="agency-motion-line">
-                  <span className="agency-motion-line-copy">Culture is</span>
+                  <span className="agency-motion-line-copy">{section05.headlinePrimary}</span>
                 </span>
                 <span className="agency-motion-line agency-motion-line-accent">
-                  <span className="agency-motion-line-copy">the strategy.</span>
+                  <span className="agency-motion-line-copy">{section05.headlineAccent}</span>
                 </span>
               </h2>
             </DraggableCopy>
           </div>
           <div className="agency-subheads" data-motion-item="05-subheads">
-            <h3>전략은 보고서가 아니라 사람들이 기억하는 장면입니다.</h3>
-            <h4>Find the tension · Frame the point · Make it travel</h4>
+            <h3>{section05.subheadline}</h3>
+            <h4>{section05.description}</h4>
           </div>
           <div className="agency-method-grid" data-motion-item="05-methods">
             <p>
@@ -529,6 +540,7 @@ export function AgencySections() {
         className="agency-section agency-section-06"
         id="section-06"
         data-section-id="06"
+        data-background-section-id="home-section-06"
         data-section-kind="agency"
         data-motion-state="pending"
         data-motion-style="final-scale"
@@ -541,7 +553,7 @@ export function AgencySections() {
         </header>
         <div className="agency-section-body agency-section-body-06">
           <p className="agency-kicker" data-motion-item="06-kicker">
-            Let&apos;s make the next move.
+            {section06.eyebrow}
           </p>
           <div className="agency-motion-item" data-motion-item="06-headline">
             <DraggableCopy
@@ -552,17 +564,17 @@ export function AgencySections() {
             >
               <h2 id="agency-title-06">
                 <span className="agency-motion-line">
-                  <span className="agency-motion-line-copy">다음 장면을</span>
+                  <span className="agency-motion-line-copy">{section06.headlinePrimary}</span>
                 </span>
                 <span className="agency-motion-line agency-motion-line-accent">
-                  <span className="agency-motion-line-copy">같이 만들죠.</span>
+                  <span className="agency-motion-line-copy">{section06.headlineAccent}</span>
                 </span>
               </h2>
             </DraggableCopy>
           </div>
           <div className="agency-subheads" data-motion-item="06-subheads">
-            <h3>새 브랜드, 새로운 캠페인, 다음 성장의 순간.</h3>
-            <h4>Tell us what needs to move.</h4>
+            <h3>{section06.subheadline}</h3>
+            <h4>{section06.description}</h4>
           </div>
           <div
             className="agency-contact-row"

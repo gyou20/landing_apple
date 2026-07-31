@@ -71,9 +71,10 @@
 .admin-section-list { border-top: 1px solid rgba(17,17,15,.18); }
 .admin-subheading { padding: 18px 0; }
 .admin-subheading small { color: rgba(17,17,15,.5); font-size: 10px; }
-.admin-section-row { display: grid; grid-template-columns: 48px 1fr auto; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid rgba(17,17,15,.12); transition: opacity .16s ease, background-color .16s ease, box-shadow .16s ease; }
-.admin-section-row.is-dragging { opacity: .38; }
-.admin-section-row.is-drop-target { background: rgba(90,56,255,.07); box-shadow: inset 0 2px #5a38ff; }
+.admin-section-card { border-top: 1px solid rgba(17,17,15,.12); transition: opacity .16s ease, background-color .16s ease, box-shadow .16s ease; }
+.admin-section-card.is-dragging { opacity: .38; }
+.admin-section-card.is-drop-target { background: rgba(90,56,255,.07); box-shadow: inset 0 2px #5a38ff; }
+.admin-section-row { display: grid; grid-template-columns: 48px 1fr auto; gap: 10px; align-items: center; padding: 10px 0; }
 .admin-section-order { display: flex; align-items: center; gap: 7px; color: rgba(17,17,15,.4); font-size: 10px; }
 .admin-section-drag-handle { color: rgba(17,17,15,.3); font-size: 15px; line-height: 1; cursor: grab; }
 .admin-section-drag-handle:active { cursor: grabbing; }
@@ -83,8 +84,14 @@
 .admin-section-title-input:focus { border-bottom-color: #5a38ff; }
 .admin-section-actions { display: flex; gap: 4px; }
 .admin-section-actions button { width: 28px; height: 28px; border: 1px solid rgba(17,17,15,.2); background: transparent; color: inherit; cursor: pointer; }
+.admin-section-actions .admin-section-toggle { width: auto; min-width: 44px; padding: 0 8px; }
 .admin-section-actions button:hover:not(:disabled) { border-color: #5a38ff; color: #5a38ff; }
 .admin-section-actions button:disabled { opacity: .28; cursor: not-allowed; }
+.admin-section-copy-form { display: grid; gap: 16px; margin: 2px 0 18px 48px; padding: 18px; background: rgba(90,56,255,.055); }
+.admin-section-copy-form label { display: grid; gap: 7px; color: rgba(17,17,15,.54); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+.admin-section-copy-form input, .admin-section-copy-form textarea { width: 100%; padding: 9px 0; border: 0; border-bottom: 1px solid rgba(17,17,15,.22); background: transparent; color: #11110f; font: inherit; font-size: 13px; letter-spacing: 0; text-transform: none; outline: none; resize: vertical; }
+.admin-section-copy-form input:focus, .admin-section-copy-form textarea:focus { border-bottom-color: #5a38ff; }
+.admin-section-copy-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
 .admin-editor-actions { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 24px; border-top: 1px solid rgba(17,17,15,.18); }
 .admin-editor-actions button { padding: 9px 12px; border: 1px solid rgba(17,17,15,.25); background: transparent; cursor: pointer; }
 .admin-editor-actions button:disabled { opacity: .34; cursor: not-allowed; }
@@ -105,4 +112,19 @@
 .admin-assets-panel .admin-image-result dt { color: rgba(17,17,15,.45); }
 .admin-assets-panel .admin-image-result dd { color: #5a38ff; }
 @media (max-width: 900px) { .admin-app { grid-template-columns: 1fr; } .admin-sidebar { position: static; height: auto; } .admin-nav { grid-template-columns: repeat(5, minmax(120px,1fr)); overflow-x: auto; } .admin-user { display: none; } .admin-dashboard { grid-template-columns: 1fr; } }
-@media (max-width: 650px) { .admin-workspace { padding: 24px 16px 48px; } .admin-topbar { align-items: flex-start; flex-direction: column; } .admin-top-actions { align-items: flex-start; flex-direction: column; } .admin-content-grid, .admin-contact-layout { grid-template-columns: 1fr; } .admin-quick-actions { grid-template-columns: 1fr; } .admin-nav { grid-template-columns: repeat(5, 1fr); } .admin-nav button { padding: 10px 8px; } .admin-nav button span { display: none; } }
+@media (max-width: 650px) { .admin-workspace { padding: 24px 16px 48px; } .admin-topbar { align-items: flex-start; flex-direction: column; } .admin-top-actions { align-items: flex-start; flex-direction: column; } .admin-content-grid, .admin-contact-layout, .admin-section-copy-grid { grid-template-columns: 1fr; } .admin-section-copy-form { margin-left: 0; } .admin-quick-actions { grid-template-columns: 1fr; } .admin-nav { grid-template-columns: repeat(5, 1fr); } .admin-nav button { padding: 10px 8px; } .admin-nav button span { display: none; } }
+
+.admin-section-background { display: grid; gap: 12px; padding-top: 18px; border-top: 1px solid rgba(17,17,15,.16); }
+.admin-section-background-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+.admin-section-background-heading > div { display: grid; gap: 5px; }
+.admin-section-background-heading strong { color: #11110f; font-size: 12px; letter-spacing: 0; text-transform: none; }
+.admin-section-background-heading small, .admin-section-background-file { color: rgba(17,17,15,.48); font-size: 9px; letter-spacing: 0; text-transform: none; }
+.admin-section-background-heading > span { padding: 5px 7px; border-radius: 999px; background: rgba(17,17,15,.08); color: rgba(17,17,15,.55); font-size: 9px; white-space: nowrap; }
+.admin-section-background-heading > span.is-pending { background: rgba(90,56,255,.12); color: #5a38ff; }
+.admin-section-background-heading > span.is-published { background: rgba(74,123,0,.12); color: #3d6500; }
+.admin-section-background-preview { width: 100%; aspect-ratio: 16 / 7; border: 1px solid rgba(17,17,15,.18); background-color: rgba(17,17,15,.05); background-position: center; background-size: cover; }
+.admin-section-background-upload { display: inline-flex !important; width: fit-content; padding: 9px 12px; border: 1px solid rgba(17,17,15,.3); color: #11110f !important; font-size: 10px !important; letter-spacing: 0 !important; text-transform: none !important; cursor: pointer; }
+.admin-section-background-upload:hover { border-color: #5a38ff; color: #5a38ff !important; }
+.admin-section-background-upload input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.admin-section-background > p { margin: 0; color: rgba(17,17,15,.58); font-size: 10px; line-height: 1.5; }
+.admin-button:disabled { opacity: .45; cursor: wait; }

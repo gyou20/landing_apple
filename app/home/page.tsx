@@ -3,6 +3,8 @@ import { AgencySections } from "../agency-sections";
 import { EditablePhone } from "../editable-phone";
 import { HeroDiagnostics } from "../hero-diagnostics";
 import { SiteHeader } from "../site-header";
+import { HomeHeroCopy, SectionTwoContent } from "../home-section-copy";
+import { PublishedSectionBackgrounds } from "../published-section-backgrounds";
 
 export const metadata: Metadata = {
   title: "Aether One | Pro의 새로운 기준",
@@ -10,37 +12,16 @@ export const metadata: Metadata = {
     "티타늄의 정교함과 몰입감 있는 디스플레이를 담은 Aether One 프리미엄 스마트폰.",
 };
 
-function SectionTwoContent() {
-  return (
-    <div className="section-two-content">
-      <p className="section-two-eyebrow">Aether OS · Inside</p>
-      <h2>
-        화면의 경계가
-        <br />
-        <span>사라지는 순간.</span>
-      </h2>
-      <p className="section-two-description">
-        당신이 선택한 화면에서 새로운 경험이 이어집니다.
-        <br />
-        빠르고, 조용하고, 온전히 당신답게.
-      </p>
-      <div className="section-two-meta" aria-label="Aether OS 주요 특징">
-        <span>Adaptive UI</span>
-        <span>120Hz Motion</span>
-        <span>Private by design</span>
-      </div>
-    </div>
-  );
-}
-
 export default function Home() {
   return (
     <main className="site-shell" id="top">
       <HeroDiagnostics />
+      <PublishedSectionBackgrounds />
 
       <section
         className="hero"
         data-section="hero"
+        data-background-section-id="home-section-01"
         data-testid="hero-section"
         data-zoom-phase="intro"
         aria-labelledby="hero-title"
@@ -60,32 +41,14 @@ export default function Home() {
             pageNumber="01"
           />
 
-          <div className="hero-copy">
-            <p className="eyebrow">Aether One Pro</p>
-            <h1 id="hero-title">
-              깊이를 넘어,
-              <br />
-              <span>경험이 되다.</span>
-            </h1>
-            <p className="hero-description">
-              항공우주 등급 티타늄의 섬세한 질감.
-              <br />
-              스크롤해 화면 안으로 들어가 보세요.
-            </p>
-            <div className="hero-actions" aria-label="제품 탐색 안내">
-              <a className="action action-primary" href="#experience">
-                화면 안으로
-                <span aria-hidden="true">↓</span>
-              </a>
-              <span className="availability">Scroll to enter</span>
-            </div>
-          </div>
+          <HomeHeroCopy />
 
           <EditablePhone
             screenContent={
               <section
                 className="section-two"
                 data-section="experience"
+                data-background-section-id="home-section-02"
                 data-testid="phone-section-two"
                 aria-labelledby="section-two-title"
               >

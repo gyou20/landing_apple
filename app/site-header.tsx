@@ -1,3 +1,7 @@
+"use client";
+
+import { useSiteContent } from "./use-site-content";
+
 const ROUTES = [
   { href: "/home", id: "home", label: "Home" },
   { href: "/contact", id: "contact", label: "Contact" },
@@ -13,6 +17,8 @@ export function SiteHeader({
   currentPage: (typeof ROUTES)[number]["id"];
   pageNumber: string;
 }) {
+  const { brandName } = useSiteContent();
+
   return (
     <nav
       className={`${className} site-header`}
@@ -21,12 +27,12 @@ export function SiteHeader({
       data-testid="site-header"
     >
       <div className="site-header-identity">
-        <a className="brand-link" href="/home" aria-label="Aether 홈">
-          <span className="wordmark" aria-label="Aether">
+        <a className="brand-link" href="/home" aria-label={`${brandName} 홈`}>
+          <span className="wordmark" aria-label={brandName}>
             <span className="wordmark-mark" aria-hidden="true">
               ◐
             </span>
-            Aether
+            {brandName}
           </span>
         </a>
         <span className="page-marker" aria-hidden="true">

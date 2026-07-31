@@ -2,7 +2,10 @@
 
 import { useMemo, useState, type DragEvent } from "react";
 import type { AdminUser } from "../chatgpt-auth";
+import type { HomeSectionContent, SiteContent } from "../site-content";
+import { saveSiteContent, useSiteContent } from "../use-site-content";
 import { ImageProcessor } from "./image-processor";
+import { SectionBackgroundUploader } from "./section-background-uploader";
 
 type AdminSection = "dashboard" | "pages" | "vlog" | "contact" | "assets";
 type Status = "draft" | "published" | "deleted";
@@ -92,6 +95,8 @@ export function AdminShell({ user }: { user: AdminUser }) {
   const [query, setQuery] = useState("");
   const [notice, setNotice] = useState("변경 사항은 아직 임시저장되지 않았습니다.");
   const [dragState, setDragState] = useState<DragState | null>(null);
+  const [publishing, setPublishing] = useState(false);
+  const siteContent = useSiteContent();
 
   const selectedPage = pages.find((page) => page.id === selectedPageId) ?? pages[0];
   const selectedArticle = articles.find((article) => article.id === selectedArticleId) ?? articles[0];
@@ -184,6 +189,32 @@ export function AdminShell({ user }: { user: AdminUser }) {
     setNotice("변경 내용을 임시저장 대기 상태로 만들었습니다.");
   }
 
+  function updateHomeContent(next: SiteContent, field: string) {
+    saveSiteContent(next, `admin:${field}`);
+    setNotice("홈페이지 문구가 저장되어 공개 홈페이지에 즉시 반영되었습니다.");
+  }
+
+  async function publishBackgrounds() {
+    setPublishing(true);
+    setNotice("배경 이미지 Publish를 진행하고 있습니다…");
+    try {
+      console.info("[section-background:admin-publish-request]");
+      const response = await fetch("/api/admin/section-backgrounds/publish", { method: "POST" });
+      const data = await response.json() as { publishedCount?: number; error?: string };
+      if (!response.ok) throw new Error(data.error ?? "publish-failed");
+      const count = data.publishedCount ?? 0;
+      setNotice(count > 0 ? `${count}개 섹션 배경 이미지를 공개했습니다.` : "Publish할 새 배경 이미지가 없습니다.");
+      window.localStorage.setItem("section-background-published-at", String(Date.now()));
+      window.dispatchEvent(new CustomEvent("section-background:published"));
+      console.info("[section-background:admin-publish-complete]", { count });
+    } catch (error) {
+      console.error("[section-background:admin-publish-failed]", { error });
+      setNotice(error instanceof Error ? error.message : "Publish하지 못했습니다.");
+    } finally {
+      setPublishing(false);
+    }
+  }
+
   function updateSelectedArticle(patch: Partial<AdminArticle>) {
     setArticles((current) => current.map((article) => article.id === selectedArticle.id ? { ...article, ...patch, status: "draft" } : article));
     setNotice("Vlog 글 변경 내용을 임시저장 대기 상태로 만들었습니다.");
@@ -200,10 +231,10 @@ export function AdminShell({ user }: { user: AdminUser }) {
       </aside>
 
       <section className="admin-workspace">
-        <header className="admin-topbar"><div><span className="admin-eyebrow">Content operations</span><h1>{NAV_ITEMS.find((item) => item.id === activeSection)?.label}</h1></div><div className="admin-top-actions"><span className="admin-save-status">{notice}</span><button className="admin-button admin-button-primary" onClick={() => setNotice("Publish 검증을 시작할 준비가 되었습니다. API 연결 후 실제 공개됩니다.")}>Publish</button></div></header>
+        <header className="admin-topbar"><div><span className="admin-eyebrow">Content operations</span><h1>{NAV_ITEMS.find((item) => item.id === activeSection)?.label}</h1></div><div className="admin-top-actions"><span className="admin-save-status">{notice}</span><button className="admin-button admin-button-primary" disabled={publishing} onClick={publishBackgrounds}>{publishing ? "Publishing…" : "Publish"}</button></div></header>
 
         {activeSection === "dashboard" && <Dashboard pages={pages} articles={articles} onNavigate={setActiveSection} />}
-        {activeSection === "pages" && <div className="admin-content-grid"><ListPanel title="페이지 목록" query={query} setQuery={setQuery} count={filteredPages.length}>{filteredPages.map((page) => <SortableListRow key={page.id} index={pages.findIndex((item) => item.id === page.id)} title={page.title} meta={`${page.slug} · ${page.type}`} status={page.status} selected={selectedPage.id === page.id} dragDisabled={dragDisabled} dragging={dragState?.list === "pages" && dragState.sourceId === page.id} dropTarget={dragState?.list === "pages" && dragState.targetId === page.id} onSelect={() => setSelectedPageId(page.id)} onDragStart={(event) => beginDrag("pages", page.id, event)} onDragOver={(event) => dragOverItem("pages", page.id, event)} onDrop={(event) => dropItem("pages", page.id, event)} onDragEnd={() => setDragState(null)} />)}</ListPanel><PageEditor page={selectedPage} index={selectedPageIndex} total={pages.length} onChange={updateSelectedPage} onMove={movePage} onCopy={copyPage} onDelete={deletePage} /></div>}
+        {activeSection === "pages" && <div className="admin-content-grid"><ListPanel title="페이지 목록" query={query} setQuery={setQuery} count={filteredPages.length}>{filteredPages.map((page) => <SortableListRow key={page.id} index={pages.findIndex((item) => item.id === page.id)} title={page.title} meta={`${page.slug} · ${page.type}`} status={page.status} selected={selectedPage.id === page.id} dragDisabled={dragDisabled} dragging={dragState?.list === "pages" && dragState.sourceId === page.id} dropTarget={dragState?.list === "pages" && dragState.targetId === page.id} onSelect={() => setSelectedPageId(page.id)} onDragStart={(event) => beginDrag("pages", page.id, event)} onDragOver={(event) => dragOverItem("pages", page.id, event)} onDrop={(event) => dropItem("pages", page.id, event)} onDragEnd={() => setDragState(null)} />)}</ListPanel><PageEditor page={selectedPage} index={selectedPageIndex} total={pages.length} siteContent={siteContent} onSiteContentChange={updateHomeContent} onChange={updateSelectedPage} onMove={movePage} onCopy={copyPage} onDelete={deletePage} /></div>}
         {activeSection === "vlog" && <div className="admin-content-grid"><ListPanel title="Vlog 목록" query={query} setQuery={setQuery} count={filteredArticles.length}>{filteredArticles.map((article) => <SortableListRow key={article.id} index={articles.findIndex((item) => item.id === article.id)} title={article.title} meta={article.category} status={article.status} selected={selectedArticle.id === article.id} dragDisabled={dragDisabled} dragging={dragState?.list === "vlog" && dragState.sourceId === article.id} dropTarget={dragState?.list === "vlog" && dragState.targetId === article.id} onSelect={() => setSelectedArticleId(article.id)} onDragStart={(event) => beginDrag("vlog", article.id, event)} onDragOver={(event) => dragOverItem("vlog", article.id, event)} onDrop={(event) => dropItem("vlog", article.id, event)} onDragEnd={() => setDragState(null)} />)}</ListPanel><ArticleEditor article={selectedArticle} index={selectedArticleIndex} total={articles.length} onChange={updateSelectedArticle} onMove={moveArticle} /></div>}
         {activeSection === "contact" && <ContactPanel />}
         {activeSection === "assets" && <div className="admin-assets-panel"><ImageProcessor authenticated={true} /></div>}
@@ -225,8 +256,9 @@ function SortableListRow({ index, title, meta, status, selected, dragDisabled, d
   return <button type="button" className={className} draggable={!dragDisabled} aria-label={`${index + 1}. ${title}. ${dragDisabled ? "검색 중 순서 변경 비활성화" : "드래그하여 순서 변경 가능"}`} onClick={onSelect} onDragStart={onDragStart} onDragOver={onDragOver} onDrop={onDrop} onDragEnd={onDragEnd}><span className="admin-list-order"><span className="admin-drag-handle" aria-hidden="true">⠿</span><span className="admin-list-number">{String(index + 1).padStart(2, "0")}</span></span><span><strong>{title}</strong><small>{meta}</small></span><StatusBadge status={status} /></button>;
 }
 
-function PageEditor({ page, index, total, onChange, onMove, onCopy, onDelete }: { page: AdminPageItem; index: number; total: number; onChange: (patch: Partial<AdminPageItem>) => void; onMove: (id: string, direction: -1 | 1) => void; onCopy: (page: AdminPageItem) => void; onDelete: (id: string) => void }) {
+function PageEditor({ page, index, total, siteContent, onSiteContentChange, onChange, onMove, onCopy, onDelete }: { page: AdminPageItem; index: number; total: number; siteContent: SiteContent; onSiteContentChange: (content: SiteContent, field: string) => void; onChange: (patch: Partial<AdminPageItem>) => void; onMove: (id: string, direction: -1 | 1) => void; onCopy: (page: AdminPageItem) => void; onDelete: (id: string) => void }) {
   const [sectionDrag, setSectionDrag] = useState<{ sourceId: string; targetId: string | null } | null>(null);
+  const [expandedSectionId, setExpandedSectionId] = useState<string | null>("home-section-01");
 
   function moveSection(sectionId: string, direction: -1 | 1) {
     const currentIndex = page.sections.findIndex((section) => section.id === sectionId);
@@ -241,6 +273,17 @@ function PageEditor({ page, index, total, onChange, onMove, onCopy, onDelete }: 
     onChange({
       sections: page.sections.map((section) => section.id === sectionId ? { ...section, title } : section),
     });
+  }
+
+  function updateBrandName(brandName: string) {
+    onSiteContentChange({ ...siteContent, brandName }, "brandName");
+  }
+
+  function updateSectionContent(sectionId: string, patch: Partial<HomeSectionContent>) {
+    const nextSections = siteContent.homeSections.map((section) =>
+      section.id === sectionId ? { ...section, ...patch } : section,
+    );
+    onSiteContentChange({ ...siteContent, homeSections: nextSections }, `${sectionId}:${Object.keys(patch)[0]}`);
   }
 
   function beginSectionDrag(sectionId: string, event: DragEvent<HTMLSpanElement>) {
@@ -270,7 +313,142 @@ function PageEditor({ page, index, total, onChange, onMove, onCopy, onDelete }: 
     setSectionDrag(null);
   }
 
-  return <section className="admin-editor-panel"><EditorHeading eyebrow="Page editor" title={page.title} status={page.status} /><div className="admin-form"><p className="admin-editor-sync-note">페이지 정보와 섹션 이름을 변경하면 왼쪽 목록과 편집기 제목에 즉시 반영됩니다.</p><label>페이지 제목<input value={page.title} onChange={(event) => onChange({ title: event.target.value })} /></label><label>공개 경로<input value={page.slug} onChange={(event) => onChange({ slug: event.target.value })} /></label><label>페이지 유형<select value={page.type} onChange={(event) => onChange({ type: event.target.value })}><option>홈페이지</option><option>Contact</option><option>Vlog index</option><option>Custom page</option></select></label></div><div className="admin-section-list"><div className="admin-subheading"><strong>섹션 구조</strong><small>이름을 편집하거나 핸들을 드래그해 순서를 바꿀 수 있습니다.</small></div>{page.sections.map((section, sectionIndex) => <div className={["admin-section-row", sectionDrag?.sourceId === section.id && "is-dragging", sectionDrag?.targetId === section.id && "is-drop-target"].filter(Boolean).join(" ")} key={section.id} onDragOver={(event) => dragOverSection(section.id, event)} onDrop={(event) => dropSection(section.id, event)}><span className="admin-section-order"><span className="admin-section-drag-handle" draggable aria-label={`${section.title} 드래그하여 순서 변경`} onDragStart={(event) => beginSectionDrag(section.id, event)} onDragEnd={() => setSectionDrag(null)}>⠿</span><span>{String(sectionIndex + 1).padStart(2, "0")}</span></span><input className="admin-section-title-input" value={section.title} aria-label={`${sectionIndex + 1}번 섹션 이름`} onChange={(event) => updateSectionTitle(section.id, event.target.value)} /><span className="admin-section-actions"><button type="button" disabled={sectionIndex <= 0} aria-label={`${section.title} 위로 이동`} onClick={() => moveSection(section.id, -1)}>↑</button><button type="button" disabled={sectionIndex >= page.sections.length - 1} aria-label={`${section.title} 아래로 이동`} onClick={() => moveSection(section.id, 1)}>↓</button></span></div>)}</div><div className="admin-editor-actions"><button disabled={index <= 0} onClick={() => onMove(page.id, -1)}>페이지 위로</button><button disabled={index >= total - 1} onClick={() => onMove(page.id, 1)}>페이지 아래로</button><button onClick={() => onCopy(page)}>복사</button><button className="is-danger" onClick={() => onDelete(page.id)}>Soft Delete</button></div></section>;
+  return (
+    <section className="admin-editor-panel">
+      <EditorHeading eyebrow="Page editor" title={page.title} status={page.status} />
+      <div className="admin-form">
+        <p className="admin-editor-sync-note">
+          페이지와 섹션 문구를 변경하면 왼쪽 목록과 공개 홈페이지에 즉시 반영됩니다.
+        </p>
+        <label>
+          페이지 제목
+          <input value={page.title} onChange={(event) => onChange({ title: event.target.value })} />
+        </label>
+        <label>
+          공개 경로
+          <input value={page.slug} onChange={(event) => onChange({ slug: event.target.value })} />
+        </label>
+        <label>
+          페이지 유형
+          <select value={page.type} onChange={(event) => onChange({ type: event.target.value })}>
+            <option>홈페이지</option>
+            <option>Contact</option>
+            <option>Vlog index</option>
+            <option>Custom page</option>
+          </select>
+        </label>
+        {page.id === "home" && (
+          <label>
+            사이트 브랜드명
+            <input
+              value={siteContent.brandName}
+              data-content-field="brandName"
+              onChange={(event) => updateBrandName(event.target.value)}
+            />
+          </label>
+        )}
+      </div>
+
+      <div className="admin-section-list">
+        <div className="admin-subheading">
+          <strong>섹션 구조와 문구</strong>
+          <small>섹션을 펼쳐 메인·서브 문구를 편집할 수 있습니다.</small>
+        </div>
+        {page.sections.map((section, sectionIndex) => {
+          const copy = siteContent.homeSections.find((item) => item.id === section.id);
+          const expanded = expandedSectionId === section.id;
+          return (
+            <div
+              className={[
+                "admin-section-card",
+                sectionDrag?.sourceId === section.id && "is-dragging",
+                sectionDrag?.targetId === section.id && "is-drop-target",
+              ].filter(Boolean).join(" ")}
+              key={section.id}
+              data-section-editor-id={section.id}
+              onDragOver={(event) => dragOverSection(section.id, event)}
+              onDrop={(event) => dropSection(section.id, event)}
+            >
+              <div className="admin-section-row">
+                <span className="admin-section-order">
+                  <span
+                    className="admin-section-drag-handle"
+                    draggable
+                    aria-label={`${section.title} 드래그하여 순서 변경`}
+                    onDragStart={(event) => beginSectionDrag(section.id, event)}
+                    onDragEnd={() => setSectionDrag(null)}
+                  >
+                    ⠿
+                  </span>
+                  <span>{String(sectionIndex + 1).padStart(2, "0")}</span>
+                </span>
+                <input
+                  className="admin-section-title-input"
+                  value={section.title}
+                  aria-label={`${sectionIndex + 1}번 섹션 이름`}
+                  onChange={(event) => updateSectionTitle(section.id, event.target.value)}
+                />
+                <span className="admin-section-actions">
+                  {copy && (
+                    <button
+                      type="button"
+                      className="admin-section-toggle"
+                      aria-expanded={expanded}
+                      aria-label={`${section.title} 문구 ${expanded ? "닫기" : "편집"}`}
+                      onClick={() => setExpandedSectionId(expanded ? null : section.id)}
+                    >
+                      {expanded ? "−" : "편집"}
+                    </button>
+                  )}
+                  <button type="button" disabled={sectionIndex <= 0} aria-label={`${section.title} 위로 이동`} onClick={() => moveSection(section.id, -1)}>↑</button>
+                  <button type="button" disabled={sectionIndex >= page.sections.length - 1} aria-label={`${section.title} 아래로 이동`} onClick={() => moveSection(section.id, 1)}>↓</button>
+                </span>
+              </div>
+              {copy && expanded && (
+                <div className="admin-section-copy-form">
+                  <label>
+                    영문 라벨
+                    <input value={copy.eyebrow} data-content-field="eyebrow" onChange={(event) => updateSectionContent(copy.id, { eyebrow: event.target.value })} />
+                  </label>
+                  <div className="admin-section-copy-grid">
+                    <label>
+                      메인 문구 1행
+                      <input value={copy.headlinePrimary} data-content-field="headlinePrimary" onChange={(event) => updateSectionContent(copy.id, { headlinePrimary: event.target.value })} />
+                    </label>
+                    <label>
+                      메인 문구 2행
+                      <input value={copy.headlineAccent} data-content-field="headlineAccent" onChange={(event) => updateSectionContent(copy.id, { headlineAccent: event.target.value })} />
+                    </label>
+                  </div>
+                  <label>
+                    서브 문구
+                    <textarea rows={2} value={copy.subheadline} data-content-field="subheadline" onChange={(event) => updateSectionContent(copy.id, { subheadline: event.target.value })} />
+                  </label>
+                  <label>
+                    설명
+                    <textarea rows={2} value={copy.description} data-content-field="description" onChange={(event) => updateSectionContent(copy.id, { description: event.target.value })} />
+                  </label>
+                  {copy.id === "home-section-01" && (
+                    <label>
+                      버튼 문구
+                      <input value={copy.ctaLabel} data-content-field="ctaLabel" onChange={(event) => updateSectionContent(copy.id, { ctaLabel: event.target.value })} />
+                    </label>
+                  )}
+                  <SectionBackgroundUploader sectionId={copy.id} />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div className="admin-editor-actions">
+        <button disabled={index <= 0} onClick={() => onMove(page.id, -1)}>페이지 위로</button>
+        <button disabled={index >= total - 1} onClick={() => onMove(page.id, 1)}>페이지 아래로</button>
+        <button onClick={() => onCopy(page)}>복사</button>
+        <button className="is-danger" onClick={() => onDelete(page.id)}>Soft Delete</button>
+      </div>
+    </section>
+  );
 }
 
 function ArticleEditor({ article, index, total, onChange, onMove }: { article: AdminArticle; index: number; total: number; onChange: (patch: Partial<AdminArticle>) => void; onMove: (id: string, direction: -1 | 1) => void }) {
