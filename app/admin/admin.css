@@ -42,11 +42,19 @@
 .admin-panel-heading h2, .admin-editor-heading h2 { font-size: 32px; }
 .admin-panel-heading > strong { font-size: 20px; }
 .admin-search, .admin-form input, .admin-form textarea, .admin-form select { width: 100%; padding: 12px 0; border: 0; border-bottom: 1px solid rgba(17,17,15,.25); background: transparent; color: inherit; outline: none; }
-.admin-search { margin: 28px 0 12px; }
+.admin-search { margin: 28px 0 8px; }
+.admin-list-hint { min-height: 30px; margin: 0; color: rgba(17,17,15,.48); font-size: 10px; line-height: 1.5; }
 .admin-list { display: grid; }
-.admin-list-row { display: grid; grid-template-columns: 28px 1fr auto; gap: 12px; align-items: center; padding: 16px 0; border: 0; border-top: 1px solid rgba(17,17,15,.14); background: transparent; color: inherit; text-align: left; cursor: pointer; }
+.admin-list-row { display: grid; grid-template-columns: 42px 1fr auto; gap: 12px; align-items: center; padding: 16px 0; border: 0; border-top: 1px solid rgba(17,17,15,.14); background: transparent; color: inherit; text-align: left; cursor: grab; transition: opacity .16s ease, background-color .16s ease, box-shadow .16s ease; }
+.admin-list-row:active { cursor: grabbing; }
 .admin-list-row.is-selected { color: #5a38ff; }
-.admin-list-row span:nth-child(2) { display: grid; gap: 6px; min-width: 0; }
+.admin-list-row.is-drag-disabled { cursor: pointer; }
+.admin-list-row.is-dragging { opacity: .38; }
+.admin-list-row.is-drop-target { background: rgba(90,56,255,.07); box-shadow: inset 0 2px #5a38ff; }
+.admin-list-order { display: flex; align-items: center; gap: 7px; }
+.admin-drag-handle { color: rgba(17,17,15,.32); font-size: 15px; line-height: 1; }
+.admin-list-row:hover .admin-drag-handle, .admin-list-row.is-selected .admin-drag-handle { color: currentColor; }
+.admin-list-row > span:nth-child(2) { display: grid; gap: 6px; min-width: 0; }
 .admin-list-row strong { overflow: hidden; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
 .admin-list-row small, .admin-section-row small, .admin-field-note { color: rgba(17,17,15,.48); font-size: 10px; }
 .admin-list-number { color: rgba(17,17,15,.38); font-size: 10px; }
@@ -66,6 +74,7 @@
 .admin-section-row span { color: rgba(17,17,15,.4); font-size: 10px; }
 .admin-editor-actions { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 24px; border-top: 1px solid rgba(17,17,15,.18); }
 .admin-editor-actions button { padding: 9px 12px; border: 1px solid rgba(17,17,15,.25); background: transparent; cursor: pointer; }
+.admin-editor-actions button:disabled { opacity: .34; cursor: not-allowed; }
 .admin-editor-actions .is-danger { color: #b33a2b; }
 .admin-contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding-top: 28px; }
 .admin-empty-state { display: grid; min-height: 260px; place-items: center; align-content: center; gap: 9px; color: rgba(17,17,15,.48); text-align: center; }
