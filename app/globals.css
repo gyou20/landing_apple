@@ -1930,3 +1930,16 @@ a {
     animation: none;
   }
 }
+.hero-static { height: 100svh; }
+.hero-static .hero-sticky { position: relative; }
+.hero-static .phone-front { will-change: auto; }
+.section-two-direct { position: relative; min-height: 100svh; }
+.section-two-standalone { min-height: 100svh; height: auto; }
+.section-two-standalone .section-two-content { min-height: 100svh; padding-top: 86px; }
+.section-two-standalone .section-index-two { top: 112px; }
+.home-direct-start { position: relative; z-index: 40; height: 0; }
+.home-direct-nav { position: absolute; top: 0; left: 50%; z-index: 50; margin: 0; transform: translateX(-50%); }
+@media (max-width: 560px) {
+  .section-two-standalone .section-two-content { padding-top: 68px; }
+  .section-two-standalone .section-index-two { top: 84px; }
+}

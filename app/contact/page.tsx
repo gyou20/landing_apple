@@ -1,20 +1,28 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { publishedVisibility, publishedVisibilityMap } from "../../db/content-visibility";
+import { isPublishedDeleted } from "../../db/content-deletions";
 import { SiteHeader } from "../site-header";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "브랜드 전략, 캠페인, 디지털 경험에 관한 프로젝트를 Aether와 시작하세요.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const visibility = await publishedVisibility("page", "contact");
+  return { title: "Contact", description: "브랜드 전략, 캠페인, 디지털 경험에 관한 프로젝트를 Aether와 시작하세요.", robots: visibility.searchIndexable ? { index: true, follow: true } : { index: false, follow: false } };
+}
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  if (await isPublishedDeleted("page", "contact")) notFound();
+  const visibility = await publishedVisibilityMap();
+  const visiblePageIds = ["home", "contact", "vlog"].filter((id) => visibility[`page:${id}`]?.menuVisible);
   return (
     <main className="route-page route-page-contact" data-page-id="contact">
-      <SiteHeader currentPage="contact" pageNumber="02" />
+      <SiteHeader currentPage="contact" pageNumber="02" visiblePageIds={visiblePageIds} />
 
       <section
         className="route-page-intro"
         aria-labelledby="contact-page-title"
+        data-visibility-entity-type="section"
+        data-visibility-entity-id="contact-intro"
+        hidden={!(visibility["section:contact-intro"]?.menuVisible ?? true)}
       >
         <p className="route-page-kicker">New business · Seoul / Everywhere</p>
         <h1 id="contact-page-title">

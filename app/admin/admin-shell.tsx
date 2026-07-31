@@ -1,15 +1,29 @@
 "use client";
 
-import { useMemo, useState, type DragEvent } from "react";
+import { useEffect, useMemo, useState, type DragEvent } from "react";
 import type { AdminUser } from "../chatgpt-auth";
 import type { HomeSectionContent, SiteContent } from "../site-content";
 import { saveSiteContent, useSiteContent } from "../use-site-content";
 import { ImageProcessor } from "./image-processor";
 import { SectionBackgroundUploader } from "./section-background-uploader";
 
-type AdminSection = "dashboard" | "pages" | "vlog" | "contact" | "assets";
+type AdminSection = "dashboard" | "pages" | "vlog" | "archive" | "trash" | "contact" | "assets";
 type Status = "draft" | "published" | "deleted";
 type OrderList = "pages" | "vlog" | "sections";
+type VisibilityState = { menuVisible: boolean; searchIndexable: boolean };
+type DeleteTarget = { entityType: "page" | "section" | "vlog"; entityId: string };
+type DeletionRecord = DeleteTarget & {
+  draftDeleted: boolean;
+  publishedDeleted: boolean;
+  operationId: string;
+  requestedBy: string;
+  pendingAt: string;
+  publishedAt: string | null;
+  deleteAfter: string | null;
+  restoredAt: string | null;
+  updatedAt: string;
+};
+type UndoState = { operationId: string; count: number; expiresAt: number };
 type DragState = {
   list: OrderList;
   sourceId: string;
@@ -23,11 +37,13 @@ type AdminPageItem = {
   type: string;
   status: Status;
   sections: AdminPageSection[];
+  visibility: VisibilityState;
 };
 
 type AdminPageSection = {
   id: string;
   title: string;
+  visibility: VisibilityState;
 };
 
 type AdminArticle = {
@@ -36,36 +52,33 @@ type AdminArticle = {
   category: string;
   status: Status;
   summary: string;
+  visibility: VisibilityState;
 };
 
+const PUBLIC_DEFAULT = { menuVisible: true, searchIndexable: true };
+const DRAFT_VLOG_DEFAULT = { menuVisible: false, searchIndexable: false };
+
 const INITIAL_PAGES: AdminPageItem[] = [
-  { id: "home", title: "Home", slug: "/home", type: "홈페이지", status: "published", sections: [{ id: "home-section-01", title: "Section 01" }, { id: "home-section-02", title: "Section 02" }, { id: "home-section-03", title: "Section 03" }, { id: "home-section-04", title: "Section 04" }, { id: "home-section-05", title: "Section 05" }, { id: "home-section-06", title: "Section 06" }] },
-  { id: "contact", title: "Contact", slug: "/contact", type: "Contact", status: "published", sections: [{ id: "contact-intro", title: "Contact intro" }, { id: "contact-form", title: "Contact form" }] },
-  { id: "vlog", title: "Vlog", slug: "/vlog", type: "Vlog index", status: "published", sections: [{ id: "vlog-intro", title: "Vlog intro" }, { id: "vlog-article-list", title: "Article list" }] },
+  { id: "home", title: "Home", slug: "/home", type: "홈페이지", status: "published", visibility: PUBLIC_DEFAULT, sections: [{ id: "home-section-01", title: "Section 01" }, { id: "home-section-02", title: "Section 02" }, { id: "home-section-03", title: "Section 03" }, { id: "home-section-04", title: "Section 04" }, { id: "home-section-05", title: "Section 05" }, { id: "home-section-06", title: "Section 06" }].map((section) => ({ ...section, visibility: PUBLIC_DEFAULT })) },
+  { id: "contact", title: "Contact", slug: "/contact", type: "Contact", status: "published", visibility: PUBLIC_DEFAULT, sections: [{ id: "contact-intro", title: "Contact intro" }, { id: "contact-form", title: "Contact form" }].map((section) => ({ ...section, visibility: PUBLIC_DEFAULT })) },
+  { id: "vlog", title: "Vlog", slug: "/vlog", type: "Vlog index", status: "published", visibility: PUBLIC_DEFAULT, sections: [{ id: "vlog-intro", title: "Vlog intro" }, { id: "vlog-article-list", title: "Article list" }].map((section) => ({ ...section, visibility: PUBLIC_DEFAULT })) },
 ];
 
 const INITIAL_ARTICLES: AdminArticle[] = [
-  { id: "brand-strategy", title: "좋은 브랜드는 무엇을 반복하는가", category: "Brand Strategy", status: "draft", summary: "브랜드가 오래 기억되는 방식에 대한 기록입니다." },
-  { id: "creative", title: "사람을 멈추게 하는 장면의 조건", category: "Creative", status: "draft", summary: "관심을 행동으로 바꾸는 크리에이티브의 구조입니다." },
-  { id: "culture", title: "문화에서 시작해 비즈니스로 이어지는 아이디어", category: "Culture", status: "draft", summary: "문화적 긴장을 브랜드의 다음 장면으로 연결합니다." },
+  { id: "brand-strategy", title: "좋은 브랜드는 무엇을 반복하는가", category: "Brand Strategy", status: "draft", summary: "브랜드가 오래 기억되는 방식에 대한 기록입니다.", visibility: DRAFT_VLOG_DEFAULT },
+  { id: "creative", title: "사람을 멈추게 하는 장면의 조건", category: "Creative", status: "draft", summary: "관심을 행동으로 바꾸는 크리에이티브의 구조입니다.", visibility: DRAFT_VLOG_DEFAULT },
+  { id: "culture", title: "문화에서 시작해 비즈니스로 이어지는 아이디어", category: "Culture", status: "draft", summary: "문화적 긴장을 브랜드의 다음 장면으로 연결합니다.", visibility: DRAFT_VLOG_DEFAULT },
 ];
 
 const NAV_ITEMS: Array<{ id: AdminSection; label: string; description: string }> = [
   { id: "dashboard", label: "대시보드", description: "콘텐츠 상태와 빠른 작업" },
   { id: "pages", label: "페이지", description: "페이지·섹션·메뉴 관리" },
   { id: "vlog", label: "Vlog", description: "게시글 작성과 Publish" },
+  { id: "archive", label: "보관소", description: "숨긴 항목 복원" },
+  { id: "trash", label: "삭제함", description: "30일 이내 복구" },
   { id: "contact", label: "Contact", description: "페이지와 문의함" },
   { id: "assets", label: "이미지", description: "브라우저 이미지 변환" },
 ];
-
-function moveItemById<T extends { id: string }>(items: T[], itemId: string, direction: -1 | 1) {
-  const currentIndex = items.findIndex((item) => item.id === itemId);
-  const nextIndex = currentIndex + direction;
-  if (currentIndex < 0 || nextIndex < 0 || nextIndex >= items.length) return items;
-  const next = [...items];
-  [next[currentIndex], next[nextIndex]] = [next[nextIndex], next[currentIndex]];
-  return next;
-}
 
 function reorderItemById<T extends { id: string }>(items: T[], sourceId: string, targetId: string) {
   const sourceIndex = items.findIndex((item) => item.id === sourceId);
@@ -85,6 +98,15 @@ function recordOrderChange(list: OrderList, sourceId: string, targetId: string, 
     result: itemIds,
   });
 }
+function targetKey(target: DeleteTarget) {
+  return target.entityType + ":" + target.entityId;
+}
+
+function parseTargetKey(key: string): DeleteTarget {
+  const separator = key.indexOf(":");
+  return { entityType: key.slice(0, separator) as DeleteTarget["entityType"], entityId: key.slice(separator + 1) };
+}
+
 
 export function AdminShell({ user }: { user: AdminUser }) {
   const [activeSection, setActiveSection] = useState<AdminSection>("dashboard");
@@ -96,21 +118,131 @@ export function AdminShell({ user }: { user: AdminUser }) {
   const [notice, setNotice] = useState("변경 사항은 아직 임시저장되지 않았습니다.");
   const [dragState, setDragState] = useState<DragState | null>(null);
   const [publishing, setPublishing] = useState(false);
+  const [deletions, setDeletions] = useState<DeletionRecord[]>([]);
+  const [selectedDeleteKeys, setSelectedDeleteKeys] = useState<Set<string>>(new Set());
+  const [deleteDialogTargets, setDeleteDialogTargets] = useState<DeleteTarget[] | null>(null);
+  const [undoState, setUndoState] = useState<UndoState | null>(null);
   const siteContent = useSiteContent();
 
-  const selectedPage = pages.find((page) => page.id === selectedPageId) ?? pages[0];
-  const selectedArticle = articles.find((article) => article.id === selectedArticleId) ?? articles[0];
-  const filteredPages = useMemo(() => pages.filter((page) => `${page.title} ${page.slug}`.toLowerCase().includes(query.toLowerCase())), [pages, query]);
-  const filteredArticles = useMemo(() => articles.filter((article) => `${article.title} ${article.category}`.toLowerCase().includes(query.toLowerCase())), [articles, query]);
-  const selectedPageIndex = pages.findIndex((page) => page.id === selectedPage.id);
-  const selectedArticleIndex = articles.findIndex((article) => article.id === selectedArticle.id);
+  const draftDeletedKeys = useMemo(() => new Set(deletions.filter((record) => record.draftDeleted).map((record) => targetKey(record))), [deletions]);
+  const filteredPages = useMemo(() => pages.filter((page) => page.visibility.menuVisible && page.status !== "deleted" && !draftDeletedKeys.has(targetKey({ entityType: "page", entityId: page.id })) && (page.title + " " + page.slug).toLowerCase().includes(query.toLowerCase())), [pages, query, draftDeletedKeys]);
+  const filteredArticles = useMemo(() => articles.filter((article) => article.visibility.menuVisible && article.status !== "deleted" && !draftDeletedKeys.has(targetKey({ entityType: "vlog", entityId: article.id })) && (article.title + " " + article.category).toLowerCase().includes(query.toLowerCase())), [articles, query, draftDeletedKeys]);
+  const selectedPage = filteredPages.find((page) => page.id === selectedPageId) ?? filteredPages[0] ?? pages[0];
+  const selectedArticle = filteredArticles.find((article) => article.id === selectedArticleId) ?? filteredArticles[0] ?? articles[0];
+  const selectedPageIndex = selectedPage ? filteredPages.findIndex((page) => page.id === selectedPage.id) : -1;
+  const selectedArticleIndex = selectedArticle ? filteredArticles.findIndex((article) => article.id === selectedArticle.id) : -1;
   const dragDisabled = Boolean(query.trim());
 
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/admin/visibility", { cache: "no-store" })
+      .then(async (response) => {
+        const data = await response.json() as { records?: Array<{ entityType: "page" | "section" | "vlog"; entityId: string; draft: VisibilityState }>; error?: string };
+        if (!response.ok) throw new Error(data.error ?? "visibility-load-failed");
+        if (cancelled) return;
+        const records = data.records ?? [];
+        setPages((current) => current.map((page) => ({ ...page, visibility: records.find((record) => record.entityType === "page" && record.entityId === page.id)?.draft ?? page.visibility, sections: page.sections.map((section) => ({ ...section, visibility: records.find((record) => record.entityType === "section" && record.entityId === section.id)?.draft ?? section.visibility })) })));
+        setArticles((current) => current.map((article) => ({ ...article, visibility: records.find((record) => record.entityType === "vlog" && record.entityId === article.id)?.draft ?? article.visibility })));
+        console.info("[visibility:admin-hydrated]", { count: records.length });
+      })
+      .catch((error) => { console.error("[visibility:admin-hydrate-failed]", { error }); setNotice("가시성 설정을 불러오지 못했습니다. 새로고침 후 다시 확인하세요."); });
+    return () => { cancelled = true; };
+  }, []);
+
+  async function loadDeletions() {
+    const response = await fetch("/api/admin/deletions", { cache: "no-store" });
+    const data = await response.json() as { records?: DeletionRecord[]; error?: string };
+    if (!response.ok) throw new Error(data.error ?? "deletion-load-failed");
+    setDeletions(data.records ?? []);
+    console.info("[deletion:admin-hydrated]", { count: data.records?.length ?? 0 });
+  }
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/admin/deletions", { cache: "no-store" })
+      .then(async (response) => {
+        const data = await response.json() as { records?: DeletionRecord[]; error?: string };
+        if (!response.ok) throw new Error(data.error ?? "deletion-load-failed");
+        if (!cancelled) setDeletions(data.records ?? []);
+      })
+      .catch((error) => {
+        console.error("[deletion:admin-hydrate-failed]", { error });
+        if (!cancelled) setNotice("삭제 상태를 불러오지 못했습니다. 새로고침 후 다시 확인하세요.");
+      });
+    return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => {
+    if (!undoState) return;
+    const remaining = Math.max(0, undoState.expiresAt - Date.now());
+    const timer = window.setTimeout(() => setUndoState(null), remaining);
+    return () => window.clearTimeout(timer);
+  }, [undoState]);
+
+  async function saveVisibility(entityType: "page" | "section" | "vlog", entityId: string, visibility: VisibilityState) {
+    console.info("[visibility:admin-save-request]", { entityType, entityId, ...visibility });
+    const response = await fetch("/api/admin/visibility", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ entityType, entityId, ...visibility }) });
+    const data = await response.json() as { error?: string };
+    if (!response.ok) throw new Error(data.error ?? "visibility-save-failed");
+    setNotice("가시성 설정을 임시저장했습니다. Publish 전에는 공개 사이트에 반영되지 않습니다.");
+  }
+
+  function updatePageVisibility(next: VisibilityState) {
+    const previous = selectedPage.visibility;
+    setPages((current) => current.map((page) => page.id === selectedPage.id ? { ...page, visibility: next } : page));
+    if (!next.menuVisible) { const replacement = pages.find((page) => page.id !== selectedPage.id && page.visibility.menuVisible && page.status !== "deleted"); if (replacement) setSelectedPageId(replacement.id); }
+    void saveVisibility("page", selectedPage.id, next).catch((error) => { setPages((current) => current.map((page) => page.id === selectedPage.id ? { ...page, visibility: previous } : page)); console.error("[visibility:admin-save-reverted]", { entityType: "page", entityId: selectedPage.id, error }); setNotice("저장 실패로 이전 값으로 되돌렸습니다."); });
+  }
+
+  function updateSectionVisibility(sectionId: string, next: VisibilityState) {
+    const previous = selectedPage.sections.find((section) => section.id === sectionId)?.visibility ?? PUBLIC_DEFAULT;
+    setPages((current) => current.map((page) => page.id === selectedPage.id ? { ...page, sections: page.sections.map((section) => section.id === sectionId ? { ...section, visibility: next } : section) } : page));
+    void saveVisibility("section", sectionId, next).catch((error) => { setPages((current) => current.map((page) => page.id === selectedPage.id ? { ...page, sections: page.sections.map((section) => section.id === sectionId ? { ...section, visibility: previous } : section) } : page)); console.error("[visibility:admin-save-reverted]", { entityType: "section", entityId: sectionId, error }); setNotice("저장 실패로 이전 값으로 되돌렸습니다."); });
+  }
+
+  function updateArticleVisibility(next: VisibilityState) {
+    const previous = selectedArticle.visibility;
+    setArticles((current) => current.map((article) => article.id === selectedArticle.id ? { ...article, visibility: next } : article));
+    if (!next.menuVisible) { const replacement = articles.find((article) => article.id !== selectedArticle.id && article.visibility.menuVisible && article.status !== "deleted"); if (replacement) setSelectedArticleId(replacement.id); }
+    void saveVisibility("vlog", selectedArticle.id, next).catch((error) => { setArticles((current) => current.map((article) => article.id === selectedArticle.id ? { ...article, visibility: previous } : article)); console.error("[visibility:admin-save-reverted]", { entityType: "vlog", entityId: selectedArticle.id, error }); setNotice("저장 실패로 이전 값으로 되돌렸습니다."); });
+  }
+
+  function restoreArchiveItem(entityType: "page" | "section" | "vlog", entityId: string) {
+    const previous = entityType === "page"
+      ? pages.find((page) => page.id === entityId)?.visibility
+      : entityType === "section"
+        ? pages.flatMap((page) => page.sections).find((section) => section.id === entityId)?.visibility
+        : articles.find((article) => article.id === entityId)?.visibility;
+    if (!previous) return;
+    const next = { ...previous, menuVisible: true };
+
+    function applyVisibility(visibility: VisibilityState) {
+      if (entityType === "page") {
+        setPages((current) => current.map((page) => page.id === entityId ? { ...page, visibility } : page));
+      } else if (entityType === "section") {
+        setPages((current) => current.map((page) => ({ ...page, sections: page.sections.map((section) => section.id === entityId ? { ...section, visibility } : section) })));
+      } else {
+        setArticles((current) => current.map((article) => article.id === entityId ? { ...article, visibility } : article));
+      }
+    }
+
+    applyVisibility(next);
+    void saveVisibility(entityType, entityId, next).then(() => {
+      console.info("[archive:restore-complete]", { entityType, entityId });
+      setNotice("항목을 원래 목록으로 복원했습니다. Publish 전에는 공개 사이트에 반영되지 않습니다.");
+    }).catch((error) => {
+      applyVisibility(previous);
+      console.error("[archive:restore-failed]", { entityType, entityId, error });
+      setNotice("복원하지 못해 보관소 상태로 되돌렸습니다.");
+    });
+    console.info("[archive:restore-request]", { entityType, entityId });
+  }
   function movePage(pageId: string, direction: -1 | 1) {
     setPages((current) => {
-      const currentIndex = current.findIndex((item) => item.id === pageId);
-      const targetId = current[currentIndex + direction]?.id;
-      const next = moveItemById(current, pageId, direction);
+      const visible = current.filter((item) => item.visibility.menuVisible && item.status !== "deleted");
+      const currentIndex = visible.findIndex((item) => item.id === pageId);
+      const targetId = visible[currentIndex + direction]?.id;
+      const next = targetId ? reorderItemById(current, pageId, targetId) : current;
       if (next !== current && targetId) recordOrderChange("pages", pageId, targetId, next.map((item) => item.id));
       return next;
     });
@@ -119,9 +251,10 @@ export function AdminShell({ user }: { user: AdminUser }) {
 
   function moveArticle(articleId: string, direction: -1 | 1) {
     setArticles((current) => {
-      const currentIndex = current.findIndex((item) => item.id === articleId);
-      const targetId = current[currentIndex + direction]?.id;
-      const next = moveItemById(current, articleId, direction);
+      const visible = current.filter((item) => item.visibility.menuVisible && item.status !== "deleted");
+      const currentIndex = visible.findIndex((item) => item.id === articleId);
+      const targetId = visible[currentIndex + direction]?.id;
+      const next = targetId ? reorderItemById(current, articleId, targetId) : current;
       if (next !== current && targetId) recordOrderChange("vlog", articleId, targetId, next.map((item) => item.id));
       return next;
     });
@@ -179,11 +312,60 @@ export function AdminShell({ user }: { user: AdminUser }) {
     setNotice("페이지 복사본을 만들었습니다.");
   }
 
-  function deletePage(pageId: string) {
-    setPages((current) => current.map((page) => page.id === pageId ? { ...page, status: "deleted" } : page));
-    setNotice("페이지를 Soft Delete 상태로 바꿨습니다. 실제 삭제는 Publish 이후에도 즉시 실행되지 않습니다.");
+  function toggleDeleteTarget(target: DeleteTarget, checked: boolean) {
+    setSelectedDeleteKeys((current) => {
+      const next = new Set(current);
+      if (checked) next.add(targetKey(target)); else next.delete(targetKey(target));
+      return next;
+    });
   }
 
+  function selectedTargetsFor(type: DeleteTarget["entityType"]) {
+    return [...selectedDeleteKeys].filter((key) => key.startsWith(type + ":")).map(parseTargetKey);
+  }
+
+  async function confirmDelete(password: string) {
+    const targets = deleteDialogTargets ?? [];
+    console.info("[deletion:admin-authorize-request]", { targets });
+    const authorizationResponse = await fetch("/api/admin/deletions/authorize", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password, targets }),
+    });
+    const authorization = await authorizationResponse.json() as { token?: string; error?: string };
+    if (!authorizationResponse.ok || !authorization.token) throw new Error(authorization.error ?? "삭제 권한을 발급하지 못했습니다.");
+    const deleteResponse = await fetch("/api/admin/deletions", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ token: authorization.token, targets }),
+    });
+    const result = await deleteResponse.json() as { operationId?: string; error?: string };
+    if (!deleteResponse.ok || !result.operationId) throw new Error(result.error ?? "삭제 대기 상태를 저장하지 못했습니다.");
+    setDeleteDialogTargets(null);
+    setSelectedDeleteKeys(new Set());
+    setUndoState({ operationId: result.operationId, count: targets.length, expiresAt: Date.now() + 10_000 });
+    await loadDeletions();
+    setNotice(targets.length + "개 항목을 삭제 대기로 옮겼습니다. Publish 전까지 공개 사이트는 바뀌지 않습니다.");
+    console.info("[deletion:admin-draft-complete]", { operationId: result.operationId, targets });
+  }
+
+  async function undoDeletion() {
+    if (!undoState) return;
+    const response = await fetch("/api/admin/deletions/undo", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ operationId: undoState.operationId }),
+    });
+    const data = await response.json() as { restoredCount?: number; error?: string };
+    if (!response.ok) throw new Error(data.error ?? "되돌리지 못했습니다.");
+    setUndoState(null);
+    await loadDeletions();
+    setNotice((data.restoredCount ?? 0) + "개 항목의 삭제 대기를 되돌렸습니다.");
+  }
+
+  async function restoreTrashItem(target: DeleteTarget) {
+    const response = await fetch("/api/admin/deletions/restore", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ target }),
+    });
+    const data = await response.json() as { error?: string };
+    if (!response.ok) throw new Error(data.error ?? "복원하지 못했습니다.");
+    await loadDeletions();
+    setNotice("항목을 초안으로 복원했습니다. Publish해야 공개 사이트에 다시 반영됩니다.");
+  }
   function updateSelectedPage(patch: Partial<AdminPageItem>) {
     setPages((current) => current.map((page) => page.id === selectedPage.id ? { ...page, ...patch, status: "draft" } : page));
     setNotice("변경 내용을 임시저장 대기 상태로 만들었습니다.");
@@ -196,14 +378,22 @@ export function AdminShell({ user }: { user: AdminUser }) {
 
   async function publishBackgrounds() {
     setPublishing(true);
-    setNotice("배경 이미지 Publish를 진행하고 있습니다…");
+    setNotice("가시성과 배경 이미지 Publish를 진행하고 있습니다…");
     try {
       console.info("[section-background:admin-publish-request]");
+      const visibilityResponse = await fetch("/api/admin/visibility/publish", { method: "POST" });
+      const visibilityData = await visibilityResponse.json() as { publishedCount?: number; error?: string };
+      if (!visibilityResponse.ok) throw new Error(visibilityData.error ?? "visibility-publish-failed");
       const response = await fetch("/api/admin/section-backgrounds/publish", { method: "POST" });
       const data = await response.json() as { publishedCount?: number; error?: string };
       if (!response.ok) throw new Error(data.error ?? "publish-failed");
+      const deletionResponse = await fetch("/api/admin/deletions/publish", { method: "POST" });
+      const deletionData = await deletionResponse.json() as { deletedCount?: number; restoredCount?: number; error?: string };
+      if (!deletionResponse.ok) throw new Error(deletionData.error ?? "deletion-publish-failed");
       const count = data.publishedCount ?? 0;
-      setNotice(count > 0 ? `${count}개 섹션 배경 이미지를 공개했습니다.` : "Publish할 새 배경 이미지가 없습니다.");
+      const visibilityCount = visibilityData.publishedCount ?? 0;
+      await loadDeletions();
+      setNotice("가시성 " + visibilityCount + "건, 배경 이미지 " + count + "건, 삭제 " + (deletionData.deletedCount ?? 0) + "건, 복원 " + (deletionData.restoredCount ?? 0) + "건을 공개했습니다.");
       window.localStorage.setItem("section-background-published-at", String(Date.now()));
       window.dispatchEvent(new CustomEvent("section-background:published"));
       console.info("[section-background:admin-publish-complete]", { count });
@@ -234,11 +424,29 @@ export function AdminShell({ user }: { user: AdminUser }) {
         <header className="admin-topbar"><div><span className="admin-eyebrow">Content operations</span><h1>{NAV_ITEMS.find((item) => item.id === activeSection)?.label}</h1></div><div className="admin-top-actions"><span className="admin-save-status">{notice}</span><button className="admin-button admin-button-primary" disabled={publishing} onClick={publishBackgrounds}>{publishing ? "Publishing…" : "Publish"}</button></div></header>
 
         {activeSection === "dashboard" && <Dashboard pages={pages} articles={articles} onNavigate={setActiveSection} />}
-        {activeSection === "pages" && <div className="admin-content-grid"><ListPanel title="페이지 목록" query={query} setQuery={setQuery} count={filteredPages.length}>{filteredPages.map((page) => <SortableListRow key={page.id} index={pages.findIndex((item) => item.id === page.id)} title={page.title} meta={`${page.slug} · ${page.type}`} status={page.status} selected={selectedPage.id === page.id} dragDisabled={dragDisabled} dragging={dragState?.list === "pages" && dragState.sourceId === page.id} dropTarget={dragState?.list === "pages" && dragState.targetId === page.id} onSelect={() => setSelectedPageId(page.id)} onDragStart={(event) => beginDrag("pages", page.id, event)} onDragOver={(event) => dragOverItem("pages", page.id, event)} onDrop={(event) => dropItem("pages", page.id, event)} onDragEnd={() => setDragState(null)} />)}</ListPanel><PageEditor page={selectedPage} index={selectedPageIndex} total={pages.length} siteContent={siteContent} onSiteContentChange={updateHomeContent} onChange={updateSelectedPage} onMove={movePage} onCopy={copyPage} onDelete={deletePage} /></div>}
-        {activeSection === "vlog" && <div className="admin-content-grid"><ListPanel title="Vlog 목록" query={query} setQuery={setQuery} count={filteredArticles.length}>{filteredArticles.map((article) => <SortableListRow key={article.id} index={articles.findIndex((item) => item.id === article.id)} title={article.title} meta={article.category} status={article.status} selected={selectedArticle.id === article.id} dragDisabled={dragDisabled} dragging={dragState?.list === "vlog" && dragState.sourceId === article.id} dropTarget={dragState?.list === "vlog" && dragState.targetId === article.id} onSelect={() => setSelectedArticleId(article.id)} onDragStart={(event) => beginDrag("vlog", article.id, event)} onDragOver={(event) => dragOverItem("vlog", article.id, event)} onDrop={(event) => dropItem("vlog", article.id, event)} onDragEnd={() => setDragState(null)} />)}</ListPanel><ArticleEditor article={selectedArticle} index={selectedArticleIndex} total={articles.length} onChange={updateSelectedArticle} onMove={moveArticle} /></div>}
+        {activeSection === "pages" && (
+          <div className="admin-content-grid">
+            <ListPanel title="페이지 목록" query={query} setQuery={setQuery} count={filteredPages.length} toolbar={<BulkDeleteBar count={selectedTargetsFor("page").length} onDelete={() => setDeleteDialogTargets(selectedTargetsFor("page"))} />}>
+              {filteredPages.map((page) => <SortableListRow key={page.id} index={filteredPages.findIndex((item) => item.id === page.id)} title={page.title} meta={page.slug + " · " + page.type} status={page.status} selected={selectedPage.id === page.id} checked={selectedDeleteKeys.has(targetKey({ entityType: "page", entityId: page.id }))} onCheckedChange={(checked) => toggleDeleteTarget({ entityType: "page", entityId: page.id }, checked)} dragDisabled={dragDisabled} dragging={dragState?.list === "pages" && dragState.sourceId === page.id} dropTarget={dragState?.list === "pages" && dragState.targetId === page.id} onSelect={() => setSelectedPageId(page.id)} onDragStart={(event) => beginDrag("pages", page.id, event)} onDragOver={(event) => dragOverItem("pages", page.id, event)} onDrop={(event) => dropItem("pages", page.id, event)} onDragEnd={() => setDragState(null)} />)}
+            </ListPanel>
+            {filteredPages.length > 0 ? <PageEditor page={selectedPage} index={selectedPageIndex} total={filteredPages.length} siteContent={siteContent} onSiteContentChange={updateHomeContent} onChange={updateSelectedPage} onMove={movePage} onCopy={copyPage} onDelete={() => setDeleteDialogTargets([{ entityType: "page", entityId: selectedPage.id }])} visibility={selectedPage.visibility} onVisibilityChange={updatePageVisibility} onSectionVisibilityChange={updateSectionVisibility} selectedDeleteKeys={selectedDeleteKeys} draftDeletedKeys={draftDeletedKeys} onToggleDelete={toggleDeleteTarget} onDeleteSections={(targets) => setDeleteDialogTargets(targets)} /> : <EmptyEditor />}
+          </div>
+        )}
+        {activeSection === "vlog" && (
+          <div className="admin-content-grid">
+            <ListPanel title="Vlog 목록" query={query} setQuery={setQuery} count={filteredArticles.length} toolbar={<BulkDeleteBar count={selectedTargetsFor("vlog").length} onDelete={() => setDeleteDialogTargets(selectedTargetsFor("vlog"))} />}>
+              {filteredArticles.map((article) => <SortableListRow key={article.id} index={filteredArticles.findIndex((item) => item.id === article.id)} title={article.title} meta={article.category} status={article.status} selected={selectedArticle.id === article.id} checked={selectedDeleteKeys.has(targetKey({ entityType: "vlog", entityId: article.id }))} onCheckedChange={(checked) => toggleDeleteTarget({ entityType: "vlog", entityId: article.id }, checked)} dragDisabled={dragDisabled} dragging={dragState?.list === "vlog" && dragState.sourceId === article.id} dropTarget={dragState?.list === "vlog" && dragState.targetId === article.id} onSelect={() => setSelectedArticleId(article.id)} onDragStart={(event) => beginDrag("vlog", article.id, event)} onDragOver={(event) => dragOverItem("vlog", article.id, event)} onDrop={(event) => dropItem("vlog", article.id, event)} onDragEnd={() => setDragState(null)} />)}
+            </ListPanel>
+            {filteredArticles.length > 0 ? <ArticleEditor article={selectedArticle} index={selectedArticleIndex} total={filteredArticles.length} onChange={updateSelectedArticle} onMove={moveArticle} visibility={selectedArticle.visibility} onVisibilityChange={updateArticleVisibility} onDelete={() => setDeleteDialogTargets([{ entityType: "vlog", entityId: selectedArticle.id }])} /> : <EmptyEditor />}
+          </div>
+        )}
+        {activeSection === "archive" && <ArchivePanel pages={pages} articles={articles} draftDeletedKeys={draftDeletedKeys} onRestore={restoreArchiveItem} />}
+        {activeSection === "trash" && <TrashPanel records={deletions} pages={pages} articles={articles} onRestore={(target) => void restoreTrashItem(target).catch((error) => setNotice(error instanceof Error ? error.message : "복원하지 못했습니다."))} />}
         {activeSection === "contact" && <ContactPanel />}
         {activeSection === "assets" && <div className="admin-assets-panel"><ImageProcessor authenticated={true} /></div>}
       </section>
+      {deleteDialogTargets && <DeleteConfirmationDialog count={deleteDialogTargets.length} onCancel={() => setDeleteDialogTargets(null)} onConfirm={confirmDelete} />}
+      {undoState && <UndoToast count={undoState.count} onUndo={() => void undoDeletion().catch((error) => setNotice(error instanceof Error ? error.message : "되돌리지 못했습니다."))} />}
     </main>
   );
 }
@@ -247,23 +455,23 @@ function Dashboard({ pages, articles, onNavigate }: { pages: AdminPageItem[]; ar
   return <div className="admin-dashboard"><div className="admin-dashboard-intro"><span className="admin-eyebrow">Workspace overview</span><h2>오늘 편집할 콘텐츠를<br /><em>빠르게 찾으세요.</em></h2><p>임시저장과 Publish를 분리해 실수로 공개되는 일을 막습니다.</p></div><div className="admin-stat-grid"><button onClick={() => onNavigate("pages")}><strong>{pages.filter((page) => page.status !== "deleted").length}</strong><span>페이지</span></button><button onClick={() => onNavigate("vlog")}><strong>{articles.length}</strong><span>Vlog 초안</span></button><button onClick={() => onNavigate("contact")}><strong>0</strong><span>새 문의</span></button></div><div className="admin-quick-actions"><button onClick={() => onNavigate("pages")}>페이지 편집 시작 <span>→</span></button><button onClick={() => onNavigate("vlog")}>Vlog 글 작성 <span>→</span></button><button onClick={() => onNavigate("contact")}>문의함 확인 <span>→</span></button></div></div>;
 }
 
-function ListPanel({ title, query, setQuery, count, children }: { title: string; query: string; setQuery: (value: string) => void; count: number; children: React.ReactNode }) {
-  return <section className="admin-list-panel"><div className="admin-panel-heading"><div><span className="admin-eyebrow">Library</span><h2>{title}</h2></div><strong>{count}</strong></div><input className="admin-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="제목·slug·카테고리 검색" aria-label={`${title} 검색`} /><p className="admin-list-hint">{query.trim() ? "검색 중에는 순서 변경이 잠시 비활성화됩니다." : "항목을 드래그하거나 편집기의 위·아래 버튼으로 순서를 바꿀 수 있습니다."}</p><div className="admin-list">{children}</div></section>;
+function ListPanel({ title, query, setQuery, count, toolbar, children }: { title: string; query: string; setQuery: (value: string) => void; count: number; toolbar?: React.ReactNode; children: React.ReactNode }) {
+  return <section className="admin-list-panel"><div className="admin-panel-heading"><div><span className="admin-eyebrow">Library</span><h2>{title}</h2></div><strong>{count}</strong></div><input className="admin-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="제목·slug·카테고리 검색" aria-label={title + " 검색"} /><p className="admin-list-hint">{query.trim() ? "검색 중에는 순서 변경이 잠시 비활성화됩니다." : "체크박스로 일괄 선택하거나 드래그로 순서를 바꿀 수 있습니다."}</p>{toolbar}<div className="admin-list">{children}</div></section>;
 }
 
-function SortableListRow({ index, title, meta, status, selected, dragDisabled, dragging, dropTarget, onSelect, onDragStart, onDragOver, onDrop, onDragEnd }: { index: number; title: string; meta: string; status: Status; selected: boolean; dragDisabled: boolean; dragging: boolean; dropTarget: boolean; onSelect: () => void; onDragStart: (event: DragEvent<HTMLButtonElement>) => void; onDragOver: (event: DragEvent<HTMLButtonElement>) => void; onDrop: (event: DragEvent<HTMLButtonElement>) => void; onDragEnd: () => void }) {
-  const className = ["admin-list-row", selected && "is-selected", dragDisabled && "is-drag-disabled", dragging && "is-dragging", dropTarget && "is-drop-target"].filter(Boolean).join(" ");
-  return <button type="button" className={className} draggable={!dragDisabled} aria-label={`${index + 1}. ${title}. ${dragDisabled ? "검색 중 순서 변경 비활성화" : "드래그하여 순서 변경 가능"}`} onClick={onSelect} onDragStart={onDragStart} onDragOver={onDragOver} onDrop={onDrop} onDragEnd={onDragEnd}><span className="admin-list-order"><span className="admin-drag-handle" aria-hidden="true">⠿</span><span className="admin-list-number">{String(index + 1).padStart(2, "0")}</span></span><span><strong>{title}</strong><small>{meta}</small></span><StatusBadge status={status} /></button>;
+function SortableListRow({ index, title, meta, status, selected, checked, onCheckedChange, dragDisabled, dragging, dropTarget, onSelect, onDragStart, onDragOver, onDrop, onDragEnd }: { index: number; title: string; meta: string; status: Status; selected: boolean; checked: boolean; onCheckedChange: (checked: boolean) => void; dragDisabled: boolean; dragging: boolean; dropTarget: boolean; onSelect: () => void; onDragStart: (event: DragEvent<HTMLButtonElement>) => void; onDragOver: (event: DragEvent<HTMLButtonElement>) => void; onDrop: (event: DragEvent<HTMLButtonElement>) => void; onDragEnd: () => void }) {
+  const className = ["admin-list-row-wrap", selected && "is-selected", dragging && "is-dragging", dropTarget && "is-drop-target"].filter(Boolean).join(" ");
+  return <div className={className}><label className="admin-list-select"><input type="checkbox" checked={checked} onChange={(event) => onCheckedChange(event.target.checked)} aria-label={title + " 삭제 선택"} /></label><button type="button" className="admin-list-row" draggable={!dragDisabled} aria-label={(index + 1) + ". " + title + ". " + (dragDisabled ? "검색 중 순서 변경 비활성화" : "드래그하여 순서 변경 가능")} onClick={onSelect} onDragStart={onDragStart} onDragOver={onDragOver} onDrop={onDrop} onDragEnd={onDragEnd}><span className="admin-list-order"><span className="admin-drag-handle" aria-hidden="true">⠿</span><span className="admin-list-number">{String(index + 1).padStart(2, "0")}</span></span><span><strong>{title}</strong><small>{meta}</small></span><StatusBadge status={status} /></button></div>;
 }
-
-function PageEditor({ page, index, total, siteContent, onSiteContentChange, onChange, onMove, onCopy, onDelete }: { page: AdminPageItem; index: number; total: number; siteContent: SiteContent; onSiteContentChange: (content: SiteContent, field: string) => void; onChange: (patch: Partial<AdminPageItem>) => void; onMove: (id: string, direction: -1 | 1) => void; onCopy: (page: AdminPageItem) => void; onDelete: (id: string) => void }) {
+function PageEditor({ page, index, total, siteContent, onSiteContentChange, onChange, onMove, onCopy, onDelete, visibility, onVisibilityChange, onSectionVisibilityChange, selectedDeleteKeys, draftDeletedKeys, onToggleDelete, onDeleteSections }: { page: AdminPageItem; index: number; total: number; siteContent: SiteContent; onSiteContentChange: (content: SiteContent, field: string) => void; onChange: (patch: Partial<AdminPageItem>) => void; onMove: (id: string, direction: -1 | 1) => void; onCopy: (page: AdminPageItem) => void; onDelete: () => void; visibility: VisibilityState; onVisibilityChange: (next: VisibilityState) => void; onSectionVisibilityChange: (id: string, next: VisibilityState) => void; selectedDeleteKeys: Set<string>; draftDeletedKeys: Set<string>; onToggleDelete: (target: DeleteTarget, checked: boolean) => void; onDeleteSections: (targets: DeleteTarget[]) => void }) {
   const [sectionDrag, setSectionDrag] = useState<{ sourceId: string; targetId: string | null } | null>(null);
   const [expandedSectionId, setExpandedSectionId] = useState<string | null>("home-section-01");
 
   function moveSection(sectionId: string, direction: -1 | 1) {
-    const currentIndex = page.sections.findIndex((section) => section.id === sectionId);
-    const targetId = page.sections[currentIndex + direction]?.id;
-    const next = moveItemById(page.sections, sectionId, direction);
+    const visibleSections = page.sections.filter((section) => section.visibility.menuVisible && !draftDeletedKeys.has(targetKey({ entityType: "section", entityId: section.id })));
+    const currentIndex = visibleSections.findIndex((section) => section.id === sectionId);
+    const targetId = visibleSections[currentIndex + direction]?.id;
+    const next = targetId ? reorderItemById(page.sections, sectionId, targetId) : page.sections;
     if (next === page.sections || !targetId) return;
     recordOrderChange("sections", sectionId, targetId, next.map((section) => section.id));
     onChange({ sections: next });
@@ -337,6 +545,7 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
             <option>Custom page</option>
           </select>
         </label>
+        <VisibilityControls value={visibility} onChange={onVisibilityChange} />
         {page.id === "home" && (
           <label>
             사이트 브랜드명
@@ -354,7 +563,8 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
           <strong>섹션 구조와 문구</strong>
           <small>섹션을 펼쳐 메인·서브 문구를 편집할 수 있습니다.</small>
         </div>
-        {page.sections.map((section, sectionIndex) => {
+        <BulkDeleteBar count={page.sections.filter((section) => selectedDeleteKeys.has(targetKey({ entityType: "section", entityId: section.id }))).length} onDelete={() => onDeleteSections(page.sections.filter((section) => selectedDeleteKeys.has(targetKey({ entityType: "section", entityId: section.id }))).map((section) => ({ entityType: "section", entityId: section.id })))} />
+        {page.sections.filter((section) => section.visibility.menuVisible && !draftDeletedKeys.has(targetKey({ entityType: "section", entityId: section.id }))).map((section, sectionIndex) => {
           const copy = siteContent.homeSections.find((item) => item.id === section.id);
           const expanded = expandedSectionId === section.id;
           return (
@@ -370,6 +580,7 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
               onDrop={(event) => dropSection(section.id, event)}
             >
               <div className="admin-section-row">
+                <input className="admin-section-select" type="checkbox" checked={selectedDeleteKeys.has(targetKey({ entityType: "section", entityId: section.id }))} onChange={(event) => onToggleDelete({ entityType: "section", entityId: section.id }, event.target.checked)} aria-label={section.title + " 삭제 선택"} />
                 <span className="admin-section-order">
                   <span
                     className="admin-section-drag-handle"
@@ -400,10 +611,12 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
                       {expanded ? "−" : "편집"}
                     </button>
                   )}
+                  <button type="button" onClick={() => onSectionVisibilityChange(section.id, { ...section.visibility, menuVisible: false })}>숨기기</button>
                   <button type="button" disabled={sectionIndex <= 0} aria-label={`${section.title} 위로 이동`} onClick={() => moveSection(section.id, -1)}>↑</button>
-                  <button type="button" disabled={sectionIndex >= page.sections.length - 1} aria-label={`${section.title} 아래로 이동`} onClick={() => moveSection(section.id, 1)}>↓</button>
+                  <button type="button" disabled={sectionIndex >= page.sections.filter((item) => item.visibility.menuVisible && !draftDeletedKeys.has(targetKey({ entityType: "section", entityId: item.id }))).length - 1} aria-label={`${section.title} 아래로 이동`} onClick={() => moveSection(section.id, 1)}>↓</button>
                 </span>
               </div>
+              <VisibilityControls value={section.visibility} onChange={(next) => onSectionVisibilityChange(section.id, next)} />
               {copy && expanded && (
                 <div className="admin-section-copy-form">
                   <label>
@@ -445,16 +658,81 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
         <button disabled={index <= 0} onClick={() => onMove(page.id, -1)}>페이지 위로</button>
         <button disabled={index >= total - 1} onClick={() => onMove(page.id, 1)}>페이지 아래로</button>
         <button onClick={() => onCopy(page)}>복사</button>
-        <button className="is-danger" onClick={() => onDelete(page.id)}>Soft Delete</button>
+        <button onClick={() => onVisibilityChange({ ...visibility, menuVisible: false })}>보관소로 숨기기</button>
+        <button className="is-danger" onClick={onDelete}>Soft Delete</button>
       </div>
     </section>
   );
 }
 
-function ArticleEditor({ article, index, total, onChange, onMove }: { article: AdminArticle; index: number; total: number; onChange: (patch: Partial<AdminArticle>) => void; onMove: (id: string, direction: -1 | 1) => void }) {
-  return <section className="admin-editor-panel"><EditorHeading eyebrow="Vlog editor" title={article.title} status={article.status} /><div className="admin-form"><label>제목<textarea rows={3} value={article.title} onChange={(event) => onChange({ title: event.target.value })} /></label><label>카테고리<input value={article.category} onChange={(event) => onChange({ category: event.target.value })} /></label><label>요약<textarea rows={5} value={article.summary} onChange={(event) => onChange({ summary: event.target.value })} /></label><label>본문 블록<small className="admin-field-note">Rich content 블록은 다음 단계에서 연결합니다. 현재는 초안 메타데이터를 안전하게 편집합니다.</small><textarea rows={8} placeholder="본문을 입력하세요." /></label></div><div className="admin-editor-actions"><button disabled={index <= 0} onClick={() => onMove(article.id, -1)}>Vlog 위로</button><button disabled={index >= total - 1} onClick={() => onMove(article.id, 1)}>Vlog 아래로</button><button onClick={() => onChange({ status: "draft" })}>임시저장</button><button onClick={() => onChange({ status: "published" })}>Publish 준비</button><button className="is-danger" onClick={() => onChange({ status: "deleted" })}>Soft Delete</button></div></section>;
+function ArticleEditor({ article, index, total, onChange, onMove, visibility, onVisibilityChange, onDelete }: { article: AdminArticle; index: number; total: number; onChange: (patch: Partial<AdminArticle>) => void; onMove: (id: string, direction: -1 | 1) => void; visibility: VisibilityState; onVisibilityChange: (next: VisibilityState) => void; onDelete: () => void }) {
+  return <section className="admin-editor-panel"><EditorHeading eyebrow="Vlog editor" title={article.title} status={article.status} /><div className="admin-form"><VisibilityControls value={visibility} onChange={onVisibilityChange} /><label>제목<textarea rows={3} value={article.title} onChange={(event) => onChange({ title: event.target.value })} /></label><label>카테고리<input value={article.category} onChange={(event) => onChange({ category: event.target.value })} /></label><label>요약<textarea rows={5} value={article.summary} onChange={(event) => onChange({ summary: event.target.value })} /></label><label>본문 블록<small className="admin-field-note">Rich content 블록은 다음 단계에서 연결합니다. 현재는 초안 메타데이터를 안전하게 편집합니다.</small><textarea rows={8} placeholder="본문을 입력하세요." /></label></div><div className="admin-editor-actions"><button disabled={index <= 0} onClick={() => onMove(article.id, -1)}>Vlog 위로</button><button disabled={index >= total - 1} onClick={() => onMove(article.id, 1)}>Vlog 아래로</button><button onClick={() => onChange({ status: "draft" })}>임시저장</button><button onClick={() => onChange({ status: "published" })}>Publish 준비</button><button onClick={() => onVisibilityChange({ ...visibility, menuVisible: false })}>보관소로 숨기기</button><button className="is-danger" onClick={onDelete}>Soft Delete</button></div></section>;
+}
+function BulkDeleteBar({ count, onDelete }: { count: number; onDelete: () => void }) {
+  return <div className="admin-bulk-bar" aria-live="polite"><span>{count > 0 ? count + "개 선택됨" : "삭제할 항목을 선택하세요."}</span><button type="button" className="is-danger" disabled={count === 0} onClick={onDelete}>선택 항목 삭제</button></div>;
 }
 
+function EmptyEditor() {
+  return <section className="admin-editor-panel"><div className="admin-empty-state"><span>○</span><strong>편집할 항목이 없습니다.</strong><p>삭제함에서 항목을 복원하거나 다른 목록을 선택하세요.</p></div></section>;
+}
+
+function DeleteConfirmationDialog({ count, onCancel, onConfirm }: { count: number; onCancel: () => void; onConfirm: (password: string) => Promise<void> }) {
+  const [password, setPassword] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  async function submit(event: React.FormEvent) {
+    event.preventDefault();
+    setSubmitting(true);
+    setError("");
+    try { await onConfirm(password); }
+    catch (cause) { setError(cause instanceof Error ? cause.message : "삭제를 진행하지 못했습니다."); }
+    finally { setSubmitting(false); }
+  }
+
+  return <div className="admin-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.currentTarget === event.target && !submitting) onCancel(); }}><form className="admin-delete-dialog" role="dialog" aria-modal="true" aria-labelledby="delete-dialog-title" onSubmit={submit}><span className="admin-eyebrow">Protected action</span><h2 id="delete-dialog-title">{count}개 항목을 삭제 대기로 옮길까요?</h2><p>관리자 작업 암호를 한 번 입력합니다. 공개 사이트는 Publish 전까지 바뀌지 않습니다.</p><label>관리자 작업 암호<input type="password" autoFocus autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>{error && <p className="admin-dialog-error" role="alert">{error}</p>}<div><button type="button" onClick={onCancel} disabled={submitting}>취소</button><button type="submit" className="is-danger" disabled={submitting || password.length === 0}>{submitting ? "확인 중…" : "삭제 대기로 이동"}</button></div></form></div>;
+}
+
+function UndoToast({ count, onUndo }: { count: number; onUndo: () => void }) {
+  return <div className="admin-undo-toast" role="status"><span>{count}개 항목을 삭제 대기로 옮겼습니다.</span><button type="button" onClick={onUndo}>되돌리기</button><small>10초</small></div>;
+}
+
+function TrashPanel({ records, pages, articles, onRestore }: { records: DeletionRecord[]; pages: AdminPageItem[]; articles: AdminArticle[]; onRestore: (target: DeleteTarget) => void }) {
+  const [renderedAt] = useState(() => Date.now());
+  function details(record: DeletionRecord) {
+    if (record.entityType === "page") {
+      const page = pages.find((item) => item.id === record.entityId);
+      return { title: page?.title ?? record.entityId, meta: page?.slug ?? "페이지" };
+    }
+    if (record.entityType === "section") {
+      for (const page of pages) {
+        const section = page.sections.find((item) => item.id === record.entityId);
+        if (section) return { title: section.title, meta: page.title + "의 섹션" };
+      }
+      return { title: record.entityId, meta: "섹션" };
+    }
+    const article = articles.find((item) => item.id === record.entityId);
+    return { title: article?.title ?? record.entityId, meta: article?.category ?? "Vlog" };
+  }
+
+  return <section className="admin-archive-panel"><div className="admin-panel-heading"><div><span className="admin-eyebrow">Recoverable content</span><h2>삭제함</h2></div><strong>{records.length}</strong></div><p className="admin-archive-note">삭제는 Publish 후 공개 사이트에 반영되며, 그때부터 30일 동안 복구할 수 있습니다.</p>{records.length === 0 ? <div className="admin-empty-state"><span>○</span><strong>삭제된 항목이 없습니다.</strong><p>일반 목록에서만 항목을 선택해 삭제할 수 있습니다.</p></div> : <div className="admin-archive-list">{records.map((record) => { const item = details(record); const restorePending = !record.draftDeleted && record.publishedDeleted; const expired = Boolean(record.deleteAfter && Date.parse(record.deleteAfter) <= renderedAt); const status = restorePending ? "복원 Publish 대기" : expired ? "복구 기간 만료" : record.publishedDeleted ? "30일 보관" : "삭제 Publish 대기"; const remaining = record.deleteAfter ? Math.max(0, Math.ceil((Date.parse(record.deleteAfter) - renderedAt) / 86_400_000)) : null; return <article key={targetKey(record)} className="admin-archive-row" data-deletion-entity-type={record.entityType} data-deletion-entity-id={record.entityId}><div><strong>{item.title}</strong><small>{item.meta}{remaining !== null ? " · " + remaining + "일 남음" : ""}</small></div><span className="admin-status admin-status-deleted">{status}</span>{restorePending ? <small>Publish 필요</small> : expired ? <small>복구 불가</small> : <button type="button" onClick={() => onRestore(record)}>복원</button>}</article>; })}</div>}</section>;
+}
+function ArchivePanel({ pages, articles, draftDeletedKeys, onRestore }: { pages: AdminPageItem[]; articles: AdminArticle[]; draftDeletedKeys: Set<string>; onRestore: (type: "page" | "section" | "vlog", id: string) => void }) {
+  const hiddenPages = pages.filter((page) => !page.visibility.menuVisible && page.status !== "deleted" && !draftDeletedKeys.has(targetKey({ entityType: "page", entityId: page.id })));
+  const hiddenSections = pages.filter((page) => page.status !== "deleted").flatMap((page) => page.sections.filter((section) => !section.visibility.menuVisible && !draftDeletedKeys.has(targetKey({ entityType: "section", entityId: section.id }))).map((section) => ({ ...section, parentTitle: page.title })));
+  const hiddenArticles = articles.filter((article) => !article.visibility.menuVisible && article.status !== "deleted" && !draftDeletedKeys.has(targetKey({ entityType: "vlog", entityId: article.id })));
+  const total = hiddenPages.length + hiddenSections.length + hiddenArticles.length;
+
+  return <section className="admin-archive-panel"><div className="admin-panel-heading"><div><span className="admin-eyebrow">Hidden content</span><h2>보관소</h2></div><strong>{total}</strong></div><p className="admin-archive-note">숨긴 항목은 삭제되지 않으며, 복원 후에도 Publish해야 공개 사이트에 반영됩니다.</p>{total === 0 ? <div className="admin-empty-state"><span>○</span><strong>숨긴 항목이 없습니다.</strong><p>페이지·섹션·Vlog 편집기에서 “보관소로 숨기기”를 사용할 수 있습니다.</p></div> : <div className="admin-archive-groups"><ArchiveGroup title="페이지" items={hiddenPages.map((page) => ({ id: page.id, title: page.title, meta: `${page.slug} · ${page.visibility.searchIndexable ? "검색 허용" : "검색 제외"}` }))} onRestore={(id) => onRestore("page", id)} /><ArchiveGroup title="섹션" items={hiddenSections.map((section) => ({ id: section.id, title: section.title, meta: `${section.parentTitle} · ${section.visibility.searchIndexable ? "검색 허용" : "검색 제외"}` }))} onRestore={(id) => onRestore("section", id)} /><ArchiveGroup title="Vlog" items={hiddenArticles.map((article) => ({ id: article.id, title: article.title, meta: `${article.category} · ${article.visibility.searchIndexable ? "검색 허용" : "검색 제외"}` }))} onRestore={(id) => onRestore("vlog", id)} /></div>}</section>;
+}
+
+function ArchiveGroup({ title, items, onRestore }: { title: string; items: Array<{ id: string; title: string; meta: string }>; onRestore: (id: string) => void }) {
+  if (items.length === 0) return null;
+  return <section className="admin-archive-group"><div className="admin-subheading"><strong>{title}</strong><small>{items.length}개 숨김</small></div><div className="admin-archive-list">{items.map((item) => <article key={item.id} className="admin-archive-row" data-archive-id={item.id}><div><strong>{item.title}</strong><small>{item.meta}</small></div><span className="admin-status admin-status-hidden">숨김</span><button type="button" onClick={() => onRestore(item.id)}>복원</button></article>)}</div></section>;
+}
+function VisibilityControls({ value, onChange }: { value: VisibilityState; onChange: (next: VisibilityState) => void }) {
+  return <fieldset className="admin-visibility-controls"><legend>공개 가시성</legend><label><input type="checkbox" checked={value.menuVisible} onChange={(event) => onChange({ ...value, menuVisible: event.target.checked })} /> 메뉴·목록에 표시</label><label><input type="checkbox" checked={value.searchIndexable} onChange={(event) => onChange({ ...value, searchIndexable: event.target.checked })} /> 검색엔진 색인 허용</label><small>두 설정은 서로 독립적이며 Publish 후 공개 반영됩니다.</small></fieldset>;
+}
 function ContactPanel() {
   return <div className="admin-contact-layout"><section className="admin-editor-panel"><EditorHeading eyebrow="Contact page" title="Contact content" status="published" /><div className="admin-form"><label>페이지 제목<input defaultValue="Contact" /></label><label>소개 문구<textarea rows={5} defaultValue="새로운 프로젝트와 다음 성장의 순간을 이야기합니다." /></label><label>문의 폼 안내<textarea rows={5} defaultValue="필요한 내용을 남겨주시면 확인 후 연락드리겠습니다." /></label></div><button className="admin-button admin-button-primary">임시저장</button></section><section className="admin-inbox"><div className="admin-panel-heading"><div><span className="admin-eyebrow">Inbox</span><h2>문의함</h2></div><strong>0</strong></div><div className="admin-empty-state"><span>○</span><strong>새 문의가 없습니다.</strong><p>Contact 폼으로 접수된 문의가 이곳에 표시됩니다.</p></div></section></div>;
 }

@@ -16,6 +16,13 @@ npm run dev
 npm run build
 ```
 
+## Backup restoration
+
+For a verified Windows or macOS restore, follow
+[docs/BACKUP-RESTORE.md](docs/BACKUP-RESTORE.md). The included restore tools
+perform a locked dependency install, production build, static analysis, and
+artifact verification while recording stage-by-stage diagnostics.
+
 This starter does not use `wrangler.jsonc`.
 
 ## Included Shape

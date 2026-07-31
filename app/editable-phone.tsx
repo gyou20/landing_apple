@@ -97,8 +97,10 @@ function smoothstep(start: number, end: number, value: number) {
 }
 
 export function EditablePhone({
+  motionEnabled = true,
   screenContent,
-}: {
+} : {
+  motionEnabled?: boolean;
   screenContent: ReactNode;
 }) {
   const [isMounted, setIsMounted] = useState(false);
@@ -171,8 +173,18 @@ export function EditablePhone({
       return;
     }
 
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
+    if (!motionEnabled) {
+      hero.dataset.zoomPhase = "intro";
+      hero.dataset.parallaxState = "disabled";
+      hero.style.setProperty("--phone-scale", "1");
+      hero.style.setProperty("--hero-copy-opacity", "1");
+      hero.style.setProperty("--hardware-opacity", "1");
+      hero.style.setProperty("--section-two-reveal", "0");
+      console.info("[aether:zoom:disabled-by-visibility]");
+      return;
+    }
+
+    const reducedMotion = window.matchMedia(      "(prefers-reduced-motion: reduce)",
     ).matches;
     const pointerParallaxEnabled =
       !reducedMotion && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -320,7 +332,7 @@ export function EditablePhone({
         resetParallax,
       );
     };
-  }, []);
+  }, [motionEnabled]);
 
   const updateSettings = (patch: Partial<WallpaperSettings>) => {
     setSettings((current) => ({ ...current, ...patch }));

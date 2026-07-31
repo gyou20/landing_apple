@@ -12,10 +12,12 @@ export function SiteHeader({
   className = "route-site-header",
   currentPage,
   pageNumber,
+  visiblePageIds,
 }: {
   className?: string;
   currentPage: (typeof ROUTES)[number]["id"];
   pageNumber: string;
+  visiblePageIds: string[];
 }) {
   const { brandName } = useSiteContent();
 
@@ -41,12 +43,14 @@ export function SiteHeader({
       </div>
 
       <div className="route-links">
-        {ROUTES.map((route) => (
+        {ROUTES.filter((route) => visiblePageIds.includes(route.id)).map((route) => (
           <a
             key={route.id}
             href={route.href}
             aria-current={currentPage === route.id ? "page" : undefined}
             data-route-id={route.id}
+            data-visibility-entity-type="page"
+            data-visibility-entity-id={route.id}
           >
             {route.label}
           </a>

@@ -12,6 +12,11 @@ export type JsonValue =
   | JsonValue[]
   | { [key: string]: JsonValue };
 
+export interface VisibilityState {
+  menuVisible: boolean;
+  searchIndexable: boolean;
+}
+
 export type PublicationStatus =
   | "deleted"
   | "draft"
@@ -97,6 +102,7 @@ export interface SectionBlock {
   order: number;
   sectionId: string;
   type: SectionType;
+  visibility: VisibilityState;
 }
 
 export interface PageDocument {
@@ -109,6 +115,7 @@ export interface PageDocument {
   sections: SectionBlock[];
   seo: SeoSettings;
   showInNavigation: boolean;
+  visibility: VisibilityState;
   slug: string;
   status: PublicationStatus;
   title: string;
@@ -148,6 +155,7 @@ export interface VlogArticleDocument {
   summary: string;
   tags: string[];
   video?: VideoMetadata;
+  visibility: VisibilityState;
 }
 
 export interface NavigationItem {
@@ -251,6 +259,11 @@ function addIssue(
   issues.push({ code, message, path });
 }
 
+function validateVisibilityState(issues: SchemaIssue[], value: unknown, path: string) {
+  if (!isRecord(value) || typeof value.menuVisible !== "boolean" || typeof value.searchIndexable !== "boolean") {
+    addIssue(issues, path, "visibility.invalid", "visibility must contain boolean menuVisible and searchIndexable values.");
+  }
+}
 function validateUniqueValues(
   issues: SchemaIssue[],
   values: string[],
@@ -363,6 +376,8 @@ export function validateSiteDocumentV2(
           "slug is required.",
         );
 
+      validateVisibilityState(issues, page.visibility, `${pagePath}.visibility`);
+
       if (!Array.isArray(page.sections)) {
         addIssue(
           issues,
@@ -395,6 +410,7 @@ export function validateSiteDocumentV2(
             "sectionId is required.",
           );
         }
+        validateVisibilityState(issues, section.visibility, `${sectionPath}.visibility`);
         if (!Number.isInteger(section.order) || Number(section.order) < 0) {
           addIssue(
             issues,
@@ -422,6 +438,14 @@ export function validateSiteDocumentV2(
       "document.articles",
       "articles must be an array.",
     );
+  } else {
+    input.articles.forEach((article, articleIndex) => {
+      if (!isRecord(article)) {
+        addIssue(issues, `$.articles[${articleIndex}]`, "article.type", "Each article must be an object.");
+        return;
+      }
+      validateVisibilityState(issues, article.visibility, `$.articles[${articleIndex}].visibility`);
+    });
   }
   if (!Array.isArray(input.navigation)) {
     addIssue(

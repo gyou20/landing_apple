@@ -32,6 +32,7 @@ const validDocument = {
           order: 0,
           sectionId: "section-01",
           type: "hero-phone",
+          visibility: { menuVisible: true, searchIndexable: true },
         },
       ],
       seo: {
@@ -40,6 +41,7 @@ const validDocument = {
         title: "Aether",
       },
       showInNavigation: true,
+      visibility: { menuVisible: true, searchIndexable: true },
       slug: "home",
       status: "published",
       title: "Home",
