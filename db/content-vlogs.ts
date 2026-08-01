@@ -145,6 +145,19 @@ export async function publishContentVlogs(db: D1DatabaseLike) {
   return { publishedCount: result.meta?.changes ?? 0, publishedAt: now };
 }
 
+export async function publishContentVlog(db: D1DatabaseLike, id: string) {
+  if (!VLOG_ID_PATTERN.test(id)) throw new Error("invalid-vlog-id");
+  await ensureContentVlogsTable(db);
+  const now = new Date().toISOString();
+  const result = await db.prepare(`UPDATE content_vlogs SET
+    published_title = draft_title, published_slug = draft_slug, published_category = draft_category,
+    published_summary = draft_summary, published_body = draft_body, published_status = 'published',
+    draft_status = 'published', published_at = ?, updated_at = ?
+    WHERE id = ? AND (published_title IS NULL OR published_title != draft_title OR published_slug != draft_slug OR published_category != draft_category OR published_summary != draft_summary OR published_body != draft_body)`)
+    .bind(now, now, id).run();
+  if ((result.meta?.changes ?? 0) === 0 && !(await getContentVlog(db, id))) throw new Error("vlog-not-found");
+  return { publishedCount: result.meta?.changes ?? 0, publishedAt: now, vlogId: id };
+}
 export async function getPublishedContentVlogBySlug(db: D1DatabaseLike, slug: string) {
   await ensureContentVlogsTable(db);
   const row = await db.prepare("SELECT * FROM content_vlogs WHERE published_slug = ? AND published_status = 'published'").bind(slug).first<VlogRow>();

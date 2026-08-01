@@ -8,6 +8,10 @@ export function pageOpenGraphType(type: PageType) {
   return type === "Article page" ? "article" as const : "website" as const;
 }
 
+export function pageCanonicalPath(slug: string) {
+  return slug.startsWith("/") ? slug : `/${slug}`;
+}
+
 export function buildArticleStructuredData(page: PageContent, siteUrl: string) {
   const base = siteUrl.replace(/\/$/, "");
   return {

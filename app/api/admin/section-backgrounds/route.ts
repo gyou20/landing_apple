@@ -2,9 +2,10 @@ import { getAdminUser } from "../../../chatgpt-auth";
 import {
   getSectionBackground,
   getSectionBackgroundBindings,
-  isHomeSectionId,
+  isSectionBackgroundId,
   listSectionBackgrounds,
 } from "../../../../db/section-backgrounds";
+import { recordChange } from "../../../../db/change-history";
 
 const MAX_IMAGE_BYTES = 20 * 1024 * 1024;
 const CONTENT_TYPES = new Map([
@@ -41,14 +42,15 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  if (!(await getAdminUser())) return unauthorized();
+  const user = await getAdminUser();
+  if (!user) return unauthorized();
   let uploadedKey: string | null = null;
   try {
     const formData = await request.formData();
     const sectionIdValue = formData.get("sectionId");
     const fileValue = formData.get("image");
     const sectionId = typeof sectionIdValue === "string" ? sectionIdValue : "";
-    if (!isHomeSectionId(sectionId)) {
+    if (!isSectionBackgroundId(sectionId)) {
       return Response.json({ error: "허용되지 않은 섹션입니다." }, { status: 400 });
     }
     if (!(fileValue instanceof File)) {
@@ -83,6 +85,13 @@ export async function POST(request: Request) {
         draft_original_name = excluded.draft_original_name,
         updated_at = excluded.updated_at`,
     ).bind(sectionId, uploadedKey, fileValue.type, fileValue.name, updatedAt).run();
+    await recordChange(db, {
+      entityType: "image",
+      entityId: uploadedKey,
+      entityTitle: fileValue.name,
+      summary: current?.draft_key ? "섹션 배경 이미지 교체" : "섹션 배경 이미지 업로드",
+      actorEmail: user.email,
+    });
     console.info("[section-background:d1-draft-saved]", { sectionId, updatedAt });
 
     if (current?.draft_key && current.draft_key !== current.published_key) {

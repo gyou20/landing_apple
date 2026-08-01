@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getAdminUser } from "../../../chatgpt-auth";
-import { createContentPage, getContentPageDb, listContentPages, updateContentPageDraft } from "../../../../db/content-pages";
+import { createContentPage, getContentPage, getContentPageDb, listContentPages, updateContentPageDraft } from "../../../../db/content-pages";
+import { getChangeHistoryDb, recordChange } from "../../../../db/change-history";
+import { summarizePageChange } from "../../../../lib/change-summary";
 
 export const dynamic = "force-dynamic";
 
@@ -22,6 +24,7 @@ export async function POST(request: Request) {
   if (!user) return NextResponse.json({ error: "관리자 인증이 필요합니다." }, { status: 401 });
   try {
     const page = await createContentPage(await getContentPageDb(), await request.json());
+    await recordChange(await getChangeHistoryDb(), { entityType: "page", entityId: page.id, entityTitle: page.draft.title, summary: summarizePageChange(null, page.draft), actorEmail: user.email });
     console.info("[page:draft-created]", { user: user.email, pageId: page.id, slug: page.draft.slug, type: page.draft.type });
     return NextResponse.json({ page }, { status: 201 });
   } catch (error) {
@@ -37,7 +40,10 @@ export async function PUT(request: Request) {
   if (!user) return NextResponse.json({ error: "관리자 인증이 필요합니다." }, { status: 401 });
   try {
     const body = await request.json() as Record<string, unknown>;
-    const page = await updateContentPageDraft(await getContentPageDb(), String(body.id ?? ""), body);
+    const db = await getContentPageDb();
+    const previous = await getContentPage(db, String(body.id ?? ""));
+    const page = await updateContentPageDraft(db, String(body.id ?? ""), body);
+    await recordChange(await getChangeHistoryDb(), { entityType: "page", entityId: page.id, entityTitle: page.draft.title, summary: summarizePageChange(previous?.draft ?? null, page.draft), actorEmail: user.email });
     console.info("[page:draft-updated]", { user: user.email, pageId: page.id, slug: page.draft.slug, type: page.draft.type });
     return NextResponse.json({ page });
   } catch (error) {

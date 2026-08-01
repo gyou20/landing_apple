@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getAdminUser } from "../../../chatgpt-auth";
-import { createContentSection, getContentSectionDb, listContentSections, updateContentSectionDraft } from "../../../../db/content-sections";
+import { createContentSection, getContentSection, getContentSectionDb, listContentSections, updateContentSectionDraft } from "../../../../db/content-sections";
+import { getChangeHistoryDb, recordChange } from "../../../../db/change-history";
+import { summarizeSectionChange } from "../../../../lib/change-summary";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +24,8 @@ export async function POST(request: Request) {
   if (!user) return NextResponse.json({ error: "관리자 인증이 필요합니다." }, { status: 401 });
   try {
     const section = await createContentSection(await getContentSectionDb(), await request.json() as Record<string, unknown>);
-    console.info("[section:draft-created]", { user: user.email, sectionId: section.id, pageId: section.pageId });
+    await recordChange(await getChangeHistoryDb(), { entityType: "section", entityId: section.id, entityTitle: section.draft.title, summary: summarizeSectionChange(null, section.draft), actorEmail: user.email });
+    console.info("[section:draft-created]", { user: user.email, sectionId: section.id, pageId: section.pageId, blockCount: section.draft.content.blocks.length });
     return NextResponse.json({ section }, { status: 201 });
   } catch (error) {
     const reason = error instanceof Error ? error.message : "section-create-failed";
@@ -36,8 +39,11 @@ export async function PUT(request: Request) {
   if (!user) return NextResponse.json({ error: "관리자 인증이 필요합니다." }, { status: 401 });
   try {
     const body = await request.json() as Record<string, unknown>;
-    const section = await updateContentSectionDraft(await getContentSectionDb(), String(body.id ?? ""), body);
-    console.info("[section:draft-updated]", { user: user.email, sectionId: section.id, pageId: section.pageId });
+    const db = await getContentSectionDb();
+    const previous = await getContentSection(db, String(body.id ?? ""));
+    const section = await updateContentSectionDraft(db, String(body.id ?? ""), body);
+    await recordChange(await getChangeHistoryDb(), { entityType: "section", entityId: section.id, entityTitle: section.draft.title, summary: summarizeSectionChange(previous?.draft ?? null, section.draft), actorEmail: user.email });
+    console.info("[section:draft-updated]", { user: user.email, sectionId: section.id, pageId: section.pageId, blockCount: section.draft.content.blocks.length });
     return NextResponse.json({ section });
   } catch (error) {
     const reason = error instanceof Error ? error.message : "section-update-failed";

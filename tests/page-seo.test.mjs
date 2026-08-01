@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildArticleStructuredData, pageOpenGraphType, pageRobots } from "../lib/page-seo.ts";
+import { buildArticleStructuredData, pageCanonicalPath, pageOpenGraphType, pageRobots } from "../lib/page-seo.ts";
 
 test("article pages use Article SEO while block pages remain websites", () => {
   assert.equal(pageOpenGraphType("Article page"), "article");
@@ -11,6 +11,11 @@ test("article pages use Article SEO while block pages remain websites", () => {
 test("search visibility controls both indexing and link following", () => {
   assert.deepEqual(pageRobots(true), { index: true, follow: true });
   assert.deepEqual(pageRobots(false), { index: false, follow: false });
+});
+
+test("canonical paths remain stable for stored and route slugs", () => {
+  assert.equal(pageCanonicalPath("/article-page"), "/article-page");
+  assert.equal(pageCanonicalPath("article-page"), "/article-page");
 });
 
 test("Article structured data uses the published page identity", () => {

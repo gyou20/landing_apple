@@ -1,0 +1,2 @@
+CREATE INDEX `idx_change_history_created_at` ON `change_history` (`created_at`);--> statement-breakpoint
+CREATE INDEX `idx_change_history_entity` ON `change_history` (`entity_type`,`entity_id`,`created_at`);

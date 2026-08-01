@@ -1,6 +1,8 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
+import { cleanupChangeHistory, recordChange, type ChangeHistoryDb } from "../db/change-history";
+import { isSectionBackgroundId } from "../lib/section-background-id";
 
 interface Env {
   ASSETS: Fetcher;
@@ -20,14 +22,11 @@ interface ExecutionContext {
   passThroughOnException(): void;
 }
 
-const SECTION_BACKGROUND_IDS = new Set([
-  "home-section-01",
-  "home-section-02",
-  "home-section-03",
-  "home-section-04",
-  "home-section-05",
-  "home-section-06",
-]);
+interface ScheduledController {
+  cron: string;
+  scheduledTime: number;
+}
+
 const SECTION_BACKGROUND_MAX_BYTES = 20 * 1024 * 1024;
 const SECTION_BACKGROUND_TYPES = new Map([
   ["image/jpeg", "jpg"],
@@ -41,6 +40,7 @@ const SECTION_BACKGROUND_TABLE_SQL = `CREATE TABLE IF NOT EXISTS section_backgro
   draft_original_name TEXT,
   published_key TEXT,
   published_content_type TEXT,
+  published_original_name TEXT,
   updated_at TEXT NOT NULL,
   published_at TEXT
 )`;
@@ -59,7 +59,7 @@ async function handleSectionBackgroundUpload(request: Request, env: Env) {
     const sectionIdValue = formData.get("sectionId");
     const fileValue = formData.get("image");
     const sectionId = typeof sectionIdValue === "string" ? sectionIdValue : "";
-    if (!SECTION_BACKGROUND_IDS.has(sectionId)) {
+    if (!isSectionBackgroundId(sectionId)) {
       return Response.json({ error: "허용되지 않은 섹션입니다." }, { status: 400 });
     }
     if (!(fileValue instanceof File)) {
@@ -74,6 +74,11 @@ async function handleSectionBackgroundUpload(request: Request, env: Env) {
     }
 
     await env.DB.prepare(SECTION_BACKGROUND_TABLE_SQL).run();
+    const columns = (await env.DB.prepare("PRAGMA table_info(section_backgrounds)").all<{ name: string }>()).results ?? [];
+    if (!columns.some((column) => column.name === "published_original_name")) {
+      console.info("[section-background:worker-schema-upgrade]", { column: "published_original_name" });
+      await env.DB.prepare("ALTER TABLE section_backgrounds ADD COLUMN published_original_name TEXT").run();
+    }
     const current = await env.DB.prepare(
       "SELECT draft_key, published_key FROM section_backgrounds WHERE section_id = ?",
     ).bind(sectionId).first<{ draft_key: string | null; published_key: string | null }>();
@@ -96,6 +101,13 @@ async function handleSectionBackgroundUpload(request: Request, env: Env) {
         draft_original_name = excluded.draft_original_name,
         updated_at = excluded.updated_at`,
     ).bind(sectionId, uploadedKey, fileValue.type, fileValue.name, updatedAt).run();
+    await recordChange(env.DB as unknown as ChangeHistoryDb, {
+      entityType: "image",
+      entityId: uploadedKey,
+      entityTitle: fileValue.name,
+      summary: current?.draft_key ? "섹션 배경 이미지 교체" : "섹션 배경 이미지 업로드",
+      actorEmail: accessEmail ?? "local-admin@example.test",
+    });
     console.info("[section-background:worker-d1-draft-saved]", { sectionId, updatedAt });
 
     if (current?.draft_key && current.draft_key !== current.published_key) {
@@ -123,6 +135,13 @@ async function handleSectionBackgroundUpload(request: Request, env: Env) {
 // const imageConfig: ImageConfig = { dangerouslyAllowSVG: true };
 
 const worker = {
+  scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext) {
+    console.info("[change-history:scheduled-start]", { cron: controller.cron, scheduledTime: controller.scheduledTime });
+    ctx.waitUntil(cleanupChangeHistory(env.DB as unknown as ChangeHistoryDb, { source: "scheduled" }).catch((error) => {
+      console.error("[change-history:scheduled-failed]", { error });
+    }));
+  },
+
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 

@@ -1,23 +1,16 @@
 import { env } from "cloudflare:workers";
 
-export const HOME_SECTION_IDS = [
-  "home-section-01",
-  "home-section-02",
-  "home-section-03",
-  "home-section-04",
-  "home-section-05",
-  "home-section-06",
-] as const;
-
-export type HomeSectionId = (typeof HOME_SECTION_IDS)[number];
+import type { SectionBackgroundId } from "../lib/section-background-id";
+export { isSectionBackgroundId } from "../lib/section-background-id";
 
 export type SectionBackgroundRow = {
-  section_id: HomeSectionId;
+  section_id: SectionBackgroundId;
   draft_key: string | null;
   draft_content_type: string | null;
   draft_original_name: string | null;
   published_key: string | null;
   published_content_type: string | null;
+  published_original_name: string | null;
   updated_at: string;
   published_at: string | null;
 };
@@ -45,13 +38,10 @@ const CREATE_TABLE_SQL = `CREATE TABLE IF NOT EXISTS section_backgrounds (
   draft_original_name TEXT,
   published_key TEXT,
   published_content_type TEXT,
+  published_original_name TEXT,
   updated_at TEXT NOT NULL,
   published_at TEXT
 )`;
-
-export function isHomeSectionId(value: string): value is HomeSectionId {
-  return HOME_SECTION_IDS.includes(value as HomeSectionId);
-}
 
 export function getSectionBackgroundBindings() {
   const bindings = env as unknown as RuntimeBindings;
@@ -63,23 +53,28 @@ export function getSectionBackgroundBindings() {
 
 export async function ensureSectionBackgroundTable(db: D1DatabaseLike) {
   await db.prepare(CREATE_TABLE_SQL).run();
+  const columns = (await db.prepare("PRAGMA table_info(section_backgrounds)").all<{ name: string }>()).results ?? [];
+  if (!columns.some((column) => column.name === "published_original_name")) {
+    console.info("[section-background:schema-upgrade]", { column: "published_original_name" });
+    await db.prepare("ALTER TABLE section_backgrounds ADD COLUMN published_original_name TEXT").run();
+  }
 }
 
 export async function listSectionBackgrounds(db: D1DatabaseLike) {
   await ensureSectionBackgroundTable(db);
   const result = await db.prepare(
     `SELECT section_id, draft_key, draft_content_type, draft_original_name,
-      published_key, published_content_type, updated_at, published_at
+      published_key, published_content_type, published_original_name, updated_at, published_at
      FROM section_backgrounds ORDER BY section_id`,
   ).all<SectionBackgroundRow>();
   return result.results ?? [];
 }
 
-export async function getSectionBackground(db: D1DatabaseLike, sectionId: HomeSectionId) {
+export async function getSectionBackground(db: D1DatabaseLike, sectionId: SectionBackgroundId) {
   await ensureSectionBackgroundTable(db);
   return db.prepare(
     `SELECT section_id, draft_key, draft_content_type, draft_original_name,
-      published_key, published_content_type, updated_at, published_at
+      published_key, published_content_type, published_original_name, updated_at, published_at
      FROM section_backgrounds WHERE section_id = ?`,
   ).bind(sectionId).first<SectionBackgroundRow>();
 }

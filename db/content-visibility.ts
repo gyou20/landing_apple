@@ -58,6 +58,24 @@ export async function publishVisibility(db: D1DatabaseLike) {
     WHERE published_menu_visible != draft_menu_visible OR published_search_indexable != draft_search_indexable`).bind(now).run();
   return result.meta?.changes ?? 0;
 }
+export async function publishVisibilityTargets(db: D1DatabaseLike, targets: Array<{ entityType: VisibilityEntityType; entityId: string }>) {
+  await ensureVisibilityTable(db);
+  const unique = new Map<string, { entityType: VisibilityEntityType; entityId: string }>();
+  for (const target of targets) {
+    if (!isVisibilityEntity(target.entityType, target.entityId)) throw new Error("invalid-visibility-target");
+    unique.set(`${target.entityType}:${target.entityId}`, target);
+  }
+  const now = new Date().toISOString();
+  let publishedCount = 0;
+  for (const target of unique.values()) {
+    const result = await db.prepare(`UPDATE content_visibility SET published_menu_visible = draft_menu_visible, published_search_indexable = draft_search_indexable, published_at = ?
+      WHERE entity_type = ? AND entity_id = ? AND (published_menu_visible != draft_menu_visible OR published_search_indexable != draft_search_indexable)`)
+      .bind(now, target.entityType, target.entityId).run();
+    publishedCount += result.meta?.changes ?? 0;
+  }
+  return { publishedCount, publishedAt: now, targets: [...unique.values()] };
+}
+
 export async function publishedVisibility(type: VisibilityEntityType, id: string): Promise<VisibilityState> {
   try {
     const db = await getVisibilityDb();

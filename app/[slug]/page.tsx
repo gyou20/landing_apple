@@ -6,7 +6,7 @@ import { loadPublicNavigation } from "../../db/public-navigation";
 import { publishedVisibility } from "../../db/content-visibility";
 import { SiteHeader } from "../site-header";
 import { PublishedCustomSections } from "../published-custom-sections";
-import { buildArticleStructuredData, pageOpenGraphType, pageRobots } from "../../lib/page-seo";
+import { buildArticleStructuredData, pageCanonicalPath, pageOpenGraphType, pageRobots } from "../../lib/page-seo";
 
 export const dynamic = "force-dynamic";
 
@@ -24,11 +24,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const page = await findPage(slug);
   if (!page?.published) return { title: "Page", robots: { index: false, follow: false } };
   const visibility = await publishedVisibility("page", page.id);
+  const canonicalPath = pageCanonicalPath(page.published.slug);
   console.info("[page:metadata-resolved]", { pageId: page.id, slug: page.published.slug, type: page.published.type, menuVisible: visibility.menuVisible, searchIndexable: visibility.searchIndexable });
   return {
     title: page.published.title,
     description: page.published.summary || undefined,
-    openGraph: { type: pageOpenGraphType(page.published.type), title: page.published.title, description: page.published.summary || undefined },
+    alternates: { canonical: canonicalPath },
+    openGraph: { type: pageOpenGraphType(page.published.type), title: page.published.title, description: page.published.summary || undefined, url: canonicalPath },
     robots: pageRobots(visibility.searchIndexable),
   };
 }

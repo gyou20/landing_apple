@@ -146,15 +146,18 @@ export async function undoDeletionOperation(db: D1DatabaseLike, actorEmail: stri
   return result.meta?.changes ?? 0;
 }
 
-export async function publishDeletions(db: D1DatabaseLike) {
+export async function publishDeletions(db: D1DatabaseLike, targets?: DeletionTarget[]) {
   await ensureDeletionTables(db);
+  const canonical = targets ? canonicalTargets(targets) : null;
+  const targetClause = canonical ? ` AND (${canonical.map(() => "(entity_type = ? AND entity_id = ?)").join(" OR ")})` : "";
+  const targetValues = canonical?.flatMap((target) => [target.entityType, target.entityId]) ?? [];
   const now = new Date();
   const publishedAt = now.toISOString();
   const deleteAfter = new Date(now.getTime() + RETENTION_MS).toISOString();
-  const deleting = await db.prepare("UPDATE content_deletions SET published_deleted = 1, published_at = ?, delete_after = ?, updated_at = ? WHERE draft_deleted = 1 AND published_deleted = 0")
-    .bind(publishedAt, deleteAfter, publishedAt).run();
-  const restoring = await db.prepare("UPDATE content_deletions SET published_deleted = 0, published_at = NULL, delete_after = NULL, updated_at = ? WHERE draft_deleted = 0 AND published_deleted = 1")
-    .bind(publishedAt).run();
+  const deleting = await db.prepare(`UPDATE content_deletions SET published_deleted = 1, published_at = ?, delete_after = ?, updated_at = ? WHERE draft_deleted = 1 AND published_deleted = 0${targetClause}`)
+    .bind(publishedAt, deleteAfter, publishedAt, ...targetValues).run();
+  const restoring = await db.prepare(`UPDATE content_deletions SET published_deleted = 0, published_at = NULL, delete_after = NULL, updated_at = ? WHERE draft_deleted = 0 AND published_deleted = 1${targetClause}`)
+    .bind(publishedAt, ...targetValues).run();
   return { deletedCount: deleting.meta?.changes ?? 0, restoredCount: restoring.meta?.changes ?? 0, publishedAt };
 }
 

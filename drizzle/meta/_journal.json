@@ -50,6 +50,20 @@
       "when": 1785560099805,
       "tag": "0006_tranquil_sabretooth",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1785582081507,
+      "tag": "0007_harsh_network",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1785582123952,
+      "tag": "0008_exotic_killmonger",
+      "breakpoints": true
     }
   ]
 }

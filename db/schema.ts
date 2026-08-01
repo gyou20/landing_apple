@@ -1,4 +1,4 @@
-import { integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const sectionBackgrounds = sqliteTable("section_backgrounds", {
   sectionId: text("section_id").primaryKey(),
@@ -7,6 +7,7 @@ export const sectionBackgrounds = sqliteTable("section_backgrounds", {
   draftOriginalName: text("draft_original_name"),
   publishedKey: text("published_key"),
   publishedContentType: text("published_content_type"),
+  publishedOriginalName: text("published_original_name"),
   updatedAt: text("updated_at").notNull(),
   publishedAt: text("published_at"),
 });
@@ -99,3 +100,15 @@ export const contentVlogs = sqliteTable("content_vlogs", {
   updatedAt: text("updated_at").notNull(),
   publishedAt: text("published_at"),
 });
+export const changeHistory = sqliteTable("change_history", {
+  id: text("id").primaryKey(),
+  entityType: text("entity_type").notNull(),
+  entityId: text("entity_id").notNull(),
+  entityTitle: text("entity_title").notNull(),
+  summary: text("summary").notNull(),
+  actorEmail: text("actor_email").notNull(),
+  createdAt: text("created_at").notNull(),
+}, (table) => [
+  index("idx_change_history_created_at").on(table.createdAt),
+  index("idx_change_history_entity").on(table.entityType, table.entityId, table.createdAt),
+]);

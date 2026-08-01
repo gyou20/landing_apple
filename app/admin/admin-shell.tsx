@@ -5,9 +5,12 @@ import type { AdminUser } from "../chatgpt-auth";
 import type { HomeSectionContent, SiteContent } from "../site-content";
 import { saveSiteContent, useSiteContent } from "../use-site-content";
 import { ImageProcessor } from "./image-processor";
+import { AssetUsagePanel } from "./asset-usage-panel";
+import { ChangeHistoryPanel } from "./change-history-panel";
 import { SectionBackgroundUploader } from "./section-background-uploader";
+import type { SectionBlock } from "../../db/content-sections";
 
-type AdminSection = "dashboard" | "pages" | "vlog" | "archive" | "trash" | "contact" | "assets";
+type AdminSection = "dashboard" | "pages" | "vlog" | "archive" | "trash" | "history" | "contact" | "assets";
 type Status = "draft" | "published" | "deleted";
 type OrderList = "pages" | "vlog" | "sections";
 type VisibilityState = { menuVisible: boolean; searchIndexable: boolean };
@@ -24,11 +27,14 @@ type DeletionRecord = DeleteTarget & {
   updatedAt: string;
 };
 type UndoState = { operationId: string; count: number; expiresAt: number };
+type PublishPreviewItem = { id: string; title: string; detail: string };
+type PublishPreviewGroup = { key: string; label: string; items: PublishPreviewItem[] };
+type PublishPreviewData = { total: number; groups: PublishPreviewGroup[] };
 type PageApiRecord = {
   id: string;
   draft: { title: string; slug: string; type: string; summary: string; body: string; status: "draft" | "published" };
 };
-type AdminSectionContent = Omit<HomeSectionContent, "id">;
+type AdminSectionContent = Omit<HomeSectionContent, "id"> & { blocks: SectionBlock[] };
 type SectionApiRecord = {
   id: string;
   pageId: string;
@@ -96,6 +102,7 @@ const NAV_ITEMS: Array<{ id: AdminSection; label: string; description: string }>
   { id: "vlog", label: "Vlog", description: "게시글 작성과 Publish" },
   { id: "archive", label: "보관소", description: "숨긴 항목 복원" },
   { id: "trash", label: "삭제함", description: "30일 이내 복구" },
+  { id: "history", label: "변경 이력", description: "최근 콘텐츠 수정 기록" },
   { id: "contact", label: "Contact", description: "페이지와 문의함" },
   { id: "assets", label: "이미지", description: "브라우저 이미지 변환" },
 ];
@@ -145,6 +152,8 @@ export function AdminShell({ user }: { user: AdminUser }) {
   const [createPageOpen, setCreatePageOpen] = useState(false);
   const [createVlogOpen, setCreateVlogOpen] = useState(false);
   const [createSectionPageId, setCreateSectionPageId] = useState<string | null>(null);
+  const [publishPreview, setPublishPreview] = useState<PublishPreviewData | null>(null);
+  const [previewLoading, setPreviewLoading] = useState(false);
   const pageSaveTimer = useRef<number | null>(null);
   const sectionSaveTimers = useRef(new Map<string, number>());
   const vlogSaveTimers = useRef(new Map<string, number>());
@@ -596,10 +605,151 @@ export function AdminShell({ user }: { user: AdminUser }) {
     setNotice("홈페이지 문구가 저장되어 공개 홈페이지에 즉시 반영되었습니다.");
   }
 
+  async function publishCurrentPage() {
+    if (!selectedPage) throw new Error("공개할 페이지를 선택하세요.");
+    const pageId = selectedPage.id;
+    const dynamicSections = selectedPage.sections.filter((section) => section.id.startsWith("section-") && section.content);
+    const sectionIds = selectedPage.sections.map((section) => section.id);
+    const targets: DeleteTarget[] = [
+      { entityType: "page", entityId: pageId },
+      ...sectionIds.map((entityId): DeleteTarget => ({ entityType: "section", entityId })),
+    ];
+    console.info("[page:admin-scoped-publish-request]", { pageId, sectionIds, targetCount: targets.length });
+
+    if (pageSaveTimer.current) {
+      window.clearTimeout(pageSaveTimer.current);
+      pageSaveTimer.current = null;
+    }
+    for (const section of dynamicSections) {
+      const timer = sectionSaveTimers.current.get(section.id);
+      if (timer) window.clearTimeout(timer);
+      sectionSaveTimers.current.delete(section.id);
+    }
+
+    await Promise.all(dynamicSections.map(async (section) => {
+      const response = await fetch("/api/admin/sections", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: section.id, pageId, title: section.title, content: section.content }),
+      });
+      const data = await response.json() as { error?: string };
+      if (!response.ok) throw new Error(data.error ?? "section-save-before-publish-failed");
+    }));
+
+    let pageData: { publishedCount?: number; error?: string } = { publishedCount: 0 };
+    if (pageId.startsWith("page-")) {
+      const saveResponse = await fetch("/api/admin/pages", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: pageId, title: selectedPage.title, slug: selectedPage.slug, type: selectedPage.type, summary: selectedPage.summary ?? "", body: selectedPage.body ?? "" }),
+      });
+      const saveData = await saveResponse.json() as { error?: string };
+      if (!saveResponse.ok) throw new Error(saveData.error ?? "page-save-before-publish-failed");
+      const pageResponse = await fetch("/api/admin/pages/publish", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ pageId }) });
+      pageData = await pageResponse.json() as { publishedCount?: number; error?: string };
+      if (!pageResponse.ok) throw new Error(pageData.error ?? "page-publish-failed");
+    }
+
+    const sectionResponse = await fetch("/api/admin/sections/publish", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ pageId }) });
+    const sectionData = await sectionResponse.json() as { publishedCount?: number; error?: string };
+    if (!sectionResponse.ok) throw new Error(sectionData.error ?? "section-publish-failed");
+
+    const visibilityResponse = await fetch("/api/admin/visibility/publish", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ targets }) });
+    const visibilityData = await visibilityResponse.json() as { publishedCount?: number; error?: string };
+    if (!visibilityResponse.ok) throw new Error(visibilityData.error ?? "visibility-publish-failed");
+
+    const backgroundResponse = await fetch("/api/admin/section-backgrounds/publish", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sectionIds }) });
+    const backgroundData = await backgroundResponse.json() as { publishedCount?: number; error?: string };
+    if (!backgroundResponse.ok) throw new Error(backgroundData.error ?? "background-publish-failed");
+
+    const deletionResponse = await fetch("/api/admin/deletions/publish", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ targets }) });
+    const deletionData = await deletionResponse.json() as { deletedCount?: number; restoredCount?: number; error?: string };
+    if (!deletionResponse.ok) throw new Error(deletionData.error ?? "deletion-publish-failed");
+
+    await loadDeletions();
+    setPages((current) => current.map((page) => page.id === pageId ? {
+      ...page,
+      status: page.id.startsWith("page-") ? "published" : page.status,
+      sections: page.sections.map((section) => section.id.startsWith("section-") ? { ...section, status: "published" } : section),
+    } : page));
+    const publishedCount = pageData.publishedCount ?? 0;
+    const sectionCount = sectionData.publishedCount ?? 0;
+    const visibilityCount = visibilityData.publishedCount ?? 0;
+    const backgroundCount = backgroundData.publishedCount ?? 0;
+    setNotice(`현재 페이지 “${selectedPage.title}”만 공개했습니다. 페이지 ${publishedCount}건, 섹션 ${sectionCount}건, 가시성 ${visibilityCount}건, 배경 이미지 ${backgroundCount}건.`);
+    window.localStorage.setItem("section-background-published-at", String(Date.now()));
+    window.dispatchEvent(new CustomEvent("section-background:published"));
+    console.info("[page:admin-scoped-publish-complete]", { pageId, publishedCount, sectionCount, visibilityCount, backgroundCount, deletedCount: deletionData.deletedCount ?? 0, restoredCount: deletionData.restoredCount ?? 0 });
+  }
+  async function publishCurrentVlog() {
+    if (!selectedArticle) throw new Error("공개할 Vlog를 선택하세요.");
+    const vlogId = selectedArticle.id;
+    const targets: DeleteTarget[] = [{ entityType: "vlog", entityId: vlogId }];
+    console.info("[vlog:admin-scoped-publish-request]", { vlogId, slug: selectedArticle.slug });
+
+    const timer = vlogSaveTimers.current.get(vlogId);
+    if (timer) window.clearTimeout(timer);
+    vlogSaveTimers.current.delete(vlogId);
+
+    let vlogData: { publishedCount?: number; error?: string } = { publishedCount: 0 };
+    if (vlogId.startsWith("vlog-")) {
+      const saveResponse = await fetch("/api/admin/vlogs", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: vlogId, title: selectedArticle.title, slug: selectedArticle.slug, category: selectedArticle.category, summary: selectedArticle.summary, body: selectedArticle.body }),
+      });
+      const saveData = await saveResponse.json() as { error?: string };
+      if (!saveResponse.ok) throw new Error(saveData.error ?? "vlog-save-before-publish-failed");
+      const vlogResponse = await fetch("/api/admin/vlogs/publish", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ vlogId }) });
+      vlogData = await vlogResponse.json() as { publishedCount?: number; error?: string };
+      if (!vlogResponse.ok) throw new Error(vlogData.error ?? "vlog-publish-failed");
+    }
+
+    const visibilityResponse = await fetch("/api/admin/visibility/publish", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ targets }) });
+    const visibilityData = await visibilityResponse.json() as { publishedCount?: number; error?: string };
+    if (!visibilityResponse.ok) throw new Error(visibilityData.error ?? "visibility-publish-failed");
+
+    const deletionResponse = await fetch("/api/admin/deletions/publish", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ targets }) });
+    const deletionData = await deletionResponse.json() as { deletedCount?: number; restoredCount?: number; error?: string };
+    if (!deletionResponse.ok) throw new Error(deletionData.error ?? "deletion-publish-failed");
+
+    await loadDeletions();
+    setArticles((current) => current.map((article) => article.id === vlogId && article.id.startsWith("vlog-") ? { ...article, status: "published" } : article));
+    const publishedCount = vlogData.publishedCount ?? 0;
+    const visibilityCount = visibilityData.publishedCount ?? 0;
+    setNotice(`현재 Vlog “${selectedArticle.title}”만 공개했습니다. 글 ${publishedCount}건, 가시성 ${visibilityCount}건.`);
+    console.info("[vlog:admin-scoped-publish-complete]", { vlogId, publishedCount, visibilityCount, deletedCount: deletionData.deletedCount ?? 0, restoredCount: deletionData.restoredCount ?? 0 });
+  }
+
+  async function openGlobalPublishPreview() {
+    setPreviewLoading(true);
+    setNotice("전체 Publish 대상을 확인하고 있습니다…");
+    try {
+      const response = await fetch("/api/admin/publish-preview", { cache: "no-store" });
+      const data = await response.json() as PublishPreviewData & { error?: string };
+      if (!response.ok) throw new Error(data.error ?? "publish-preview-failed");
+      setPublishPreview({ total: data.total ?? 0, groups: data.groups ?? [] });
+      setNotice(`전체 Publish 대상 ${data.total ?? 0}건을 확인했습니다.`);
+      console.info("[publish-preview:admin-complete]", { total: data.total ?? 0, groups: data.groups?.map((group) => ({ key: group.key, count: group.items.length })) ?? [] });
+    } catch (error) {
+      console.error("[publish-preview:admin-failed]", { error });
+      setNotice(error instanceof Error ? error.message : "Publish 대상을 확인하지 못했습니다.");
+    } finally {
+      setPreviewLoading(false);
+    }
+  }
   async function publishBackgrounds() {
     setPublishing(true);
     setNotice("가시성과 배경 이미지 Publish를 진행하고 있습니다…");
     try {
+      if (activeSection === "pages") {
+        await publishCurrentPage();
+        return;
+      }
+      if (activeSection === "vlog") {
+        await publishCurrentVlog();
+        return;
+      }
       console.info("[section-background:admin-publish-request]");
       if (pageSaveTimer.current) {
         window.clearTimeout(pageSaveTimer.current);
@@ -714,7 +864,7 @@ export function AdminShell({ user }: { user: AdminUser }) {
       </aside>
 
       <section className="admin-workspace">
-        <header className="admin-topbar"><div><span className="admin-eyebrow">Content operations</span><h1>{NAV_ITEMS.find((item) => item.id === activeSection)?.label}</h1></div><div className="admin-top-actions"><span className="admin-save-status">{notice}</span><button className="admin-button admin-button-primary" disabled={publishing} onClick={publishBackgrounds}>{publishing ? "Publishing…" : "Publish"}</button></div></header>
+        <header className="admin-topbar"><div><span className="admin-eyebrow">Content operations</span><h1>{NAV_ITEMS.find((item) => item.id === activeSection)?.label}</h1></div><div className="admin-top-actions"><span className="admin-save-status">{notice}</span>{activeSection !== "history" && activeSection !== "assets" && <button className="admin-button admin-button-primary" disabled={publishing || previewLoading} onClick={activeSection === "dashboard" ? openGlobalPublishPreview : publishBackgrounds}>{publishing ? "Publishing…" : previewLoading ? "확인 중…" : activeSection === "dashboard" ? "전체 Publish 미리보기" : activeSection === "pages" ? "현재 페이지 Publish" : activeSection === "vlog" ? "현재 Vlog Publish" : "Publish"}</button>}</div></header>
 
         {activeSection === "dashboard" && <Dashboard pages={pages} articles={articles} onNavigate={setActiveSection} />}
         {activeSection === "pages" && (
@@ -735,9 +885,11 @@ export function AdminShell({ user }: { user: AdminUser }) {
         )}
         {activeSection === "archive" && <ArchivePanel pages={pages} articles={articles} draftDeletedKeys={draftDeletedKeys} onRestore={restoreArchiveItem} />}
         {activeSection === "trash" && <TrashPanel records={deletions} pages={pages} articles={articles} onRestore={(target) => void restoreTrashItem(target).catch((error) => setNotice(error instanceof Error ? error.message : "복원하지 못했습니다."))} />}
+        {activeSection === "history" && <ChangeHistoryPanel />}
         {activeSection === "contact" && <ContactPanel />}
-        {activeSection === "assets" && <div className="admin-assets-panel"><ImageProcessor authenticated={true} /></div>}
+        {activeSection === "assets" && <div className="admin-assets-panel"><ImageProcessor authenticated={true} /><AssetUsagePanel /></div>}
       </section>
+      {publishPreview && <PublishPreviewDialog preview={publishPreview} publishing={publishing} onCancel={() => setPublishPreview(null)} onConfirm={() => { setPublishPreview(null); void publishBackgrounds(); }} />}
       {deleteDialogTargets && <DeleteConfirmationDialog count={deleteDialogTargets.length} onCancel={() => setDeleteDialogTargets(null)} onConfirm={confirmDelete} />}
       {createPageOpen && <CreatePageDialog onCancel={() => setCreatePageOpen(false)} onConfirm={createPageDraft} />}
       {createVlogOpen && <CreateVlogDialog onCancel={() => setCreateVlogOpen(false)} onConfirm={createVlogDraft} />}
@@ -876,6 +1028,7 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
         <BulkDeleteBar count={page.sections.filter((section) => selectedDeleteKeys.has(targetKey({ entityType: "section", entityId: section.id }))).length} onDelete={() => onDeleteSections(page.sections.filter((section) => selectedDeleteKeys.has(targetKey({ entityType: "section", entityId: section.id }))).map((section) => ({ entityType: "section", entityId: section.id })))} />
         {page.sections.filter((section) => section.visibility.menuVisible && !draftDeletedKeys.has(targetKey({ entityType: "section", entityId: section.id }))).map((section, sectionIndex) => {
           const copy = section.content ? { id: section.id, ...section.content } : siteContent.homeSections.find((item) => item.id === section.id);
+          const blocks = section.content?.blocks ?? [];
           const expanded = expandedSectionId === section.id;
           return (
             <div
@@ -958,6 +1111,7 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
                     </label>
                   )}
                   <SectionBackgroundUploader sectionId={copy.id} />
+                  {section.content && <LimitedSectionBlocks blocks={blocks} onChange={(next) => onDynamicSectionChange(section.id, { content: { ...section.content!, blocks: next } })} />}
                 </div>
               )}
             </div>
@@ -976,6 +1130,61 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
   );
 }
 
+function LimitedSectionBlocks({ blocks, onChange }: { blocks: SectionBlock[]; onChange: (blocks: SectionBlock[]) => void }) {
+  const counts = {
+    text: blocks.filter((block) => block.type === "text").length,
+    button: blocks.filter((block) => block.type === "button").length,
+    image: blocks.filter((block) => block.type === "image").length,
+  };
+
+  function addBlock(type: SectionBlock["type"]) {
+    const id = `block-${crypto.randomUUID()}`;
+    const block: SectionBlock = type === "text"
+      ? { id, type, text: "" }
+      : type === "button"
+        ? { id, type, label: "", href: "/contact" }
+        : { id, type, src: "", alt: "" };
+    onChange([...blocks, block]);
+  }
+
+  function updateBlock(id: string, patch: Partial<SectionBlock>) {
+    onChange(blocks.map((block) => block.id === id ? { ...block, ...patch } as SectionBlock : block));
+  }
+
+  function moveBlock(index: number, direction: -1 | 1) {
+    const target = index + direction;
+    if (target < 0 || target >= blocks.length) return;
+    const next = [...blocks];
+    [next[index], next[target]] = [next[target], next[index]];
+    onChange(next);
+  }
+
+  return (
+    <section className="admin-limited-blocks" aria-label="제한형 콘텐츠 블록">
+      <div className="admin-limited-blocks-heading">
+        <div><strong>콘텐츠 블록</strong><small>텍스트 3개 · 버튼 2개 · 이미지 1개까지 추가할 수 있습니다.</small></div>
+        <span>{blocks.length}/6</span>
+      </div>
+      <div className="admin-limited-block-add">
+        <button type="button" disabled={counts.text >= 3} onClick={() => addBlock("text")}>+ 텍스트</button>
+        <button type="button" disabled={counts.button >= 2} onClick={() => addBlock("button")}>+ 버튼</button>
+        <button type="button" disabled={counts.image >= 1} onClick={() => addBlock("image")}>+ 이미지</button>
+      </div>
+      {blocks.length === 0 ? <p className="admin-limited-block-empty">추가된 블록이 없습니다.</p> : (
+        <div className="admin-limited-block-list">
+          {blocks.map((block, index) => (
+            <article key={block.id} className="admin-limited-block" data-section-block-id={block.id} data-section-block-type={block.type}>
+              <header><strong>{block.type === "text" ? "텍스트" : block.type === "button" ? "버튼" : "이미지"} 블록</strong><span><button type="button" disabled={index === 0} aria-label={`${index + 1}번 블록 위로 이동`} onClick={() => moveBlock(index, -1)}>↑</button><button type="button" disabled={index === blocks.length - 1} aria-label={`${index + 1}번 블록 아래로 이동`} onClick={() => moveBlock(index, 1)}>↓</button><button type="button" className="is-danger" aria-label={`${index + 1}번 블록 삭제`} onClick={() => onChange(blocks.filter((item) => item.id !== block.id))}>삭제</button></span></header>
+              {block.type === "text" && <label>텍스트<textarea rows={4} maxLength={1200} value={block.text} onChange={(event) => updateBlock(block.id, { text: event.target.value })} /></label>}
+              {block.type === "button" && <div className="admin-section-copy-grid"><label>버튼 문구<input maxLength={80} value={block.label} onChange={(event) => updateBlock(block.id, { label: event.target.value })} /></label><label>연결 주소<input maxLength={2048} value={block.href} placeholder="/contact 또는 https://" onChange={(event) => updateBlock(block.id, { href: event.target.value })} /></label></div>}
+              {block.type === "image" && <div className="admin-section-copy-grid"><label>이미지 주소<input maxLength={2048} value={block.src} placeholder="/images/example.jpg 또는 https://" onChange={(event) => updateBlock(block.id, { src: event.target.value })} /></label><label>대체 문구<input maxLength={200} value={block.alt} onChange={(event) => updateBlock(block.id, { alt: event.target.value })} /></label></div>}
+            </article>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
 function ArticleEditor({ article, index, total, onChange, onMove, visibility, onVisibilityChange, onDelete }: { article: AdminArticle; index: number; total: number; onChange: (patch: Partial<AdminArticle>) => void; onMove: (id: string, direction: -1 | 1) => void; visibility: VisibilityState; onVisibilityChange: (next: VisibilityState) => void; onDelete: () => void }) {
   const dynamic = article.id.startsWith("vlog-");
   return <section className="admin-editor-panel"><EditorHeading eyebrow="Vlog editor" title={article.title} status={article.status} /><div className="admin-form"><VisibilityControls value={visibility} onChange={onVisibilityChange} /><label>제목<textarea rows={3} value={article.title} onChange={(event) => onChange({ title: event.target.value })} /></label><label>공개 경로<input value={article.slug} disabled={!dynamic} onChange={(event) => onChange({ slug: event.target.value })} /><small className="admin-field-note">공개 주소: /vlog/{article.slug}</small></label><label>카테고리<input value={article.category} onChange={(event) => onChange({ category: event.target.value })} /></label><label>요약<textarea rows={5} value={article.summary} onChange={(event) => onChange({ summary: event.target.value })} /></label><label>본문<textarea rows={12} value={article.body} onChange={(event) => onChange({ body: event.target.value })} placeholder="본문을 입력하세요." /></label></div><div className="admin-editor-actions"><button disabled={index <= 0} onClick={() => onMove(article.id, -1)}>Vlog 위로</button><button disabled={index >= total - 1} onClick={() => onMove(article.id, 1)}>Vlog 아래로</button><button onClick={() => onChange({ status: "draft" })}>임시저장</button><button onClick={() => onVisibilityChange({ ...visibility, menuVisible: false })}>보관소로 숨기기</button><button className="is-danger" onClick={onDelete}>Soft Delete</button></div></section>;
@@ -1048,6 +1257,9 @@ function EmptyEditor() {
   return <section className="admin-editor-panel"><div className="admin-empty-state"><span>○</span><strong>편집할 항목이 없습니다.</strong><p>삭제함에서 항목을 복원하거나 다른 목록을 선택하세요.</p></div></section>;
 }
 
+function PublishPreviewDialog({ preview, publishing, onCancel, onConfirm }: { preview: PublishPreviewData; publishing: boolean; onCancel: () => void; onConfirm: () => void }) {
+  return <div className="admin-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.currentTarget === event.target && !publishing) onCancel(); }}><section className="admin-delete-dialog admin-publish-preview" role="dialog" aria-modal="true" aria-labelledby="publish-preview-title"><span className="admin-eyebrow">Publish preview</span><h2 id="publish-preview-title">전체 Publish 대상 미리보기</h2><p>아래 {preview.total}건이 공개 사이트에 반영됩니다. 현재 페이지나 현재 Vlog만 공개하려면 각 편집 화면의 개별 Publish를 사용하세요.</p>{preview.groups.length === 0 ? <div className="admin-publish-preview-empty">공개할 변경 사항이 없습니다.</div> : <div className="admin-publish-preview-groups">{preview.groups.map((group) => <section key={group.key} className="admin-publish-preview-group" aria-label={group.label}><header><strong>{group.label}</strong><span>{group.items.length}건</span></header><ul>{group.items.map((item) => <li key={item.id} data-publish-target-id={item.id}><span>{item.title}</span><small>{item.detail}</small></li>)}</ul></section>)}</div>}<div><button type="button" onClick={onCancel} disabled={publishing}>취소</button><button type="button" className="admin-button-primary" onClick={onConfirm} disabled={publishing || preview.total === 0}>{publishing ? "Publishing…" : "전체 Publish 실행"}</button></div></section></div>;
+}
 function DeleteConfirmationDialog({ count, onCancel, onConfirm }: { count: number; onCancel: () => void; onConfirm: (password: string) => Promise<void> }) {
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);

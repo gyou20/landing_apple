@@ -164,6 +164,20 @@ export async function publishContentPages(db: D1DatabaseLike) {
   return { publishedCount: result.meta?.changes ?? 0, publishedAt: now };
 }
 
+export async function publishContentPage(db: D1DatabaseLike, id: string) {
+  if (!PAGE_ID_PATTERN.test(id)) throw new Error("invalid-page-id");
+  await ensureContentPagesTable(db);
+  const now = new Date().toISOString();
+  const result = await db.prepare(`UPDATE content_pages SET
+    published_title = draft_title, published_slug = draft_slug, published_type = draft_type,
+    published_summary = draft_summary, published_body = draft_body,
+    published_status = 'published', draft_status = 'published', published_at = ?, updated_at = ?
+    WHERE id = ? AND (published_title IS NULL OR published_title != draft_title OR published_slug != draft_slug OR published_type != draft_type OR COALESCE(published_summary, '') != draft_summary OR COALESCE(published_body, '') != draft_body)`)
+    .bind(now, now, id).run();
+  if ((result.meta?.changes ?? 0) === 0 && !(await getContentPage(db, id))) throw new Error("page-not-found");
+  return { publishedCount: result.meta?.changes ?? 0, publishedAt: now, pageId: id };
+}
+
 export async function getPublishedContentPageBySlug(db: D1DatabaseLike, slug: string) {
   await ensureContentPagesTable(db);
   const row = await db.prepare("SELECT * FROM content_pages WHERE published_slug = ? AND published_status = 'published'").bind(slug).first<PageRow>();

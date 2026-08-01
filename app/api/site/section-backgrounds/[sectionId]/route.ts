@@ -1,8 +1,8 @@
-import { getSectionBackground, getSectionBackgroundBindings, isHomeSectionId } from "../../../../../db/section-backgrounds";
+import { getSectionBackground, getSectionBackgroundBindings, isSectionBackgroundId } from "../../../../../db/section-backgrounds";
 
 export async function GET(_request: Request, context: { params: Promise<{ sectionId: string }> }) {
   const { sectionId } = await context.params;
-  if (!isHomeSectionId(sectionId)) return new Response("Not found", { status: 404 });
+  if (!isSectionBackgroundId(sectionId)) return new Response("Not found", { status: 404 });
   try {
     const { db, media } = getSectionBackgroundBindings();
     const row = await getSectionBackground(db, sectionId);
