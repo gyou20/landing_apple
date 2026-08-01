@@ -15221,3 +15221,3570 @@ Detected multiple renderers concurrently rendering the same context provider. Th
  GET /api/admin/deletions 200 in 34ms
  GET /api/admin/visibility 200 in 37ms
  GET /api/admin/vlogs 200 in 37ms
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/@id/__x00__virtual:vinext-rsc-entry, /app/globals.css[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/@id/__x00__virtual:vinext-rsc-entry, /app/globals.css[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css, /@id/__x00__virtual:vinext-rsc-entry[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mpage reload [39m[2mdb/contact-submissions.ts[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/@id/__x00__virtual:vinext-rsc-entry, /app/globals.css[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/@id/__x00__virtual:vinext-rsc-entry, /app/globals.css[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2mlib/section-templates.ts[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct, /app/admin/admin-shell.tsx[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[vite] program reload
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css[22m
+[2m오전 2:06:12[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/@id/__x00__virtual:vinext-rsc-entry, /app/globals.css[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct, /app/admin/admin.css?direct[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/@id/__x00__virtual:vinext-rsc-entry, /app/globals.css[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/route-pages.css?direct, /app/globals.css?direct[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css, /@id/__x00__virtual:vinext-rsc-entry[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css, /@id/__x00__virtual:vinext-rsc-entry[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2mapp/admin/admin-shell.tsx[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/admin/admin-shell.tsx, /app/globals.css?direct[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/@id/__x00__virtual:vinext-rsc-entry, /app/globals.css[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css, /@id/__x00__virtual:vinext-rsc-entry[22m
+[2m오전 2:06:13[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[vite] program reload
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/pages 200 in 752ms
+ GET /funnel?_rsc 404 in 1.5s
+ GET /scoped-publish-a-20260801?_rsc 404 in 1.5s
+[2m오전 2:06:14[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[2m오전 2:06:14[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /admin?_rsc 200 in 1.6s (compile: 1785560520.5s, render: 0ms)
+ GET /home?_rsc 200 in 1.6s (compile: 1785560520.6s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 1.6s (compile: 1785560520.6s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 384ms
+ GET /api/admin/visibility 200 in 477ms
+ GET /api/admin/sections 200 in 474ms
+ GET /api/admin/vlogs 200 in 472ms
+ GET /api/admin/visibility 200 in 392ms
+ GET /api/admin/visibility 200 in 392ms
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/pages 200 in 166ms
+ GET /funnel?_rsc 404 in 178ms
+ GET /scoped-publish-a-20260801?_rsc 404 in 175ms
+[2m오전 2:06:15[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /admin?_rsc 200 in 185ms (compile: 1785560519.2s, render: 0ms)
+ GET /home?_rsc 200 in 183ms (compile: 1785560519.3s, render: 0ms)
+[2m오전 2:06:15[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 183ms (compile: 1785560519.3s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 25ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/sections 200 in 32ms
+ GET /api/admin/vlogs 200 in 30ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 46ms
+ GET /api/admin/deletions 200 in 45ms
+ GET /api/admin/visibility 200 in 48ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /funnel?_rsc 404 in 179ms
+[2m오전 2:06:15[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+ GET /scoped-publish-a-20260801?_rsc 404 in 190ms
+ GET /admin?_rsc 200 in 216ms (compile: 1785560519.2s, render: 0ms)
+[2m오전 2:06:15[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /home?_rsc 200 in 211ms (compile: 1785560519.2s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 199ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 192ms (compile: 1785560519.3s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /funnel?_rsc 404 in 178ms
+[2m오전 2:06:15[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+ GET /scoped-publish-a-20260801?_rsc 404 in 173ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[2m오전 2:06:15[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 232ms (compile: 1785560519.3s, render: 0ms)
+ GET /home?_rsc 200 in 237ms (compile: 1785560519.3s, render: 0ms)
+ GET /admin?_rsc 200 in 223ms (compile: 1785560519.3s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 226ms
+ GET /api/admin/visibility 200 in 111ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/sections 200 in 82ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/vlogs 200 in 43ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 48ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 59ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/deletions 200 in 85ms
+ GET /funnel?_rsc 404 in 89ms
+[2m오전 2:06:15[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 123ms (compile: 1785560519.2s, render: 0ms)
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /scoped-publish-a-20260801?_rsc 404 in 262ms
+ GET /funnel?_rsc 404 in 197ms
+[2m오전 2:06:15[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[2m오전 2:06:15[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /admin?_rsc 200 in 274ms (compile: 1785560519.2s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 308ms (compile: 1785560519.3s, render: 0ms)
+ GET /home?_rsc 200 in 235ms (compile: 1785560519.3s, render: 0ms)
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 203ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/sections 200 in 56ms
+ GET /api/admin/visibility 200 in 63ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/vlogs 200 in 50ms
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 58ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 66ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 53ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/sections 200 in 50ms
+ GET /api/admin/vlogs 200 in 41ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 49ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 42ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 41ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 37ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 39ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/sections 200 in 38ms
+ GET /api/admin/visibility 200 in 45ms
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/pages 200 in 58ms
+ GET /api/admin/vlogs 200 in 46ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 56ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 57ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/deletions 200 in 62ms
+ GET /api/admin/pages 200 in 63ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/sections 200 in 70ms
+ GET /api/admin/visibility 200 in 71ms
+ GET /admin?_rsc 200 in 61ms (compile: 1785560519.2s, render: 0ms)
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/vlogs 200 in 59ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 39ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 47ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/deletions 200 in 87ms
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+ GET /scoped-publish-a-20260801?_rsc 404 in 172ms
+ GET /funnel?_rsc 404 in 166ms
+[2m오전 2:06:16[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[2m오전 2:06:16[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 167ms
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 201ms (compile: 1785560519.2s, render: 0ms)
+ GET /home?_rsc 200 in 208ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 123ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/sections 200 in 40ms
+ GET /api/admin/vlogs 200 in 40ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/visibility 200 in 41ms
+ GET /api/admin/visibility 200 in 36ms
+ GET /api/admin/deletions 200 in 35ms
+ GET /admin?_rsc 200 in 46ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/vlogs 200 in 43ms
+ GET /api/admin/visibility 200 in 48ms
+ GET /api/admin/sections 200 in 45ms
+ GET /api/admin/visibility 200 in 47ms
+ GET /api/admin/pages 200 in 50ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 51ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+ GET /api/admin/deletions 200 in 187ms
+ GET /funnel?_rsc 404 in 190ms
+[2m오전 2:06:16[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+ GET /scoped-publish-a-20260801?_rsc 404 in 220ms
+ GET /home?_rsc 200 in 227ms (compile: 1785560519.2s, render: 0ms)
+[2m오전 2:06:16[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 231ms (compile: 1785560519.3s, render: 0ms)
+ GET /admin?_rsc 200 in 226ms (compile: 1785560519.4s, render: 0ms)
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/sections 200 in 48ms
+ GET /api/admin/visibility 200 in 61ms
+ GET /api/admin/pages 200 in 64ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/vlogs 200 in 66ms
+ GET /api/admin/visibility 200 in 63ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/visibility 200 in 125ms
+ GET /funnel?_rsc 404 in 100ms
+[2m오전 2:06:16[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 153ms
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+ GET /scoped-publish-a-20260801?_rsc 404 in 218ms
+[2m오전 2:06:17[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /home?_rsc 200 in 250ms (compile: 1785560519.2s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 231ms (compile: 1785560519.3s, render: 0ms)
+ GET /admin?_rsc 200 in 160ms (compile: 1785560519.3s, render: 0ms)
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 152ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 121ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/sections 200 in 54ms
+ GET /api/admin/vlogs 200 in 47ms
+ GET /api/admin/visibility 200 in 43ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 50ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 61ms
+ GET /funnel?_rsc 404 in 56ms
+[2m오전 2:06:17[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[visibility:server-render-loaded] { recordCount: 13 }
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /scoped-publish-a-20260801?_rsc 404 in 172ms
+[2m오전 2:06:17[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /home?_rsc 200 in 177ms (compile: 1785560519.2s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 177ms (compile: 1785560519.3s, render: 0ms)
+ GET /admin?_rsc 200 in 173ms (compile: 1785560519.3s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/visibility 200 in 162ms
+ GET /api/admin/pages 200 in 163ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/sections 200 in 44ms
+ GET /api/admin/vlogs 200 in 43ms
+ GET /api/admin/visibility 200 in 43ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/visibility 200 in 81ms
+ GET /api/admin/deletions 200 in 64ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+ GET /admin?_rsc 200 in 151ms (compile: 1785560519.2s, render: 0ms)
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /scoped-publish-a-20260801?_rsc 404 in 185ms
+ GET /api/admin/visibility 200 in 125ms
+ GET /api/admin/pages 200 in 128ms
+[2m오전 2:06:17[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /home?_rsc 200 in 208ms (compile: 1785560519.2s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 193ms (compile: 1785560519.3s, render: 0ms)
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/sections 200 in 49ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/vlogs 200 in 33ms
+ GET /api/admin/visibility 200 in 32ms
+ GET /api/admin/visibility 200 in 33ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/deletions 200 in 63ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 123ms (compile: 1785560519.2s, render: 0ms)
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 98ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/vlogs 200 in 75ms
+ GET /api/admin/visibility 200 in 109ms
+ GET /api/admin/sections 200 in 108ms
+ GET /admin?_rsc 200 in 127ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/visibility 200 in 68ms
+ GET /api/admin/visibility 200 in 60ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /admin?_rsc 200 in 98ms (compile: 1785560519.2s, render: 0ms)
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 104ms
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 121ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/visibility 200 in 78ms
+ GET /api/admin/sections 200 in 78ms
+ GET /home?_rsc 200 in 132ms (compile: 1785560519.2s, render: 0ms)
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/vlogs 200 in 46ms
+ GET /api/admin/visibility 200 in 37ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/visibility 200 in 67ms
+ GET /api/admin/deletions 200 in 66ms
+ GET /admin?_rsc 200 in 73ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/visibility 200 in 109ms
+ GET /api/admin/pages 200 in 111ms
+ GET /home?_rsc 200 in 134ms (compile: 1785560519.2s, render: 0ms)
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/sections 200 in 68ms
+ GET /api/admin/vlogs 200 in 67ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/deletions 200 in 39ms
+ GET /api/admin/visibility 200 in 81ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 56ms
+ GET /admin?_rsc 200 in 55ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/visibility 200 in 58ms
+ GET /api/admin/pages 200 in 58ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/sections 200 in 59ms
+ GET /api/admin/vlogs 200 in 61ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 60ms
+ GET /api/admin/visibility 200 in 60ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/deletions 200 in 78ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/pages 200 in 118ms
+ GET /admin?_rsc 200 in 125ms (compile: 1785560519.2s, render: 0ms)
+ GET /home?_rsc 200 in 143ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/sections 200 in 119ms
+ GET /api/admin/visibility 200 in 120ms
+ GET /api/admin/vlogs 200 in 73ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/visibility 200 in 38ms
+ GET /api/admin/visibility 200 in 39ms
+ GET /api/admin/deletions 200 in 37ms
+ GET /admin?_rsc 200 in 47ms (compile: 1785560519.2s, render: 0ms)
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[visibility:server-render-loaded] { recordCount: 13 }
+ GET /api/admin/pages 200 in 65ms
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/visibility 200 in 75ms
+ GET /api/admin/vlogs 200 in 75ms
+ GET /api/admin/sections 200 in 76ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 135ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 93ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 74ms
+ GET /admin?_rsc 200 in 66ms (compile: 1785560519.2s, render: 0ms)
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 64ms
+ GET /api/admin/deletions 200 in 67ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 51ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/sections 200 in 46ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/vlogs 200 in 52ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 44ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/visibility 200 in 50ms
+ GET /api/admin/deletions 200 in 50ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /admin?_rsc 200 in 70ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/pages 200 in 96ms
+ GET /home?_rsc 200 in 118ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 98ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/sections 200 in 97ms
+ GET /api/admin/vlogs 200 in 97ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 68ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/visibility 200 in 49ms
+ GET /api/admin/deletions 200 in 47ms
+ GET /admin?_rsc 200 in 51ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/visibility 200 in 112ms
+ GET /api/admin/sections 200 in 98ms
+ GET /api/admin/pages 200 in 120ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /home?_rsc 200 in 133ms (compile: 1785560519.2s, render: 0ms)
+ GET /api/admin/vlogs 200 in 100ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 107ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/visibility 200 in 48ms
+ GET /api/admin/deletions 200 in 47ms
+ GET /api/admin/visibility 200 in 39ms
+ GET /api/admin/pages 200 in 40ms
+ GET /admin?_rsc 200 in 55ms (compile: 1785560519.2s, render: 0ms)
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/sections 200 in 43ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/vlogs 200 in 55ms
+ GET /api/admin/visibility 200 in 54ms
+ GET /api/admin/visibility 200 in 55ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 85ms
+ GET /home?_rsc 200 in 90ms (compile: 1785560519.2s, render: 0ms)
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 48ms
+ GET /admin?_rsc 200 in 100ms (compile: 1785560519.2s, render: 0ms)
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/sections 200 in 61ms
+ GET /api/admin/visibility 200 in 62ms
+ GET /api/admin/vlogs 200 in 39ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 42ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/visibility 200 in 59ms
+ GET /api/admin/deletions 200 in 59ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /home?_rsc 200 in 98ms (compile: 1785560519.2s, render: 0ms)
+ GET /api/admin/visibility 200 in 90ms
+ GET /admin?_rsc 200 in 101ms (compile: 1785560519.2s, render: 0ms)
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 104ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/sections 200 in 74ms
+ GET /api/admin/vlogs 200 in 74ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 34ms
+ GET /api/admin/visibility 200 in 34ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 45ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/visibility 200 in 96ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/pages 200 in 108ms
+ GET /api/admin/sections 200 in 100ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/vlogs 200 in 94ms
+ GET /admin?_rsc 200 in 119ms (compile: 1785560519.2s, render: 0ms)
+ GET /home?_rsc 200 in 139ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 32ms
+ GET /api/admin/visibility 200 in 32ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/deletions 200 in 112ms
+ GET /api/admin/pages 200 in 102ms
+ GET /admin?_rsc 200 in 117ms (compile: 1785560519.2s, render: 0ms)
+ GET /home?_rsc 200 in 119ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/visibility 200 in 110ms
+ GET /api/admin/sections 200 in 109ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/visibility 200 in 42ms
+ GET /api/admin/vlogs 200 in 45ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/visibility 200 in 45ms
+ GET /api/admin/deletions 200 in 44ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /admin?_rsc 200 in 85ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 126ms
+ GET /api/admin/visibility 200 in 126ms
+ GET /home?_rsc 200 in 146ms (compile: 1785560519.2s, render: 0ms)
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/sections 200 in 128ms
+ GET /api/admin/vlogs 200 in 130ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 84ms
+ GET /admin?_rsc 200 in 48ms (compile: 1785560519.2s, render: 0ms)
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/deletions 200 in 46ms
+ GET /api/admin/visibility 200 in 45ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 45ms
+ GET /api/admin/visibility 200 in 44ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/sections 200 in 48ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/vlogs 200 in 35ms
+ GET /api/admin/visibility 200 in 35ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/visibility 200 in 72ms
+ GET /api/admin/deletions 200 in 61ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 98ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/visibility 200 in 100ms
+ GET /api/admin/sections 200 in 61ms
+ GET /api/admin/vlogs 200 in 61ms
+ GET /api/admin/pages 200 in 102ms
+ GET /admin?_rsc 200 in 113ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 47ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/visibility 200 in 54ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/deletions 200 in 94ms
+ GET /api/admin/pages 200 in 92ms
+ GET /admin?_rsc 200 in 98ms (compile: 1785560519.2s, render: 0ms)
+ GET /home?_rsc 200 in 109ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 99ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/sections 200 in 75ms
+ GET /api/admin/visibility 200 in 35ms
+ GET /api/admin/vlogs 200 in 37ms
+ GET /api/admin/visibility 200 in 36ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 37ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 114ms
+ GET /home?_rsc 200 in 135ms (compile: 1785560519.2s, render: 0ms)
+ GET /api/admin/vlogs 200 in 113ms
+ GET /api/admin/visibility 200 in 115ms
+ GET /api/admin/sections 200 in 115ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 112ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 75ms
+ GET /api/admin/visibility 200 in 76ms
+ GET /home?_rsc 200 in 84ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 97ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 84ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 81ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 81ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 88ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 91ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 85ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 96ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 105ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 101ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 97ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 94ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 95ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 82ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 101ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 85ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 90ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 105ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 100ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 90ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 109ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 103ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 79ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 80ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 87ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 95ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 103ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 115ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 107ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 93ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 88ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 95ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 100ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 93ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 88ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 98ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 96ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 92ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 98ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 99ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 94ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 100ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 100ms (compile: 1785560519.2s, render: 0ms)
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/@id/__x00__virtual:vinext-rsc-entry, /app/globals.css[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct, /app/admin/admin.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/@id/__x00__virtual:vinext-rsc-entry, /app/globals.css[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/route-pages.css?direct, /app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mpage reload [39m[2mdb/contact-submissions.ts[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mpage reload [39m[2mlib/section-templates.ts[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2mlib/section-templates.ts[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css, /@id/__x00__virtual:vinext-rsc-entry[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css, /@id/__x00__virtual:vinext-rsc-entry[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2mapp/admin/admin-shell.tsx[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/admin/admin-shell.tsx, /app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css, /@id/__x00__virtual:vinext-rsc-entry[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/@id/__x00__virtual:vinext-rsc-entry, /app/globals.css[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css, /@id/__x00__virtual:vinext-rsc-entry[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/@id/__x00__virtual:vinext-rsc-entry, /app/globals.css[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mpage reload [39m[2mapp/api/admin/contact-submissions/route.ts[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mpage reload [39m[2mapp/api/contact/route.ts[22m
+[2m오전 2:06:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct[22m
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] program reload
+[contact:admin-list-loaded] { user: 'local-admin@example.test', count: 0, unreadCount: 0 }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[vite] program reload
+ GET /api/admin/contact-submissions?limit=100 200 in 837ms
+ GET /api/admin/pages 200 in 802ms
+ GET /funnel?_rsc 404 in 986ms
+[2m오전 2:06:32[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /admin?_rsc 200 in 1.2s (compile: 1785560520.0s, render: 0ms)
+ GET /home?_rsc 200 in 1.1s (compile: 1785560520.1s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 1.1s (compile: 1785560520.0s, render: 0ms)
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 502ms
+ GET /api/admin/sections 200 in 585ms
+ GET /api/admin/visibility 200 in 588ms
+ GET /api/admin/vlogs 200 in 586ms
+ GET /api/admin/visibility 200 in 509ms
+ GET /api/admin/visibility 200 in 509ms
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] program reload
+[vite] program reload
+[contact:admin-list-loaded] { user: 'local-admin@example.test', count: 0, unreadCount: 0 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /api/admin/contact-submissions?limit=100 200 in 596ms
+ GET /funnel?_rsc 404 in 666ms
+ GET /scoped-publish-a-20260801?_rsc 404 in 696ms
+[2m오전 2:06:34[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[2m오전 2:06:34[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /admin?_rsc 200 in 762ms (compile: 1785560519.7s, render: 0ms)
+ GET /home?_rsc 200 in 733ms (compile: 1785560519.7s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 732ms (compile: 1785560519.7s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 405ms
+ GET /api/admin/visibility 200 in 408ms
+ GET /api/admin/sections 200 in 404ms
+ GET /api/admin/vlogs 200 in 346ms
+ GET /api/admin/visibility 200 in 343ms
+ GET /api/admin/visibility 200 in 341ms
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] program reload
+[vite] program reload
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /api/admin/deletions 200 in 604ms
+ GET /funnel?_rsc 404 in 610ms
+ GET /scoped-publish-a-20260801?_rsc 404 in 608ms
+[2m오전 2:06:35[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[2m오전 2:06:35[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /admin?_rsc 200 in 684ms (compile: 1785560519.5s, render: 0ms)
+ GET /home?_rsc 200 in 682ms (compile: 1785560519.6s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 682ms (compile: 1785560519.7s, render: 0ms)
+[contact:admin-list-loaded] { user: 'local-admin@example.test', count: 0, unreadCount: 0 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /api/admin/contact-submissions?limit=100 200 in 583ms
+ GET /funnel?_rsc 404 in 588ms
+ GET /scoped-publish-a-20260801?_rsc 404 in 587ms
+[2m오전 2:06:35[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[2m오전 2:06:35[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 660ms (compile: 1785560519.7s, render: 0ms)
+ GET /admin?_rsc 200 in 666ms (compile: 1785560519.6s, render: 0ms)
+ GET /home?_rsc 200 in 665ms (compile: 1785560519.7s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/visibility 200 in 31ms
+ GET /api/admin/visibility 200 in 30ms
+ GET /api/admin/pages 200 in 35ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/sections 200 in 41ms
+ GET /api/admin/vlogs 200 in 40ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 47ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /api/admin/deletions 200 in 87ms
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+ GET /funnel?_rsc 404 in 154ms
+[2m오전 2:06:36[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+ GET /scoped-publish-a-20260801?_rsc 404 in 172ms
+ GET /admin?_rsc 200 in 195ms (compile: 1785560519.2s, render: 0ms)
+[2m오전 2:06:36[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 189ms (compile: 1785560519.3s, render: 0ms)
+ GET /home?_rsc 200 in 203ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+ GET /funnel?_rsc 404 in 153ms
+[2m오전 2:06:36[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+ GET /admin?_rsc 200 in 276ms (compile: 1785560519.3s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 179ms (compile: 1785560519.3s, render: 0ms)
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+ GET /scoped-publish-a-20260801?_rsc 404 in 195ms
+ GET /home?_rsc 200 in 232ms (compile: 1785560519.2s, render: 0ms)
+[2m오전 2:06:36[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /admin?_rsc 200 in 199ms (compile: 1785560519.3s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /funnel?_rsc 404 in 185ms
+[2m오전 2:06:36[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /scoped-publish-a-20260801?_rsc 404 in 202ms
+[2m오전 2:06:36[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /home?_rsc 200 in 247ms (compile: 1785560519.3s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 246ms (compile: 1785560519.3s, render: 0ms)
+ GET /admin?_rsc 200 in 212ms (compile: 1785560519.3s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /funnel?_rsc 404 in 177ms
+[2m오전 2:06:36[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 241ms (compile: 1785560519.3s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 176ms (compile: 1785560519.3s, render: 0ms)
+ GET /admin?_rsc 200 in 174ms (compile: 1785560519.3s, render: 0ms)
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /funnel?_rsc 404 in 160ms
+[2m오전 2:06:36[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+ GET /scoped-publish-a-20260801?_rsc 404 in 327ms
+[2m오전 2:06:36[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /admin?_rsc 200 in 173ms (compile: 1785560519.3s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 179ms (compile: 1785560519.3s, render: 0ms)
+ GET /home?_rsc 200 in 246ms (compile: 1785560519.3s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /funnel?_rsc 404 in 141ms
+[2m오전 2:06:37[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+ GET /scoped-publish-a-20260801?_rsc 404 in 180ms
+ GET /home?_rsc 200 in 255ms (compile: 1785560519.3s, render: 0ms)
+[2m오전 2:06:37[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /admin?_rsc 200 in 178ms (compile: 1785560519.2s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 177ms (compile: 1785560519.3s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 185ms (compile: 1785560519.3s, render: 0ms)
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+ GET /scoped-publish-a-20260801?_rsc 404 in 115ms
+ GET /admin?_rsc 200 in 189ms (compile: 1785560519.3s, render: 0ms)
+[2m오전 2:06:37[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+ GET /scoped-publish-a-20260801?_rsc 404 in 93ms
+ GET /home?_rsc 200 in 171ms (compile: 1785560519.2s, render: 0ms)
+[2m오전 2:06:37[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /admin?_rsc 200 in 142ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 134ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 102ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 113ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 78ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 100ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 73ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 109ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 82ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 106ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 79ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 120ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 91ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 134ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 92ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 116ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 82ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 116ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 81ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 111ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 74ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 103ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 72ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 99ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 65ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 96ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 70ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 92ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 66ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 98ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 68ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 96ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 66ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 94ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 65ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 90ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 83ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 89ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 90ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 85ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 97ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 104ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 110ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 111ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 101ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 96ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 90ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 85ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 87ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 84ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 83ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 92ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 91ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 83ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 83ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 82ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 86ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 85ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 88ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 89ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 103ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 108ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 117ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 101ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 93ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 88ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 90ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 83ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 89ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 85ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 84ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 84ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 81ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 87ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 82ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      templateId: 'editorialHero',
+      itemCount: 3,
+      blockCount: 0
+    }
+  ]
+}
+[section:renderer-selected] {
+  sectionId: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+  templateId: 'editorialHero'
+}
+ GET /home?_rsc 200 in 88ms (compile: 1785560519.2s, render: 0ms)
