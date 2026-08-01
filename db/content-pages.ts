@@ -1,4 +1,5 @@
-export type PageContent = { title: string; slug: string; type: string; summary: string; body: string };
+export type PageType = "Custom page" | "Block page" | "Article page";
+export type PageContent = { title: string; slug: string; type: PageType; summary: string; body: string };
 export type ContentPageRecord = {
   id: string;
   draft: PageContent & { status: "draft" | "published" };
@@ -13,8 +14,8 @@ type D1Result<T> = { results?: T[]; meta?: { changes?: number } };
 type D1Statement = { bind(...values: unknown[]): D1Statement; first<T>(): Promise<T | null>; all<T>(): Promise<D1Result<T>>; run(): Promise<D1Result<unknown>> };
 export type D1DatabaseLike = { prepare(sql: string): D1Statement };
 type PageRow = {
-  id: string; draft_title: string; draft_slug: string; draft_type: string; draft_summary: string; draft_body: string; draft_status: "draft" | "published";
-  published_title: string | null; published_slug: string | null; published_type: string | null; published_summary: string | null; published_body: string | null; published_status: "published" | null;
+  id: string; draft_title: string; draft_slug: string; draft_type: PageType; draft_summary: string; draft_body: string; draft_status: "draft" | "published";
+  published_title: string | null; published_slug: string | null; published_type: PageType | null; published_summary: string | null; published_body: string | null; published_status: "published" | null;
   sort_order: number; created_at: string; updated_at: string; published_at: string | null;
 };
 
@@ -40,7 +41,7 @@ const CREATE_SQL = `CREATE TABLE IF NOT EXISTS content_pages (
 const PAGE_ID_PATTERN = /^page-[a-f0-9-]{36}$/;
 const SLUG_PATTERN = /^\/[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const RESERVED_SLUGS = new Set(["/", "/admin", "/api", "/home", "/contact", "/vlog"]);
-const PAGE_TYPES = new Set(["Custom page", "Block page", "Article page"]);
+const PAGE_TYPES = new Set<PageType>(["Custom page", "Block page", "Article page"]);
 const CONTENT_COLUMNS = [
   "ALTER TABLE content_pages ADD COLUMN draft_summary TEXT NOT NULL DEFAULT ''",
   "ALTER TABLE content_pages ADD COLUMN draft_body TEXT NOT NULL DEFAULT ''",
@@ -82,11 +83,11 @@ export function validatePageDraft(input: Record<string, unknown>) {
   const title = limited(input.title, "title", 120, true);
   const slug = normalizePageSlug(String(input.slug ?? ""));
   const type = String(input.type ?? "Custom page");
-  if (!PAGE_TYPES.has(type)) throw new Error("invalid-page-type");
+  if (!PAGE_TYPES.has(type as PageType)) throw new Error("invalid-page-type");
   return {
     title,
     slug,
-    type,
+    type: type as PageType,
     summary: limited(input.summary, "summary", 500),
     body: limited(input.body, "body", 20_000),
   };

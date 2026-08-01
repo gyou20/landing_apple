@@ -1,0 +1,1046 @@
+
+> aether-one-landing@0.1.0 dev
+> node scripts/run-vinext.mjs dev
+
+[run-vinext] start {
+  platform: 'win32',
+  node: 'v22.14.0',
+  command: 'dev',
+  cliFound: true,
+  wranglerLog: 'C:\\Users\\an202\\Desktop\\랜딩페이지_애플\\landing_apple\\.wrangler\\wrangler.log'
+}
+
+  vinext dev  (Vite 8.0.13)
+
+[2m오후 2:02:00[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m Re-optimizing dependencies because vite config has changed
+[2m오후 2:02:00[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m Re-optimizing dependencies because vite config has changed
+Using secrets defined in .env.local
+(node:25068) ExperimentalWarning: glob is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+[2m오후 2:02:03[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m Re-optimizing dependencies because vite config has changed
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m3000[22m/[39m
+  [32m➜[39m  [1mDebug[22m:   [2m[33mhttp://localhost:[1m3000[22m[2m/__debug[39m[22m
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 4,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb'
+  ]
+}
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 4,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb'
+  ]
+}
+[section:public-loaded] { pageId: 'home', sectionIds: [] }
+ GET /home 200 in 748ms (compile: 1785560519.2s, render: 677ms)
+ GET /admin 200 in 97ms (compile: 1785560519.1s, render: 85ms)
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 4,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb'
+  ]
+}
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 4,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb'
+  ]
+}
+[section:public-loaded] { pageId: 'home', sectionIds: [] }
+ GET /home 200 in 142ms (compile: 1785560519.2s, render: 86ms)
+ GET /api/site/section-backgrounds 200 in 21ms
+ GET /admin 200 in 38ms (compile: 1785560519.2s, render: 20ms)
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[section:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 1 }
+ GET /api/admin/pages 200 in 48ms
+ GET /api/admin/visibility 200 in 44ms
+ GET /api/admin/vlogs 200 in 48ms
+ GET /api/admin/sections 200 in 47ms
+ GET /api/admin/visibility 200 in 45ms
+ GET /api/admin/visibility 200 in 45ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 0 }
+ GET /api/admin/deletions 200 in 11ms
+ GET /api/admin/section-backgrounds 200 in 15ms
+ GET /api/admin/section-backgrounds 200 in 16ms
+[page:draft-created] {
+  user: 'local-admin@example.test',
+  pageId: 'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+  slug: '/test0801',
+  type: 'Article page'
+}
+ POST /api/admin/pages 201 in 33ms
+[vlog:draft-updated] {
+  user: 'local-admin@example.test',
+  vlogId: 'vlog-a75280b4-4238-4635-bfbd-5ca5a0e19eed',
+  slug: 'test-seodira'
+}
+[vlog:draft-updated] {
+  user: 'local-admin@example.test',
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+ PUT /api/admin/vlogs 200 in 20ms
+ PUT /api/admin/vlogs 200 in 20ms
+[section:draft-updated] {
+  user: 'local-admin@example.test',
+  sectionId: 'section-8eebd1c4-97af-4202-8508-b151dfb9055a',
+  pageId: 'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb'
+}
+[section:draft-updated] {
+  user: 'local-admin@example.test',
+  sectionId: 'section-e4e604f1-75d4-4ae9-b132-0158675a61b6',
+  pageId: 'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb'
+}
+ PUT /api/admin/sections 200 in 19ms
+ PUT /api/admin/sections 200 in 18ms
+[page:draft-updated] {
+  user: 'local-admin@example.test',
+  pageId: 'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+  slug: '/test0801',
+  type: 'Article page'
+}
+ PUT /api/admin/pages 200 in 23ms
+[page:publish-complete] {
+  user: 'local-admin@example.test',
+  publishedCount: 1,
+  publishedAt: '2026-08-01T05:06:45.678Z'
+}
+ POST /api/admin/pages/publish 200 in 17ms
+[section:publish-complete] {
+  user: 'local-admin@example.test',
+  publishedCount: 0,
+  publishedAt: '2026-08-01T05:06:45.689Z'
+}
+ POST /api/admin/sections/publish 200 in 10ms
+[vlog:publish-complete] {
+  user: 'local-admin@example.test',
+  publishedCount: 0,
+  publishedAt: '2026-08-01T05:06:45.700Z'
+}
+ POST /api/admin/vlogs/publish 200 in 10ms
+[visibility:publish-complete] { publishedCount: 0, user: 'local-admin@example.test' }
+ POST /api/admin/visibility/publish 200 in 10ms
+[section-background:publish-start] { sectionIds: [] }
+[section-background:publish-complete] { count: 0, publishedAt: '2026-08-01T05:06:45.722Z' }
+ POST /api/admin/section-backgrounds/publish 200 in 10ms
+[deletion:publish-complete] {
+  user: 'local-admin@example.test',
+  deletedCount: 0,
+  restoredCount: 0,
+  publishedAt: '2026-08-01T05:06:45.732Z'
+}
+ POST /api/admin/deletions/publish 200 in 10ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 0 }
+ GET /api/admin/deletions 200 in 9ms
+ GET /api/site/section-backgrounds 200 in 10ms
+[page:draft-updated] {
+  user: 'local-admin@example.test',
+  pageId: 'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+  slug: '/test0801',
+  type: 'Article page'
+}
+ PUT /api/admin/pages 200 in 26ms
+[page:draft-updated] {
+  user: 'local-admin@example.test',
+  pageId: 'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+  slug: '/test0801',
+  type: 'Article page'
+}
+ PUT /api/admin/pages 200 in 33ms
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[section:public-loaded] { pageId: 'home', sectionIds: [] }
+ GET /home 200 in 93ms (compile: 1785560519.2s, render: 58ms)
+ GET /api/site/section-backgrounds 200 in 13ms
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[vlog:public-list-loaded] { count: 2 }
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[vlog:public-list-loaded] { count: 2 }
+[section:public-loaded] { pageId: 'vlog', sectionIds: [] }
+ GET /vlog?_rsc=CYckvU-u4yZWRVPm 200 in 111ms (compile: 1785560519.2s, render: 0ms)
+[page:metadata-resolved] {
+  pageId: 'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+  slug: '/test4',
+  type: 'Custom page',
+  menuVisible: true,
+  searchIndexable: true
+}
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[page:public-render] {
+  pageId: 'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+  slug: '/test4',
+  type: 'Custom page',
+  navigationIndex: 3
+}
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[page:public-render] {
+  pageId: 'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+  slug: '/test4',
+  type: 'Custom page',
+  navigationIndex: 3
+}
+[section:public-loaded] {
+  pageId: 'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+  sectionIds: [
+    'section-8eebd1c4-97af-4202-8508-b151dfb9055a',
+    'section-e4e604f1-75d4-4ae9-b132-0158675a61b6'
+  ]
+}
+ GET /test4?_rsc=cE8kvbHsiDTLRXiM 200 in 71ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[vlog:public-list-loaded] { count: 2 }
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[vlog:public-list-loaded] { count: 2 }
+[section:public-loaded] { pageId: 'vlog', sectionIds: [] }
+ GET /vlog?_rsc=l_sC12rS1mOTIeKr 200 in 58ms (compile: 1785560519.2s, render: 0ms)
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+ GET /vlog/codex-vlog-check-20260801?_rsc=cE8kvbHsiDTLRXiM 200 in 49ms (compile: 1785560519.2s, render: 0ms)
+[2m오후 2:09:49[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/@id/__x00__virtual:vinext-rsc-entry, /app/globals.css[22m
+[2m오후 2:09:49[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/admin/admin.css?direct, /app/globals.css?direct[22m
+[2m오후 2:09:49[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css, /@id/__x00__virtual:vinext-rsc-entry[22m
+[2m오후 2:09:49[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2mapp/admin/admin-shell.tsx[22m
+[2m오후 2:09:49[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct, /app/admin/admin-shell.tsx[22m
+[vite] program reload
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 2 }
+[page:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] { pageId: 'home', sectionIds: [] }
+ GET /api/admin/visibility 200 in 270ms
+ GET /api/admin/sections 200 in 276ms
+ GET /api/admin/pages 200 in 274ms
+ GET /admin?_rsc 200 in 523ms (compile: 1785560519.5s, render: 0ms)
+ GET /home?_rsc 200 in 519ms (compile: 1785560519.6s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 518ms (compile: 1785560519.6s, render: 0ms)
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+ GET /api/admin/vlogs 200 in 37ms
+ GET /api/admin/visibility 200 in 41ms
+ GET /api/admin/visibility 200 in 42ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 0 }
+ GET /api/admin/deletions 200 in 28ms
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+ GET /admin 200 in 174ms (compile: 1785560519.1s, render: 161ms)
+ GET /admin 200 in 30ms (compile: 1785560519.1s, render: 19ms)
+[section:admin-load] { user: 'local-admin@example.test', count: 2 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[page:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/sections 200 in 33ms
+ GET /api/admin/vlogs 200 in 31ms
+ GET /api/admin/pages 200 in 33ms
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 42ms
+ GET /api/admin/visibility 200 in 43ms
+ GET /api/admin/visibility 200 in 44ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 0 }
+ GET /api/admin/deletions 200 in 29ms
+ GET /api/admin/section-backgrounds 200 in 11ms
+ GET /admin 200 in 42ms (compile: 1785560519.2s, render: 26ms)
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/pages 200 in 43ms
+ GET /api/admin/vlogs 200 in 43ms
+ GET /api/admin/visibility 200 in 42ms
+ GET /api/admin/visibility 200 in 43ms
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/visibility 200 in 54ms
+ GET /api/admin/sections 200 in 52ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 0 }
+ GET /api/admin/deletions 200 in 19ms
+[2m오후 3:21:54[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/@id/__x00__virtual:vinext-rsc-entry, /app/globals.css[22m
+[2m오후 3:21:54[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/admin/admin.css?direct, /app/globals.css?direct[22m
+[vite] hot updated:  virtual:vinext-rsc-entry
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] { pageId: 'home', sectionIds: [] }
+ GET /admin?_rsc 200 in 317ms (compile: 1785560519.3s, render: 0ms)
+ GET /home?_rsc 200 in 314ms (compile: 1785560519.4s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 313ms (compile: 1785560519.4s, render: 0ms)
+ GET /admin?_rsc 200 in 116ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin 200 in 38ms (compile: 1785560519.1s, render: 24ms)
+ GET /api/admin/section-backgrounds 200 in 18ms
+ GET /api/admin/section-backgrounds 200 in 11ms
+ GET /api/admin/section-backgrounds 200 in 13ms
+[2m오후 3:24:43[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/@id/__x00__virtual:vinext-rsc-entry, /app/globals.css[22m
+[2m오후 3:24:43[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/admin/admin.css?direct, /app/globals.css?direct[22m
+[vite] hot updated:  virtual:vinext-rsc-entry
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[navigation:published-loaded] {
+  itemCount: 5,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc'
+  ]
+}
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] { pageId: 'home', sectionIds: [] }
+ GET /admin?_rsc 200 in 365ms (compile: 1785560519.3s, render: 0ms)
+ GET /home?_rsc 200 in 361ms (compile: 1785560519.4s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 364ms (compile: 1785560519.4s, render: 0ms)
+ GET /admin?_rsc 200 in 141ms (compile: 1785560519.3s, render: 0ms)
+ GET /admin 200 in 39ms (compile: 1785560519.1s, render: 28ms)
+ GET /admin 200 in 31ms (compile: 1785560519.1s, render: 20ms)
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 2 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[page:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/pages 200 in 59ms
+ GET /api/admin/visibility 200 in 57ms
+ GET /api/admin/visibility 200 in 59ms
+ GET /api/admin/visibility 200 in 59ms
+ GET /api/admin/sections 200 in 57ms
+ GET /api/admin/vlogs 200 in 56ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 0 }
+ GET /api/admin/deletions 200 in 13ms
+ GET /api/admin/section-backgrounds 200 in 11ms
+ GET /api/admin/section-backgrounds 200 in 15ms
+ GET /api/admin/section-backgrounds 200 in 10ms
+ GET /api/admin/section-backgrounds 200 in 12ms
+ GET /api/admin/section-backgrounds 200 in 11ms
+[page:draft-created] {
+  user: 'local-admin@example.test',
+  pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+  slug: '/11111111',
+  type: 'Block page'
+}
+ POST /api/admin/pages 201 in 31ms
+[page:draft-created] {
+  user: 'local-admin@example.test',
+  pageId: 'page-f2c48e39-84af-4af6-986d-f690f5fa46b3',
+  slug: '/11222222222',
+  type: 'Article page'
+}
+ POST /api/admin/pages 201 in 28ms
+[vlog:draft-updated] {
+  user: 'local-admin@example.test',
+  vlogId: 'vlog-a75280b4-4238-4635-bfbd-5ca5a0e19eed',
+  slug: 'test-seodira'
+}
+ PUT /api/admin/vlogs 200 in 15ms
+[vlog:draft-updated] {
+  user: 'local-admin@example.test',
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+ PUT /api/admin/vlogs 200 in 20ms
+[section:draft-updated] {
+  user: 'local-admin@example.test',
+  sectionId: 'section-8eebd1c4-97af-4202-8508-b151dfb9055a',
+  pageId: 'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb'
+}
+[section:draft-updated] {
+  user: 'local-admin@example.test',
+  sectionId: 'section-e4e604f1-75d4-4ae9-b132-0158675a61b6',
+  pageId: 'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb'
+}
+ PUT /api/admin/sections 200 in 21ms
+ PUT /api/admin/sections 200 in 20ms
+[page:draft-updated] {
+  user: 'local-admin@example.test',
+  pageId: 'page-f2c48e39-84af-4af6-986d-f690f5fa46b3',
+  slug: '/11222222222',
+  type: 'Article page'
+}
+ PUT /api/admin/pages 200 in 36ms
+[page:publish-complete] {
+  user: 'local-admin@example.test',
+  publishedCount: 2,
+  publishedAt: '2026-08-01T06:29:05.302Z'
+}
+ POST /api/admin/pages/publish 200 in 21ms
+[section:publish-complete] {
+  user: 'local-admin@example.test',
+  publishedCount: 0,
+  publishedAt: '2026-08-01T06:29:05.315Z'
+}
+ POST /api/admin/sections/publish 200 in 11ms
+[vlog:publish-complete] {
+  user: 'local-admin@example.test',
+  publishedCount: 0,
+  publishedAt: '2026-08-01T06:29:05.329Z'
+}
+ POST /api/admin/vlogs/publish 200 in 13ms
+[visibility:publish-complete] { publishedCount: 0, user: 'local-admin@example.test' }
+ POST /api/admin/visibility/publish 200 in 14ms
+[section-background:publish-start] { sectionIds: [] }
+[section-background:publish-complete] { count: 0, publishedAt: '2026-08-01T06:29:05.362Z' }
+ POST /api/admin/section-backgrounds/publish 200 in 17ms
+[deletion:publish-complete] {
+  user: 'local-admin@example.test',
+  deletedCount: 0,
+  restoredCount: 0,
+  publishedAt: '2026-08-01T06:29:05.377Z'
+}
+ POST /api/admin/deletions/publish 200 in 17ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 0 }
+ GET /api/admin/deletions 200 in 12ms
+ GET /api/site/section-backgrounds 200 in 19ms
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 7,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+    'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+    'page-f2c48e39-84af-4af6-986d-f690f5fa46b3'
+  ]
+}
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 7,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+    'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+    'page-f2c48e39-84af-4af6-986d-f690f5fa46b3'
+  ]
+}
+[section:public-loaded] { pageId: 'home', sectionIds: [] }
+ GET /home?_rsc=_Dg9eP4xItC5IPyR 200 in 55ms (compile: 1785560519.2s, render: 0ms)
+ GET /api/site/section-backgrounds 200 in 10ms
+[page:metadata-resolved] {
+  pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+  slug: '/11111111',
+  type: 'Block page',
+  menuVisible: true,
+  searchIndexable: true
+}
+[navigation:published-loaded] {
+  itemCount: 7,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+    'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+    'page-f2c48e39-84af-4af6-986d-f690f5fa46b3'
+  ]
+}
+[page:public-render] {
+  pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+  slug: '/11111111',
+  type: 'Block page',
+  navigationIndex: 5
+}
+[navigation:published-loaded] {
+  itemCount: 7,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+    'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+    'page-f2c48e39-84af-4af6-986d-f690f5fa46b3'
+  ]
+}
+[page:public-render] {
+  pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+  slug: '/11111111',
+  type: 'Block page',
+  navigationIndex: 5
+}
+[section:public-loaded] { pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530', sectionIds: [] }
+ GET /11111111?_rsc=CYckvU-u4yZWRVPm 200 in 75ms (compile: 1785560519.2s, render: 0ms)
+[page:metadata-resolved] {
+  pageId: 'page-f2c48e39-84af-4af6-986d-f690f5fa46b3',
+  slug: '/11222222222',
+  type: 'Article page',
+  menuVisible: true,
+  searchIndexable: true
+}
+[navigation:published-loaded] {
+  itemCount: 7,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+    'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+    'page-f2c48e39-84af-4af6-986d-f690f5fa46b3'
+  ]
+}
+[page:public-render] {
+  pageId: 'page-f2c48e39-84af-4af6-986d-f690f5fa46b3',
+  slug: '/11222222222',
+  type: 'Article page',
+  navigationIndex: 6
+}
+[navigation:published-loaded] {
+  itemCount: 7,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+    'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+    'page-f2c48e39-84af-4af6-986d-f690f5fa46b3'
+  ]
+}
+[page:public-render] {
+  pageId: 'page-f2c48e39-84af-4af6-986d-f690f5fa46b3',
+  slug: '/11222222222',
+  type: 'Article page',
+  navigationIndex: 6
+}
+ GET /11222222222?_rsc=o8eRIoFPWs_ncaaC 200 in 64ms (compile: 1785560519.2s, render: 0ms)
+[page:metadata-resolved] {
+  pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+  slug: '/11111111',
+  type: 'Block page',
+  menuVisible: true,
+  searchIndexable: true
+}
+[navigation:published-loaded] {
+  itemCount: 7,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+    'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+    'page-f2c48e39-84af-4af6-986d-f690f5fa46b3'
+  ]
+}
+[page:public-render] {
+  pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+  slug: '/11111111',
+  type: 'Block page',
+  navigationIndex: 5
+}
+[navigation:published-loaded] {
+  itemCount: 7,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+    'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+    'page-f2c48e39-84af-4af6-986d-f690f5fa46b3'
+  ]
+}
+[page:public-render] {
+  pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+  slug: '/11111111',
+  type: 'Block page',
+  navigationIndex: 5
+}
+[section:public-loaded] { pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530', sectionIds: [] }
+ GET /11111111?_rsc=4uGOKB529sTD9yWE 200 in 74ms (compile: 1785560519.2s, render: 0ms)
+ GET /api/admin/section-backgrounds 200 in 10ms
+ GET /api/admin/section-backgrounds 200 in 10ms
+ GET /api/admin/section-backgrounds 200 in 15ms
+[2m오후 3:32:06[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/@id/__x00__virtual:vinext-rsc-entry, /app/globals.css[22m
+[2m오후 3:32:06[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/admin/admin.css?direct, /app/globals.css?direct[22m
+[2m오후 3:32:06[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css, /@id/__x00__virtual:vinext-rsc-entry[22m
+[2m오후 3:32:06[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2mapp/admin/admin-shell.tsx[22m
+[2m오후 3:32:06[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct, /app/admin/admin-shell.tsx[22m
+[vite] program reload
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 2 }
+[page:admin-load] { user: 'local-admin@example.test', count: 4 }
+[visibility:server-render-loaded] { recordCount: 12 }
+[page:metadata-resolved] {
+  pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+  slug: '/11111111',
+  type: 'Block page',
+  menuVisible: true,
+  searchIndexable: true
+}
+[navigation:published-loaded] {
+  itemCount: 7,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+    'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+    'page-f2c48e39-84af-4af6-986d-f690f5fa46b3'
+  ]
+}
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 7,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+    'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+    'page-f2c48e39-84af-4af6-986d-f690f5fa46b3'
+  ]
+}
+[page:public-render] {
+  pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+  slug: '/11111111',
+  type: 'Block page',
+  navigationIndex: 5
+}
+[navigation:published-loaded] {
+  itemCount: 7,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+    'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+    'page-f2c48e39-84af-4af6-986d-f690f5fa46b3'
+  ]
+}
+[section:public-loaded] { pageId: 'home', sectionIds: [] }
+[navigation:published-loaded] {
+  itemCount: 7,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+    'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+    'page-f2c48e39-84af-4af6-986d-f690f5fa46b3'
+  ]
+}
+[page:public-render] {
+  pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+  slug: '/11111111',
+  type: 'Block page',
+  navigationIndex: 5
+}
+[section:public-loaded] { pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530', sectionIds: [] }
+ GET /api/admin/visibility 200 in 339ms
+ GET /api/admin/sections 200 in 338ms
+ GET /api/admin/pages 200 in 339ms
+ GET /admin?_rsc 200 in 521ms (compile: 1785560519.5s, render: 0ms)
+ GET /home?_rsc 200 in 516ms (compile: 1785560519.5s, render: 0ms)
+ GET /11111111?_rsc 200 in 518ms (compile: 1785560519.6s, render: 0ms)
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/vlogs 200 in 39ms
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 50ms
+ GET /api/admin/visibility 200 in 51ms
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 0 }
+ GET /api/admin/visibility 200 in 43ms
+ GET /api/admin/deletions 200 in 41ms
+[page:admin-load] { user: 'local-admin@example.test', count: 4 }
+ GET /api/admin/pages 200 in 48ms
+[section:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/sections 200 in 39ms
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/visibility 200 in 45ms
+ GET /api/admin/vlogs 200 in 47ms
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 37ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 0 }
+ GET /api/admin/deletions 200 in 43ms
+ GET /admin?_rsc 200 in 42ms (compile: 1785560519.2s, render: 0ms)
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+ GET /admin 200 in 139ms (compile: 1785560519.1s, render: 129ms)
+[2m오후 3:32:49[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/@id/__x00__virtual:vinext-rsc-entry, /app/globals.css[22m
+[2m오후 3:32:49[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/admin/admin.css?direct, /app/globals.css?direct[22m
+[2m오후 3:32:49[22m [36m[1m[vite][22m[39m [34m[2m(rsc)[22m[39m [32mhmr update [39m[2m/app/globals.css, /@id/__x00__virtual:vinext-rsc-entry[22m
+[2m오후 3:32:49[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2mapp/admin/admin-shell.tsx[22m
+[2m오후 3:32:49[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/app/globals.css?direct, /app/admin/admin-shell.tsx[22m
+[vite] program reload
+[vite] hot updated:  virtual:vinext-rsc-entry
+[vite] hot updated:  virtual:vinext-rsc-entry
+[section:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 4 }
+[visibility:server-render-loaded] { recordCount: 12 }
+[page:metadata-resolved] {
+  pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+  slug: '/11111111',
+  type: 'Block page',
+  menuVisible: true,
+  searchIndexable: true
+}
+[navigation:published-loaded] {
+  itemCount: 7,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+    'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+    'page-f2c48e39-84af-4af6-986d-f690f5fa46b3'
+  ]
+}
+[visibility:server-render-loaded] { recordCount: 12 }
+[navigation:published-loaded] {
+  itemCount: 7,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+    'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+    'page-f2c48e39-84af-4af6-986d-f690f5fa46b3'
+  ]
+}
+[page:public-render] {
+  pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+  slug: '/11111111',
+  type: 'Block page',
+  navigationIndex: 5
+}
+[navigation:published-loaded] {
+  itemCount: 7,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+    'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+    'page-f2c48e39-84af-4af6-986d-f690f5fa46b3'
+  ]
+}
+[section:public-loaded] { pageId: 'home', sectionIds: [] }
+[navigation:published-loaded] {
+  itemCount: 7,
+  itemIds: [
+    'home',
+    'contact',
+    'vlog',
+    'page-53d41c81-5b6d-430f-98bd-37f31f89e7eb',
+    'page-3387c197-b0c9-47c6-8aab-73e6830c7bfc',
+    'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+    'page-f2c48e39-84af-4af6-986d-f690f5fa46b3'
+  ]
+}
+[page:public-render] {
+  pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530',
+  slug: '/11111111',
+  type: 'Block page',
+  navigationIndex: 5
+}
+[section:public-loaded] { pageId: 'page-31a5604f-4813-48a5-a0d8-9edb7ecfc530', sectionIds: [] }
+ GET /api/admin/sections 200 in 285ms
+ GET /api/admin/visibility 200 in 285ms
+ GET /api/admin/pages 200 in 283ms
+ GET /admin?_rsc 200 in 477ms (compile: 1785560519.4s, render: 0ms)
+ GET /home?_rsc 200 in 475ms (compile: 1785560519.5s, render: 0ms)
+ GET /11111111?_rsc 200 in 474ms (compile: 1785560519.5s, render: 0ms)
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+ GET /api/admin/vlogs 200 in 30ms
+ GET /api/admin/visibility 200 in 29ms
+ GET /api/admin/visibility 200 in 30ms
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 0 }
+ GET /api/admin/visibility 200 in 34ms
+ GET /api/admin/deletions 200 in 33ms
+[page:admin-load] { user: 'local-admin@example.test', count: 4 }
+ GET /api/admin/pages 200 in 46ms
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[section:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/visibility 200 in 50ms
+ GET /api/admin/vlogs 200 in 52ms
+ GET /api/admin/sections 200 in 50ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 0 }
+[visibility:admin-load] { count: 12, user: 'local-admin@example.test' }
+ GET /api/admin/deletions 200 in 50ms
+ GET /api/admin/visibility 200 in 52ms
+ GET /admin?_rsc 200 in 43ms (compile: 1785560519.2s, render: 0ms)
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+ GET /admin 200 in 130ms (compile: 1785560519.1s, render: 121ms)

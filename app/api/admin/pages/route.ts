@@ -22,7 +22,7 @@ export async function POST(request: Request) {
   if (!user) return NextResponse.json({ error: "관리자 인증이 필요합니다." }, { status: 401 });
   try {
     const page = await createContentPage(await getContentPageDb(), await request.json());
-    console.info("[page:draft-created]", { user: user.email, pageId: page.id, slug: page.draft.slug });
+    console.info("[page:draft-created]", { user: user.email, pageId: page.id, slug: page.draft.slug, type: page.draft.type });
     return NextResponse.json({ page }, { status: 201 });
   } catch (error) {
     const reason = error instanceof Error ? error.message : "page-create-failed";
@@ -38,7 +38,7 @@ export async function PUT(request: Request) {
   try {
     const body = await request.json() as Record<string, unknown>;
     const page = await updateContentPageDraft(await getContentPageDb(), String(body.id ?? ""), body);
-    console.info("[page:draft-updated]", { user: user.email, pageId: page.id, slug: page.draft.slug });
+    console.info("[page:draft-updated]", { user: user.email, pageId: page.id, slug: page.draft.slug, type: page.draft.type });
     return NextResponse.json({ page });
   } catch (error) {
     const reason = error instanceof Error ? error.message : "page-update-failed";

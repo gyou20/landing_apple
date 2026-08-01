@@ -6,6 +6,7 @@ import { loadPublicNavigation } from "../../db/public-navigation";
 import { publishedVisibility } from "../../db/content-visibility";
 import { SiteHeader } from "../site-header";
 import { PublishedCustomSections } from "../published-custom-sections";
+import { buildArticleStructuredData, pageOpenGraphType, pageRobots } from "../../lib/page-seo";
 
 export const dynamic = "force-dynamic";
 
@@ -23,12 +24,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const page = await findPage(slug);
   if (!page?.published) return { title: "Page", robots: { index: false, follow: false } };
   const visibility = await publishedVisibility("page", page.id);
-  const isArticle = page.published.type === "Article page";
+  console.info("[page:metadata-resolved]", { pageId: page.id, slug: page.published.slug, type: page.published.type, menuVisible: visibility.menuVisible, searchIndexable: visibility.searchIndexable });
   return {
     title: page.published.title,
     description: page.published.summary || undefined,
-    openGraph: isArticle ? { type: "article", title: page.published.title, description: page.published.summary || undefined } : { type: "website", title: page.published.title, description: page.published.summary || undefined },
-    robots: visibility.searchIndexable ? { index: true, follow: true } : { index: false, follow: false },
+    openGraph: { type: pageOpenGraphType(page.published.type), title: page.published.title, description: page.published.summary || undefined },
+    robots: pageRobots(visibility.searchIndexable),
   };
 }
 
@@ -43,7 +44,7 @@ export default async function CustomPage({ params }: { params: Promise<{ slug: s
 
   if (isArticle) {
     const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
-    const structuredData = { "@context": "https://schema.org", "@type": "Article", headline: page.published.title, description: page.published.summary, mainEntityOfPage: `${base}${page.published.slug}` };
+    const structuredData = buildArticleStructuredData(page.published, base);
     const paragraphs = page.published.body.split(/\n{2,}/).filter(Boolean);
     return (
       <main className="route-page route-page-vlog vlog-article custom-article-page" data-content-page-id={page.id} data-page-type="article">

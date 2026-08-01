@@ -43,6 +43,13 @@
       "when": 1785517037669,
       "tag": "0005_same_lady_bullseye",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1785560099805,
+      "tag": "0006_tranquil_sabretooth",
+      "breakpoints": true
     }
   ]
 }
