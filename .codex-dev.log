@@ -23317,3 +23317,842 @@ Detected multiple renderers concurrently rendering the same context provider. Th
  GET /api/admin/visibility 200 in 100ms
 [vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
 [section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/vlogs 200 in 112ms
+ GET /api/admin/sections 200 in 113ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/visibility 200 in 47ms
+ GET /api/admin/deletions 200 in 45ms
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 51ms
+ GET /admin?_rsc 200 in 62ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/visibility 200 in 53ms
+ GET /api/admin/sections 200 in 53ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 48ms
+ GET /api/admin/vlogs 200 in 50ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 41ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 47ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /admin?_rsc 200 in 110ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/visibility 200 in 106ms
+ GET /api/admin/pages 200 in 108ms
+ GET /home?_rsc 200 in 128ms (compile: 1785560519.2s, render: 0ms)
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/sections 200 in 115ms
+ GET /api/admin/vlogs 200 in 103ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 41ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 40ms
+ GET /api/admin/visibility 200 in 42ms
+ GET /admin?_rsc 200 in 51ms (compile: 1785560519.2s, render: 0ms)
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/pages 200 in 82ms
+ GET /api/admin/visibility 200 in 75ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/sections 200 in 94ms
+ GET /api/admin/vlogs 200 in 94ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 99ms
+ GET /home?_rsc 200 in 139ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/visibility 200 in 71ms
+ GET /api/admin/deletions 200 in 71ms
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 42ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 45ms
+ GET /admin?_rsc 200 in 57ms (compile: 1785560519.2s, render: 0ms)
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/sections 200 in 52ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/vlogs 200 in 58ms
+ GET /api/admin/visibility 200 in 57ms
+ GET /api/admin/visibility 200 in 43ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/deletions 200 in 115ms
+ GET /home?_rsc 200 in 129ms (compile: 1785560519.2s, render: 0ms)
+ GET /admin?_rsc 200 in 115ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/visibility 200 in 95ms
+ GET /api/admin/sections 200 in 94ms
+ GET /api/admin/pages 200 in 96ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/vlogs 200 in 49ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 66ms
+ GET /api/admin/visibility 200 in 66ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/deletions 200 in 116ms
+ GET /admin?_rsc 200 in 134ms (compile: 1785560519.2s, render: 0ms)
+ GET /home?_rsc 200 in 137ms (compile: 1785560519.2s, render: 0ms)
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 132ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/sections 200 in 121ms
+ GET /api/admin/visibility 200 in 123ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/vlogs 200 in 68ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 60ms
+ GET /api/admin/visibility 200 in 60ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 53ms
+ GET /admin?_rsc 200 in 54ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/pages 200 in 126ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/visibility 200 in 148ms
+ GET /api/admin/sections 200 in 147ms
+ GET /api/admin/vlogs 200 in 140ms
+ GET /home?_rsc 200 in 178ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 137ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 63ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/deletions 200 in 57ms
+ GET /api/admin/sections 200 in 55ms
+ GET /api/admin/visibility 200 in 56ms
+ GET /api/admin/pages 200 in 58ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/vlogs 200 in 54ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 51ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/visibility 200 in 63ms
+ GET /api/admin/deletions 200 in 63ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 100ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 104ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 115ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 115ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 111ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 109ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 109ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 98ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 94ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 89ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 84ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 82ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 89ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 87ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 95ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 108ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 114ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 113ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 103ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 92ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 93ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 93ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 99ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 96ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 94ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 87ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 85ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 87ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 90ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 81ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 86ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 83ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 103ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 104ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 107ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 114ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 107ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 101ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 97ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 89ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 100ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 88ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 89ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 87ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 85ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 87ms (compile: 1785560519.2s, render: 0ms)
