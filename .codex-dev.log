@@ -22722,3 +22722,598 @@ Detected multiple renderers concurrently rendering the same context provider. Th
   menuVisible: false,
   searchIndexable: false
 }
+ GET /scoped-publish-a-20260801?_rsc 404 in 177ms
+ GET /home?_rsc 200 in 196ms (compile: 1785560519.2s, render: 0ms)
+[2m오전 2:07:57[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 189ms
+ GET /admin?_rsc 200 in 198ms (compile: 1785560519.3s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/sections 200 in 71ms
+ GET /api/admin/vlogs 200 in 38ms
+ GET /api/admin/visibility 200 in 40ms
+ GET /api/admin/visibility 200 in 91ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/visibility 200 in 49ms
+ GET /api/admin/deletions 200 in 44ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /funnel?_rsc 404 in 169ms
+[2m오전 2:07:57[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /admin?_rsc 200 in 174ms (compile: 1785560519.2s, render: 0ms)
+ GET /home?_rsc 200 in 178ms (compile: 1785560519.2s, render: 0ms)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 179ms (compile: 1785560519.2s, render: 0ms)
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+ GET /scoped-publish-a-20260801?_rsc 404 in 204ms
+[2m오전 2:07:57[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 239ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/visibility 200 in 100ms
+ GET /api/admin/sections 200 in 88ms
+ GET /api/admin/vlogs 200 in 89ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 98ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 79ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/deletions 200 in 199ms
+ GET /funnel?_rsc 404 in 209ms
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 205ms (compile: 1785560519.3s, render: 0ms)
+ GET /admin?_rsc 200 in 218ms (compile: 1785560519.2s, render: 0ms)
+ GET /home?_rsc 200 in 218ms (compile: 1785560519.3s, render: 0ms)
+[2m오전 2:07:58[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 224ms
+ GET /api/admin/visibility 200 in 49ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/sections 200 in 58ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/vlogs 200 in 68ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 83ms
+ GET /api/admin/visibility 200 in 82ms
+ GET /admin?_rsc 200 in 74ms (compile: 1785560519.2s, render: 0ms)
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+ GET /api/admin/deletions 200 in 133ms
+ GET /funnel?_rsc 404 in 122ms
+ GET /scoped-publish-a-20260801?_rsc 404 in 155ms
+[2m오전 2:07:58[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[2m오전 2:07:58[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 241ms
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 280ms (compile: 1785560519.3s, render: 0ms)
+ GET /home?_rsc 200 in 286ms (compile: 1785560519.3s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/visibility 200 in 175ms
+ GET /api/admin/vlogs 200 in 173ms
+ GET /api/admin/sections 200 in 175ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/visibility 200 in 75ms
+ GET /api/admin/visibility 200 in 76ms
+ GET /api/admin/deletions 200 in 72ms
+ GET /admin?_rsc 200 in 80ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 79ms
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 99ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/sections 200 in 65ms
+ GET /api/admin/vlogs 200 in 65ms
+ GET /api/admin/visibility 200 in 65ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 61ms
+ GET /api/admin/visibility 200 in 67ms
+ GET /funnel?_rsc 404 in 79ms
+[2m오전 2:07:58[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[visibility:server-render-loaded] { recordCount: 13 }
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /scoped-publish-a-20260801?_rsc 404 in 216ms
+[2m오전 2:07:58[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 215ms (compile: 1785560519.3s, render: 0ms)
+ GET /home?_rsc 200 in 221ms (compile: 1785560519.3s, render: 0ms)
+ GET /admin?_rsc 200 in 205ms (compile: 1785560519.3s, render: 0ms)
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 210ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 184ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 48ms
+ GET /api/admin/sections 200 in 54ms
+ GET /api/admin/vlogs 200 in 53ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 59ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 63ms
+ GET /funnel?_rsc 404 in 66ms
+[2m오전 2:07:58[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+[visibility:server-render-loaded] { recordCount: 13 }
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:public-detail-loaded] {
+  vlogId: 'vlog-1b7c044a-4d2f-4997-9411-c113f2915e5c',
+  slug: 'codex-vlog-check-20260801'
+}
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /scoped-publish-a-20260801?_rsc 404 in 268ms
+[2m오전 2:07:59[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /vlog/codex-vlog-check-20260801?_rsc 200 in 275ms (compile: 1785560519.3s, render: 0ms)
+ GET /home?_rsc 200 in 277ms (compile: 1785560519.3s, render: 0ms)
+ GET /admin?_rsc 200 in 280ms (compile: 1785560519.4s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 261ms
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 268ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/sections 200 in 57ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/visibility 200 in 57ms
+ GET /api/admin/vlogs 200 in 59ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/visibility 200 in 75ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 96ms
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+[page:metadata-resolved] {
+  pageId: 'page-4f6031f3-7fbe-4175-aed4-16ab485559d7',
+  slug: '/scoped-publish-a-20260801',
+  type: 'Block page',
+  menuVisible: false,
+  searchIndexable: false
+}
+ GET /home?_rsc 200 in 160ms (compile: 1785560519.2s, render: 0ms)
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /scoped-publish-a-20260801?_rsc 404 in 150ms
+ GET /api/admin/pages 200 in 139ms
+[2m오전 2:07:59[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vinext] RSC HMR error: Error: Connection closed.
+    at close (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2364:36)
+    at progress (http://localhost:3000/node_modules/.vite/deps/react-server-dom-webpack_client__browser.js?v=5f8af880:2437:28)
+ GET /admin?_rsc 200 in 149ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 107ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/sections 200 in 93ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/vlogs 200 in 40ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 40ms
+ GET /api/admin/visibility 200 in 40ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/deletions 200 in 60ms
+[visibility:server-render-loaded] { recordCount: 13 }
+ GET /admin?_rsc 200 in 87ms (compile: 1785560519.2s, render: 0ms)
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/pages 200 in 105ms
+ GET /api/admin/sections 200 in 91ms
+ GET /api/admin/visibility 200 in 94ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/vlogs 200 in 71ms
+ GET /home?_rsc 200 in 136ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/visibility 200 in 109ms
+ GET /api/admin/visibility 200 in 82ms
+ GET /api/admin/deletions 200 in 82ms
+ GET /admin?_rsc 200 in 79ms (compile: 1785560519.1s, render: 0ms)
+ GET /home?_rsc 200 in 92ms (compile: 1785560519.2s, render: 0ms)
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 91ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/sections 200 in 46ms
+ GET /api/admin/visibility 200 in 50ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 53ms
+ GET /api/admin/visibility 200 in 53ms
+ GET /api/admin/vlogs 200 in 58ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 50ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/visibility 200 in 59ms
+ GET /api/admin/pages 200 in 60ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/sections 200 in 93ms
+ GET /admin?_rsc 200 in 110ms (compile: 1785560519.2s, render: 0ms)
+ GET /home?_rsc 200 in 116ms (compile: 1785560519.2s, render: 0ms)
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/vlogs 200 in 97ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 56ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/visibility 200 in 59ms
+ GET /api/admin/deletions 200 in 36ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /admin?_rsc 200 in 74ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 93ms
+ GET /home?_rsc 200 in 105ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/visibility 200 in 91ms
+ GET /api/admin/sections 200 in 87ms
+ GET /api/admin/vlogs 200 in 87ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 72ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 39ms
+ GET /api/admin/visibility 200 in 43ms
+ GET /admin?_rsc 200 in 50ms (compile: 1785560519.2s, render: 0ms)
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 59ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/visibility 200 in 87ms
+ GET /api/admin/vlogs 200 in 76ms
+ GET /api/admin/sections 200 in 77ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /home?_rsc 200 in 138ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 92ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 82ms
+ GET /admin?_rsc 200 in 62ms (compile: 1785560519.2s, render: 0ms)
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 59ms
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/pages 200 in 86ms
+ GET /api/admin/visibility 200 in 55ms
+ GET /api/admin/sections 200 in 50ms
+ GET /api/admin/vlogs 200 in 47ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 45ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 45ms
+ GET /admin?_rsc 200 in 49ms (compile: 1785560519.2s, render: 0ms)
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+ GET /api/admin/deletions 200 in 78ms
+ GET /api/admin/pages 200 in 77ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 87ms
+[visibility:server-render-loaded] { recordCount: 13 }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/sections 200 in 99ms
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/vlogs 200 in 97ms
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /home?_rsc 200 in 164ms (compile: 1785560519.2s, render: 0ms)
+ GET /api/admin/visibility 200 in 80ms
+ GET /api/admin/visibility 200 in 80ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/deletions 200 in 67ms
+ GET /admin?_rsc 200 in 70ms (compile: 1785560519.2s, render: 0ms)
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 50ms
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/sections 200 in 57ms
+ GET /api/admin/visibility 200 in 58ms
+ GET /api/admin/vlogs 200 in 57ms
+ GET /api/admin/visibility 200 in 55ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 58ms
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/deletions 200 in 119ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+ GET /api/admin/pages 200 in 114ms
+ GET /api/admin/visibility 200 in 113ms
+ GET /admin?_rsc 200 in 120ms (compile: 1785560519.2s, render: 0ms)
+ GET /home?_rsc 200 in 125ms (compile: 1785560519.2s, render: 0ms)
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
+ GET /api/admin/sections 200 in 120ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+ GET /api/admin/vlogs 200 in 52ms
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[deletion:admin-load] { user: 'local-admin@example.test', count: 9 }
+ GET /api/admin/visibility 200 in 50ms
+ GET /api/admin/deletions 200 in 48ms
+ GET /api/admin/visibility 200 in 52ms
+ GET /admin?_rsc 200 in 55ms (compile: 1785560519.2s, render: 0ms)
+[visibility:server-render-loaded] { recordCount: 13 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[visibility:server-render-loaded] { recordCount: 13 }
+[page:admin-load] { user: 'local-admin@example.test', count: 8 }
+[navigation:published-loaded] { itemCount: 3, itemIds: [ 'home', 'contact', 'vlog' ] }
+[section:public-loaded] {
+  pageId: 'home',
+  sections: [
+    {
+      id: 'section-680292cb-339d-441d-a618-68e473d4dc60',
+      blockCount: 0
+    }
+  ]
+}
+ GET /api/admin/pages 200 in 109ms
+ GET /home?_rsc 200 in 125ms (compile: 1785560519.2s, render: 0ms)
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+[visibility:admin-load] { count: 13, user: 'local-admin@example.test' }
+ GET /api/admin/visibility 200 in 99ms
+ GET /api/admin/visibility 200 in 100ms
+[vlog:admin-load] { user: 'local-admin@example.test', count: 2 }
+[section:admin-load] { user: 'local-admin@example.test', count: 7 }
