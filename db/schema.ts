@@ -112,3 +112,16 @@ export const changeHistory = sqliteTable("change_history", {
   index("idx_change_history_created_at").on(table.createdAt),
   index("idx_change_history_entity").on(table.entityType, table.entityId, table.createdAt),
 ]);
+export const contactSubmissions = sqliteTable("contact_submissions", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  company: text("company").notNull().default(""),
+  email: text("email").notNull(),
+  inquiryType: text("inquiry_type").notNull(),
+  budget: text("budget").notNull(),
+  message: text("message").notNull(),
+  status: text("status").notNull().default("new"),
+  createdAt: text("created_at").notNull(),
+}, (table) => [
+  index("idx_contact_submissions_status_created_at").on(table.status, table.createdAt),
+]);

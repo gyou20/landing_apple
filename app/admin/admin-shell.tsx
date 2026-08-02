@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type DragEvent } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type DragEvent } from "react";
 import type { AdminUser } from "../chatgpt-auth";
 import type { HomeSectionContent, SiteContent } from "../site-content";
 import { saveSiteContent, useSiteContent } from "../use-site-content";
@@ -8,7 +8,9 @@ import { ImageProcessor } from "./image-processor";
 import { AssetUsagePanel } from "./asset-usage-panel";
 import { ChangeHistoryPanel } from "./change-history-panel";
 import { SectionBackgroundUploader } from "./section-background-uploader";
-import type { SectionBlock } from "../../db/content-sections";
+import type { SectionBlock, SectionContent } from "../../db/content-sections";
+import type { ContactSubmissionRecord } from "../../db/contact-submissions";
+import { SECTION_TEMPLATE_REGISTRY, getSectionTemplateDefinition, type SectionTemplateId, type SectionTemplateItem } from "../../lib/section-templates";
 
 type AdminSection = "dashboard" | "pages" | "vlog" | "archive" | "trash" | "history" | "contact" | "assets";
 type Status = "draft" | "published" | "deleted";
@@ -34,7 +36,7 @@ type PageApiRecord = {
   id: string;
   draft: { title: string; slug: string; type: string; summary: string; body: string; status: "draft" | "published" };
 };
-type AdminSectionContent = Omit<HomeSectionContent, "id"> & { blocks: SectionBlock[] };
+type AdminSectionContent = SectionContent;
 type SectionApiRecord = {
   id: string;
   pageId: string;
@@ -152,19 +154,59 @@ export function AdminShell({ user }: { user: AdminUser }) {
   const [createPageOpen, setCreatePageOpen] = useState(false);
   const [createVlogOpen, setCreateVlogOpen] = useState(false);
   const [createSectionPageId, setCreateSectionPageId] = useState<string | null>(null);
+  const [contactSubmissions, setContactSubmissions] = useState<ContactSubmissionRecord[]>([]);
+  const [contactLoading, setContactLoading] = useState(true);
+  const [contactError, setContactError] = useState("");
   const [publishPreview, setPublishPreview] = useState<PublishPreviewData | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
+  const [pageOrderUndo, setPageOrderUndo] = useState<string[] | null>(null);
   const pageSaveTimer = useRef<number | null>(null);
   const sectionSaveTimers = useRef(new Map<string, number>());
   const vlogSaveTimers = useRef(new Map<string, number>());
   const siteContent = useSiteContent();
 
+  async function loadContactInbox() {
+    setContactLoading(true);
+    setContactError("");
+    console.info("[contact:admin-ui-load-start]");
+    try {
+      const response = await fetch("/api/admin/contact-submissions?limit=100", { cache: "no-store" });
+      const data = await response.json() as { submissions?: ContactSubmissionRecord[]; error?: string };
+      if (!response.ok) throw new Error(data.error ?? "contact-admin-load-failed");
+      const records = data.submissions ?? [];
+      setContactSubmissions(records);
+      console.info("[contact:admin-ui-load-complete]", { count: records.length, unreadCount: records.filter((item) => item.status === "new").length });
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : "contact-admin-load-failed";
+      setContactError(reason);
+      console.error("[contact:admin-ui-load-failed]", { reason });
+    } finally {
+      setContactLoading(false);
+    }
+  }
+
+  async function updateContactStatus(id: string, status: ContactSubmissionRecord["status"]) {
+    console.info("[contact:admin-ui-status-start]", { id, status });
+    const response = await fetch("/api/admin/contact-submissions", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, status }),
+    });
+    const data = await response.json() as { error?: string };
+    if (!response.ok) throw new Error(data.error ?? "contact-admin-update-failed");
+    setContactSubmissions((current) => current.map((item) => item.id === id ? { ...item, status } : item));
+    console.info("[contact:admin-ui-status-complete]", { id, status });
+  }
+
+  useEffect(() => { void loadContactInbox(); }, []);
+
   const draftDeletedKeys = useMemo(() => new Set(deletions.filter((record) => record.draftDeleted).map((record) => targetKey(record))), [deletions]);
   const filteredPages = useMemo(() => pages.filter((page) => page.visibility.menuVisible && page.status !== "deleted" && !draftDeletedKeys.has(targetKey({ entityType: "page", entityId: page.id })) && (page.title + " " + page.slug).toLowerCase().includes(query.toLowerCase())), [pages, query, draftDeletedKeys]);
+  const orderablePages = useMemo(() => pages.filter((page) => page.visibility.menuVisible && page.status !== "deleted" && !draftDeletedKeys.has(targetKey({ entityType: "page", entityId: page.id }))), [pages, draftDeletedKeys]);
   const filteredArticles = useMemo(() => articles.filter((article) => article.visibility.menuVisible && article.status !== "deleted" && !draftDeletedKeys.has(targetKey({ entityType: "vlog", entityId: article.id })) && (article.title + " " + article.slug + " " + article.category).toLowerCase().includes(query.toLowerCase())), [articles, query, draftDeletedKeys]);
   const selectedPage = filteredPages.find((page) => page.id === selectedPageId) ?? filteredPages[0] ?? pages[0];
   const selectedArticle = filteredArticles.find((article) => article.id === selectedArticleId) ?? filteredArticles[0] ?? articles[0];
-  const selectedPageIndex = selectedPage ? filteredPages.findIndex((page) => page.id === selectedPage.id) : -1;
+  const selectedPageIndex = selectedPage ? orderablePages.findIndex((page) => page.id === selectedPage.id) : -1;
   const selectedArticleIndex = selectedArticle ? filteredArticles.findIndex((article) => article.id === selectedArticle.id) : -1;
   const dragDisabled = Boolean(query.trim());
 
@@ -360,18 +402,34 @@ export function AdminShell({ user }: { user: AdminUser }) {
     });
     console.info("[archive:restore-request]", { entityType, entityId });
   }
-  function movePage(pageId: string, direction: -1 | 1) {
+  function movePage(pageId: string, movement: -1 | 1 | "first" | "last") {
+    const visible = pages.filter((item) => item.visibility.menuVisible && item.status !== "deleted");
+    const currentIndex = visible.findIndex((item) => item.id === pageId);
+    if (currentIndex < 0) return;
+    const targetIndex = movement === "first" ? 0 : movement === "last" ? visible.length - 1 : currentIndex + movement;
+    const targetId = visible[targetIndex]?.id;
+    if (!targetId || targetId === pageId) return;
+    const next = reorderItemById(pages, pageId, targetId);
+    if (next === pages) return;
+    setPageOrderUndo(pages.map((item) => item.id));
+    setPages(next);
+    recordOrderChange("pages", pageId, targetId, next.map((item) => item.id));
+    console.info("[admin-page-order-change]", { pageId, movement, from: currentIndex, to: targetIndex });
+    setNotice("페이지 순서를 변경했습니다. Publish 전에는 공개 사이트에 반영되지 않습니다.");
+  }
+  function undoPageOrder() {
+    if (!pageOrderUndo) return;
     setPages((current) => {
-      const visible = current.filter((item) => item.visibility.menuVisible && item.status !== "deleted");
-      const currentIndex = visible.findIndex((item) => item.id === pageId);
-      const targetId = visible[currentIndex + direction]?.id;
-      const next = targetId ? reorderItemById(current, pageId, targetId) : current;
-      if (next !== current && targetId) recordOrderChange("pages", pageId, targetId, next.map((item) => item.id));
+      const itemMap = new Map(current.map((item) => [item.id, item]));
+      const restored = pageOrderUndo.map((id) => itemMap.get(id)).filter((item): item is AdminPageItem => Boolean(item));
+      const restoredIds = new Set(restored.map((item) => item.id));
+      const next = [...restored, ...current.filter((item) => !restoredIds.has(item.id))];
+      console.info("[admin-page-order-undo]", { previous: current.map((item) => item.id), restored: next.map((item) => item.id) });
       return next;
     });
-    setNotice("페이지 순서를 변경했습니다. Publish 전까지 공개 사이트에는 반영되지 않습니다.");
+    setPageOrderUndo(null);
+    setNotice("직전 페이지 순서 변경을 되돌렸습니다.");
   }
-
   function moveArticle(articleId: string, direction: -1 | 1) {
     setArticles((current) => {
       const visible = current.filter((item) => item.visibility.menuVisible && item.status !== "deleted");
@@ -529,13 +587,13 @@ export function AdminShell({ user }: { user: AdminUser }) {
     setNotice("새 Vlog를 초안으로 저장했습니다. Publish 전에는 공개되지 않습니다.");
     console.info("[vlog:admin-create-complete]", { vlogId: article.id, slug: article.slug });
   }
-  async function createSectionDraft(title: string) {
+  async function createSectionDraft(input: { title: string; templateId: SectionTemplateId }) {
     if (!createSectionPageId) return;
-    console.info("[section:admin-create-request]", { pageId: createSectionPageId, title });
+    console.info("[section:admin-create-request]", { pageId: createSectionPageId, title: input.title, templateId: input.templateId });
     const response = await fetch("/api/admin/sections", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pageId: createSectionPageId, title }),
+      body: JSON.stringify({ pageId: createSectionPageId, title: input.title, templateId: input.templateId }),
     });
     const data = await response.json() as { section?: SectionApiRecord; error?: string };
     if (!response.ok || !data.section) throw new Error("섹션을 만들지 못했습니다.");
@@ -543,7 +601,7 @@ export function AdminShell({ user }: { user: AdminUser }) {
     setPages((current) => current.map((page) => page.id === data.section!.pageId ? { ...page, sections: [...page.sections, section] } : page));
     setCreateSectionPageId(null);
     setNotice("새 섹션을 초안으로 저장했습니다. Publish 전에는 공개되지 않습니다.");
-    console.info("[section:admin-create-complete]", { pageId: data.section.pageId, sectionId: data.section.id });
+    console.info("[section:admin-create-complete]", { pageId: data.section.pageId, sectionId: data.section.id, templateId: data.section.draft.content.templateId });
   }
 
   function updateDynamicSection(sectionId: string, patch: Partial<AdminPageSection>) {
@@ -856,23 +914,23 @@ export function AdminShell({ user }: { user: AdminUser }) {
   return (
     <main className="admin-app" data-page-id="admin">
       <aside className="admin-sidebar" aria-label="관리자 메뉴">
-        <div className="admin-brand"><span>◐</span><strong>Aether CMS</strong><small>Private workspace</small></div>
+        <div className="admin-brand"><strong>김규원</strong><small>관리자 작업공간</small></div>
         <nav className="admin-nav">
           {NAV_ITEMS.map((item) => <button key={item.id} className={activeSection === item.id ? "is-active" : ""} onClick={() => { setActiveSection(item.id); setQuery(""); }}><strong>{item.label}</strong><span>{item.description}</span></button>)}
         </nav>
-        <div className="admin-user"><span>Signed in</span><strong>{user.displayName}</strong><small>{user.email}</small></div>
+        <div className="admin-user"><span>로그인 계정</span><strong>{user.displayName}</strong><small>{user.email}</small></div>
       </aside>
 
       <section className="admin-workspace">
-        <header className="admin-topbar"><div><span className="admin-eyebrow">Content operations</span><h1>{NAV_ITEMS.find((item) => item.id === activeSection)?.label}</h1></div><div className="admin-top-actions"><span className="admin-save-status">{notice}</span>{activeSection !== "history" && activeSection !== "assets" && <button className="admin-button admin-button-primary" disabled={publishing || previewLoading} onClick={activeSection === "dashboard" ? openGlobalPublishPreview : publishBackgrounds}>{publishing ? "Publishing…" : previewLoading ? "확인 중…" : activeSection === "dashboard" ? "전체 Publish 미리보기" : activeSection === "pages" ? "현재 페이지 Publish" : activeSection === "vlog" ? "현재 Vlog Publish" : "Publish"}</button>}</div></header>
+        <header className="admin-topbar"><div><span className="admin-eyebrow">콘텐츠 관리</span><h1>{NAV_ITEMS.find((item) => item.id === activeSection)?.label}</h1></div><div className="admin-top-actions"><span className="admin-save-status">{notice}</span>{activeSection !== "history" && activeSection !== "assets" && <button className="admin-button admin-button-primary" disabled={publishing || previewLoading} onClick={activeSection === "dashboard" ? openGlobalPublishPreview : publishBackgrounds}>{publishing ? "Publishing…" : previewLoading ? "확인 중…" : activeSection === "dashboard" ? "전체 Publish 미리보기" : activeSection === "pages" ? "현재 페이지 Publish" : activeSection === "vlog" ? "현재 Vlog Publish" : "Publish"}</button>}</div></header>
 
-        {activeSection === "dashboard" && <Dashboard pages={pages} articles={articles} onNavigate={setActiveSection} />}
+        {activeSection === "dashboard" && <Dashboard pages={pages} articles={articles} contactCount={contactSubmissions.filter((item) => item.status === "new").length} onNavigate={setActiveSection} />}
         {activeSection === "pages" && (
           <div className="admin-content-grid admin-content-grid-pages">
             <ListPanel title="페이지 목록" query={query} setQuery={setQuery} count={filteredPages.length} toolbar={<PageListToolbar deleteCount={selectedTargetsFor("page").length} onDelete={() => setDeleteDialogTargets(selectedTargetsFor("page"))} onCreate={() => setCreatePageOpen(true)} />}>
               {filteredPages.map((page) => <SortableListRow key={page.id} index={filteredPages.findIndex((item) => item.id === page.id)} title={page.title} meta={page.slug + " · " + page.type} status={page.status} selected={selectedPage.id === page.id} checked={selectedDeleteKeys.has(targetKey({ entityType: "page", entityId: page.id }))} onCheckedChange={(checked) => toggleDeleteTarget({ entityType: "page", entityId: page.id }, checked)} dragDisabled={dragDisabled} dragging={dragState?.list === "pages" && dragState.sourceId === page.id} dropTarget={dragState?.list === "pages" && dragState.targetId === page.id} onSelect={() => setSelectedPageId(page.id)} onDragStart={(event) => beginDrag("pages", page.id, event)} onDragOver={(event) => dragOverItem("pages", page.id, event)} onDrop={(event) => dropItem("pages", page.id, event)} onDragEnd={() => setDragState(null)} />)}
             </ListPanel>
-            {filteredPages.length > 0 ? <PageEditor page={selectedPage} index={selectedPageIndex} total={filteredPages.length} siteContent={siteContent} onSiteContentChange={updateHomeContent} onChange={updateSelectedPage} onMove={movePage} onCopy={copyPage} onDelete={() => setDeleteDialogTargets([{ entityType: "page", entityId: selectedPage.id }])} visibility={selectedPage.visibility} onVisibilityChange={updatePageVisibility} onSectionVisibilityChange={updateSectionVisibility} selectedDeleteKeys={selectedDeleteKeys} draftDeletedKeys={draftDeletedKeys} onToggleDelete={toggleDeleteTarget} onDeleteSections={(targets) => setDeleteDialogTargets(targets)} onCreateSection={() => setCreateSectionPageId(selectedPage.id)} onDynamicSectionChange={updateDynamicSection} /> : <EmptyEditor />}
+            {filteredPages.length > 0 ? <PageEditor page={selectedPage} index={selectedPageIndex} total={orderablePages.length} siteContent={siteContent} onSiteContentChange={updateHomeContent} onChange={updateSelectedPage} onMove={movePage} onUndoOrder={undoPageOrder} canUndoOrder={Boolean(pageOrderUndo)} onCopy={copyPage} onDelete={() => setDeleteDialogTargets([{ entityType: "page", entityId: selectedPage.id }])} visibility={selectedPage.visibility} onVisibilityChange={updatePageVisibility} onSectionVisibilityChange={updateSectionVisibility} selectedDeleteKeys={selectedDeleteKeys} draftDeletedKeys={draftDeletedKeys} onToggleDelete={toggleDeleteTarget} onDeleteSections={(targets) => setDeleteDialogTargets(targets)} onCreateSection={() => setCreateSectionPageId(selectedPage.id)} onDynamicSectionChange={updateDynamicSection} /> : <EmptyEditor />}
           </div>
         )}
         {activeSection === "vlog" && (
@@ -886,7 +944,7 @@ export function AdminShell({ user }: { user: AdminUser }) {
         {activeSection === "archive" && <ArchivePanel pages={pages} articles={articles} draftDeletedKeys={draftDeletedKeys} onRestore={restoreArchiveItem} />}
         {activeSection === "trash" && <TrashPanel records={deletions} pages={pages} articles={articles} onRestore={(target) => void restoreTrashItem(target).catch((error) => setNotice(error instanceof Error ? error.message : "복원하지 못했습니다."))} />}
         {activeSection === "history" && <ChangeHistoryPanel />}
-        {activeSection === "contact" && <ContactPanel />}
+        {activeSection === "contact" && <ContactPanel records={contactSubmissions} loading={contactLoading} error={contactError} onReload={() => void loadContactInbox()} onStatusChange={(id, status) => void updateContactStatus(id, status).catch((cause) => setContactError(cause instanceof Error ? cause.message : "문의 상태를 변경하지 못했습니다."))} />}
         {activeSection === "assets" && <div className="admin-assets-panel"><ImageProcessor authenticated={true} /><AssetUsagePanel /></div>}
       </section>
       {publishPreview && <PublishPreviewDialog preview={publishPreview} publishing={publishing} onCancel={() => setPublishPreview(null)} onConfirm={() => { setPublishPreview(null); void publishBackgrounds(); }} />}
@@ -899,8 +957,8 @@ export function AdminShell({ user }: { user: AdminUser }) {
   );
 }
 
-function Dashboard({ pages, articles, onNavigate }: { pages: AdminPageItem[]; articles: AdminArticle[]; onNavigate: (section: AdminSection) => void }) {
-  return <div className="admin-dashboard"><div className="admin-dashboard-intro"><span className="admin-eyebrow">Workspace overview</span><h2>오늘 편집할 콘텐츠를<br /><em>빠르게 찾으세요.</em></h2><p>임시저장과 Publish를 분리해 실수로 공개되는 일을 막습니다.</p></div><div className="admin-stat-grid"><button onClick={() => onNavigate("pages")}><strong>{pages.filter((page) => page.status !== "deleted").length}</strong><span>페이지</span></button><button onClick={() => onNavigate("vlog")}><strong>{articles.length}</strong><span>Vlog 초안</span></button><button onClick={() => onNavigate("contact")}><strong>0</strong><span>새 문의</span></button></div><div className="admin-quick-actions"><button onClick={() => onNavigate("pages")}>페이지 편집 시작 <span>→</span></button><button onClick={() => onNavigate("vlog")}>Vlog 글 작성 <span>→</span></button><button onClick={() => onNavigate("contact")}>문의함 확인 <span>→</span></button></div></div>;
+function Dashboard({ pages, articles, contactCount, onNavigate }: { pages: AdminPageItem[]; articles: AdminArticle[]; contactCount: number; onNavigate: (section: AdminSection) => void }) {
+  return <div className="admin-dashboard"><div className="admin-dashboard-intro"><span className="admin-eyebrow">작업공간 요약</span><h2>오늘 편집할 콘텐츠를<br /><em>빠르게 찾으세요.</em></h2><p>임시저장과 Publish를 분리해 실수로 공개되는 일을 막습니다.</p></div><div className="admin-stat-grid"><button onClick={() => onNavigate("pages")}><strong>{pages.filter((page) => page.status !== "deleted").length}</strong><span>페이지</span></button><button onClick={() => onNavigate("vlog")}><strong>{articles.length}</strong><span>Vlog 초안</span></button><button onClick={() => onNavigate("contact")}><strong>{contactCount}</strong><span>새 문의</span></button></div><div className="admin-quick-actions"><button onClick={() => onNavigate("pages")}>페이지 편집 시작 <span>→</span></button><button onClick={() => onNavigate("vlog")}>Vlog 글 작성 <span>→</span></button><button onClick={() => onNavigate("contact")}>문의함 확인 <span>→</span></button></div></div>;
 }
 
 function ListPanel({ title, query, setQuery, count, toolbar, children }: { title: string; query: string; setQuery: (value: string) => void; count: number; toolbar?: React.ReactNode; children: React.ReactNode }) {
@@ -911,20 +969,50 @@ function SortableListRow({ index, title, meta, status, selected, checked, onChec
   const className = ["admin-list-row-wrap", selected && "is-selected", dragging && "is-dragging", dropTarget && "is-drop-target"].filter(Boolean).join(" ");
   return <div className={className}><label className="admin-list-select"><input type="checkbox" checked={checked} onChange={(event) => onCheckedChange(event.target.checked)} aria-label={title + " 삭제 선택"} /></label><button type="button" className="admin-list-row" draggable={!dragDisabled} aria-label={(index + 1) + ". " + title + ". " + (dragDisabled ? "검색 중 순서 변경 비활성화" : "드래그하여 순서 변경 가능")} onClick={onSelect} onDragStart={onDragStart} onDragOver={onDragOver} onDrop={onDrop} onDragEnd={onDragEnd}><span className="admin-list-order"><span className="admin-drag-handle" aria-hidden="true">⠿</span><span className="admin-list-number">{String(index + 1).padStart(2, "0")}</span></span><span><strong>{title}</strong><small>{meta}</small></span><StatusBadge status={status} /></button></div>;
 }
-function PageEditor({ page, index, total, siteContent, onSiteContentChange, onChange, onMove, onCopy, onDelete, visibility, onVisibilityChange, onSectionVisibilityChange, selectedDeleteKeys, draftDeletedKeys, onToggleDelete, onDeleteSections, onCreateSection, onDynamicSectionChange }: { page: AdminPageItem; index: number; total: number; siteContent: SiteContent; onSiteContentChange: (content: SiteContent, field: string) => void; onChange: (patch: Partial<AdminPageItem>) => void; onMove: (id: string, direction: -1 | 1) => void; onCopy: (page: AdminPageItem) => void; onDelete: () => void; visibility: VisibilityState; onVisibilityChange: (next: VisibilityState) => void; onSectionVisibilityChange: (id: string, next: VisibilityState) => void; selectedDeleteKeys: Set<string>; draftDeletedKeys: Set<string>; onToggleDelete: (target: DeleteTarget, checked: boolean) => void; onDeleteSections: (targets: DeleteTarget[]) => void; onCreateSection: () => void; onDynamicSectionChange: (sectionId: string, patch: Partial<AdminPageSection>) => void }) {
+function PageEditor({ page, index, total, siteContent, onSiteContentChange, onChange, onMove, onUndoOrder, canUndoOrder, onCopy, onDelete, visibility, onVisibilityChange, onSectionVisibilityChange, selectedDeleteKeys, draftDeletedKeys, onToggleDelete, onDeleteSections, onCreateSection, onDynamicSectionChange }: { page: AdminPageItem; index: number; total: number; siteContent: SiteContent; onSiteContentChange: (content: SiteContent, field: string) => void; onChange: (patch: Partial<AdminPageItem>) => void; onMove: (id: string, movement: -1 | 1 | "first" | "last") => void; onUndoOrder: () => void; canUndoOrder: boolean; onCopy: (page: AdminPageItem) => void; onDelete: () => void; visibility: VisibilityState; onVisibilityChange: (next: VisibilityState) => void; onSectionVisibilityChange: (id: string, next: VisibilityState) => void; selectedDeleteKeys: Set<string>; draftDeletedKeys: Set<string>; onToggleDelete: (target: DeleteTarget, checked: boolean) => void; onDeleteSections: (targets: DeleteTarget[]) => void; onCreateSection: () => void; onDynamicSectionChange: (sectionId: string, patch: Partial<AdminPageSection>) => void }) {
   const [sectionDrag, setSectionDrag] = useState<{ sourceId: string; targetId: string | null } | null>(null);
-  const [expandedSectionId, setExpandedSectionId] = useState<string | null>("home-section-01");
-
-  function moveSection(sectionId: string, direction: -1 | 1) {
-    const visibleSections = page.sections.filter((section) => section.visibility.menuVisible && !draftDeletedKeys.has(targetKey({ entityType: "section", entityId: section.id })));
-    const currentIndex = visibleSections.findIndex((section) => section.id === sectionId);
-    const targetId = visibleSections[currentIndex + direction]?.id;
-    const next = targetId ? reorderItemById(page.sections, sectionId, targetId) : page.sections;
-    if (next === page.sections || !targetId) return;
-    recordOrderChange("sections", sectionId, targetId, next.map((section) => section.id));
-    onChange({ sections: next });
+  const [expandedSectionId, setExpandedSectionId] = useState<string | null>(null);
+  const sectionMoveAnchorRef = useRef<{ sectionId: string; viewportTop: number } | null>(null);
+  const editableSections = page.sections.filter((section) => section.visibility.menuVisible && !draftDeletedKeys.has(targetKey({ entityType: "section", entityId: section.id })));
+  const selectedEditableSections = editableSections.filter((section) => selectedDeleteKeys.has(targetKey({ entityType: "section", entityId: section.id })));
+  const selectedEditableSection = selectedEditableSections.length === 1 ? selectedEditableSections[0] : null;
+  const selectedEditableSectionIndex = selectedEditableSection ? editableSections.findIndex((section) => section.id === selectedEditableSection.id) : -1;
+  function findSectionEditorElement(sectionId: string) {
+    return Array.from(document.querySelectorAll<HTMLElement>("[data-section-editor-id]")).find((element) => element.dataset.sectionEditorId === sectionId) ?? null;
   }
 
+  useLayoutEffect(() => {
+    const anchor = sectionMoveAnchorRef.current;
+    if (!anchor) return;
+    const movedElement = findSectionEditorElement(anchor.sectionId);
+    if (!movedElement) {
+      sectionMoveAnchorRef.current = null;
+      console.warn("[section-order-anchor-missing]", { sectionId: anchor.sectionId });
+      return;
+    }
+    const nextTop = movedElement.getBoundingClientRect().top;
+    const scrollDelta = nextTop - anchor.viewportTop;
+    if (Math.abs(scrollDelta) >= 1) window.scrollBy(0, scrollDelta);
+    console.info("[section-order-anchor-restored]", { sectionId: anchor.sectionId, previousTop: anchor.viewportTop, nextTop, scrollDelta });
+    sectionMoveAnchorRef.current = null;
+  }, [page.sections]);
+
+  function moveSection(sectionId: string, movement: -1 | 1 | "first" | "last") {
+    const currentIndex = editableSections.findIndex((section) => section.id === sectionId);
+    if (currentIndex < 0) return;
+    const targetIndex = movement === "first" ? 0 : movement === "last" ? editableSections.length - 1 : currentIndex + movement;
+    const targetId = editableSections[targetIndex]?.id;
+    const next = targetId ? reorderItemById(page.sections, sectionId, targetId) : page.sections;
+    if (next === page.sections || !targetId || targetId === sectionId) return;
+    const movedElement = findSectionEditorElement(sectionId);
+    if (movedElement) {
+      sectionMoveAnchorRef.current = { sectionId, viewportTop: movedElement.getBoundingClientRect().top };
+      console.info("[section-order-anchor-captured]", { sectionId, viewportTop: sectionMoveAnchorRef.current.viewportTop, movement });
+    }
+    recordOrderChange("sections", sectionId, targetId, next.map((section) => section.id));
+    console.info("[section-selection-order-change]", { sectionId, movement, from: currentIndex, to: targetIndex });
+    onChange({ sections: next });
+  }
   function updateSectionTitle(sectionId: string, title: string) {
     if (sectionId.startsWith("section-")) {
       onDynamicSectionChange(sectionId, { title });
@@ -978,7 +1066,8 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
 
   return (
     <section className="admin-editor-panel">
-      <EditorHeading eyebrow="Page editor" title={page.title} status={page.status} />
+      <EditorHeading eyebrow="페이지 에디터" title={page.title} status={page.status} />
+      <div className="admin-page-editor-scope"><strong>페이지 설정</strong><span>페이지 제목, 공개 경로, 유형과 공개 여부를 관리합니다.</span></div>
       <div className="admin-form">
         <p className="admin-editor-sync-note">
           변경 내용은 왼쪽 목록과 초안에 저장되며, Publish 후 공개 사이트에 반영됩니다.
@@ -1015,20 +1104,25 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
         )}
       </div>
 
+      <PageEditorActions placement="bottom" page={page} index={index} total={total} canUndoOrder={canUndoOrder} onMove={onMove} onUndoOrder={onUndoOrder} onCopy={onCopy} onHide={() => onVisibilityChange({ ...visibility, menuVisible: false })} onDelete={onDelete} />
+
       {page.type === "Article page" ? (
         <div className="admin-form admin-article-page-fields">
           <label>요약<textarea rows={5} value={page.summary ?? ""} maxLength={500} onChange={(event) => onChange({ summary: event.target.value })} /></label>
           <label>본문<textarea rows={14} value={page.body ?? ""} maxLength={20000} onChange={(event) => onChange({ body: event.target.value })} placeholder="자유롭게 본문을 작성하세요." /></label>
         </div>
       ) : (      <div className="admin-section-list">
+        <header className="admin-section-editor-heading"><div><span className="admin-eyebrow">섹션 에디터</span><h3>페이지 섹션 편집</h3><p>이 영역부터는 선택한 페이지 안의 개별 섹션을 편집합니다.</p></div><strong>{editableSections.length}개</strong></header>
         <div className="admin-subheading">
           <div><strong>섹션 구조와 문구</strong><small>섹션을 펼쳐 메인·서브 문구를 편집할 수 있습니다.</small></div>
           <button type="button" className="admin-button" onClick={onCreateSection}>+ 새 섹션</button>
         </div>
         <BulkDeleteBar count={page.sections.filter((section) => selectedDeleteKeys.has(targetKey({ entityType: "section", entityId: section.id }))).length} onDelete={() => onDeleteSections(page.sections.filter((section) => selectedDeleteKeys.has(targetKey({ entityType: "section", entityId: section.id }))).map((section) => ({ entityType: "section", entityId: section.id })))} />
-        {page.sections.filter((section) => section.visibility.menuVisible && !draftDeletedKeys.has(targetKey({ entityType: "section", entityId: section.id }))).map((section, sectionIndex) => {
+        <SectionSelectionOrderActions placement="top" selectedSection={selectedEditableSection} selectedCount={selectedEditableSections.length} index={selectedEditableSectionIndex} total={editableSections.length} onMove={moveSection} />
+        {editableSections.map((section, sectionIndex) => {
           const copy = section.content ? { id: section.id, ...section.content } : siteContent.homeSections.find((item) => item.id === section.id);
           const blocks = section.content?.blocks ?? [];
+          const template = section.content ? getSectionTemplateDefinition(section.content.templateId) : null;
           const expanded = expandedSectionId === section.id;
           return (
             <div
@@ -1068,15 +1162,16 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
                       type="button"
                       className="admin-section-toggle"
                       aria-expanded={expanded}
-                      aria-label={`${section.title} 문구 ${expanded ? "닫기" : "편집"}`}
+                      aria-label={`${section.title} 문구 ${expanded ? "숨기기" : "편집"}`}
                       onClick={() => setExpandedSectionId(expanded ? null : section.id)}
                     >
-                      {expanded ? "−" : "편집"}
+                      {expanded ? "숨기기" : "편집"}
                     </button>
                   )}
-                  <button type="button" onClick={() => onSectionVisibilityChange(section.id, { ...section.visibility, menuVisible: false })}>숨기기</button>
-                  <button type="button" disabled={sectionIndex <= 0} aria-label={`${section.title} 위로 이동`} onClick={() => moveSection(section.id, -1)}>↑</button>
-                  <button type="button" disabled={sectionIndex >= page.sections.filter((item) => item.visibility.menuVisible && !draftDeletedKeys.has(targetKey({ entityType: "section", entityId: item.id }))).length - 1} aria-label={`${section.title} 아래로 이동`} onClick={() => moveSection(section.id, 1)}>↓</button>
+
+                  <button type="button" className="admin-section-move" disabled={sectionIndex <= 0} aria-label={`${section.title} 위로 이동`} onClick={() => moveSection(section.id, -1)}>↑</button>
+                  <button type="button" className="admin-section-move" disabled={sectionIndex >= editableSections.length - 1} aria-label={`${section.title} 아래로 이동`} onClick={() => moveSection(section.id, 1)}>↓</button>
+                  <button type="button" className="admin-section-archive" onClick={() => onSectionVisibilityChange(section.id, { ...section.visibility, menuVisible: false })}>보관</button>
                 </span>
               </div>
               <VisibilityControls value={section.visibility} onChange={(next) => onSectionVisibilityChange(section.id, next)} />
@@ -1111,25 +1206,124 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
                     </label>
                   )}
                   <SectionBackgroundUploader sectionId={copy.id} />
-                  {section.content && <LimitedSectionBlocks blocks={blocks} onChange={(next) => onDynamicSectionChange(section.id, { content: { ...section.content!, blocks: next } })} />}
+                  {section.content && template && <>
+                    <div className="admin-template-current" data-current-template-id={template.id}><span>현재 템플릿</span><strong>{template.label}</strong><small>{template.description}</small></div>
+                    <TemplateItemEditor templateId={section.content.templateId} items={section.content.items} onChange={(items) => onDynamicSectionChange(section.id, { content: { ...section.content!, items } })} />
+                    <LimitedSectionBlocks blocks={blocks} onChange={(next) => onDynamicSectionChange(section.id, { content: { ...section.content!, blocks: next } })} />
+                  </>}
                 </div>
               )}
             </div>
           );
         })}
+        <SectionSelectionOrderActions placement="bottom" selectedSection={selectedEditableSection} selectedCount={selectedEditableSections.length} index={selectedEditableSectionIndex} total={editableSections.length} onMove={moveSection} />
       </div>
       )}
-      <div className="admin-editor-actions">
-        <button disabled={index <= 0} onClick={() => onMove(page.id, -1)}>페이지 위로</button>
-        <button disabled={index >= total - 1} onClick={() => onMove(page.id, 1)}>페이지 아래로</button>
-        <button onClick={() => onCopy(page)}>복사</button>
-        <button onClick={() => onVisibilityChange({ ...visibility, menuVisible: false })}>보관소로 숨기기</button>
-        <button className="is-danger" onClick={onDelete}>Soft Delete</button>
-      </div>
     </section>
   );
 }
 
+function SectionSelectionOrderActions({ placement, selectedSection, selectedCount, index, total, onMove }: {
+  placement: "top" | "bottom";
+  selectedSection: AdminPageSection | null;
+  selectedCount: number;
+  index: number;
+  total: number;
+  onMove: (id: string, movement: -1 | 1 | "first" | "last") => void;
+}) {
+  const ready = Boolean(selectedSection);
+  const guide = selectedCount === 0 ? "순서를 바꿀 섹션을 하나 선택하세요." : selectedCount > 1 ? "순서 변경은 한 번에 한 섹션만 선택하세요." : `${selectedSection!.title} 선택됨`;
+  return <div className={`admin-section-selection-actions is-${placement}`} aria-label={`선택 섹션 순서 작업 ${placement === "top" ? "상단" : "하단"}`}>
+    <strong>{guide}</strong><span>
+      <button type="button" disabled={!ready || index <= 0} onClick={() => selectedSection && onMove(selectedSection.id, "first")}>맨 앞으로</button>
+      <button type="button" disabled={!ready || index <= 0} onClick={() => selectedSection && onMove(selectedSection.id, -1)}>한 칸 위로</button>
+      <button type="button" disabled={!ready || index >= total - 1} onClick={() => selectedSection && onMove(selectedSection.id, 1)}>한 칸 아래로</button>
+      <button type="button" disabled={!ready || index >= total - 1} onClick={() => selectedSection && onMove(selectedSection.id, "last")}>맨 뒤로</button>
+    </span>
+  </div>;
+}
+function PageEditorActions({ placement, page, index, total, canUndoOrder, onMove, onUndoOrder, onCopy, onHide, onDelete }: {
+  placement: "top" | "bottom";
+  page: AdminPageItem;
+  index: number;
+  total: number;
+  canUndoOrder: boolean;
+  onMove: (id: string, movement: -1 | 1 | "first" | "last") => void;
+  onUndoOrder: () => void;
+  onCopy: (page: AdminPageItem) => void;
+  onHide: () => void;
+  onDelete: () => void;
+}) {
+  return <div className={`admin-editor-actions admin-editor-actions-${placement}`} aria-label={`페이지 작업 버튼 ${placement === "top" ? "상단" : "하단"}`}>
+    <div className="admin-editor-order-actions">
+      <button type="button" disabled={index <= 0} onClick={() => onMove(page.id, "first")}>페이지 맨 앞으로</button>
+      <button type="button" disabled={index <= 0} onClick={() => onMove(page.id, -1)}>페이지 한 칸 위로</button>
+      <button type="button" disabled={index >= total - 1} onClick={() => onMove(page.id, 1)}>페이지 한 칸 아래로</button>
+      <button type="button" disabled={index >= total - 1} onClick={() => onMove(page.id, "last")}>페이지 맨 뒤로</button>
+      <button type="button" disabled={!canUndoOrder} onClick={onUndoOrder}>순서 되돌리기</button>
+      <span className="admin-page-order-position">현재 {index + 1}/{total}{index === 0 ? " · 첫 페이지" : index === total - 1 ? " · 마지막 페이지" : ""}</span>
+    </div>
+    <div className="admin-editor-content-actions">
+      <button type="button" onClick={() => onCopy(page)}>페이지 복사</button>
+      <button type="button" onClick={onHide}>보관소로 숨기기</button>
+      <button type="button" className="is-danger" onClick={onDelete}>삭제함으로 이동</button>
+    </div>
+  </div>;
+}
+
+function TemplateItemEditor({ templateId, items, onChange }: { templateId: SectionTemplateId; items: SectionTemplateItem[]; onChange: (items: SectionTemplateItem[]) => void }) {
+  const template = getSectionTemplateDefinition(templateId);
+  function addItem() {
+    if (items.length >= template.maxItems) return;
+    const next: SectionTemplateItem = { id: `item-${crypto.randomUUID()}`, title: `새 ${template.itemLabel ?? "항목"}`, meta: "", description: "", href: "", imageSrc: "", imageAlt: "" };
+    console.info("[section:template-item-added]", { templateId, itemId: next.id, nextCount: items.length + 1 });
+    onChange([...items, next]);
+  }
+
+  function updateItem(id: string, patch: Partial<SectionTemplateItem>) {
+    onChange(items.map((item) => item.id === id ? { ...item, ...patch } : item));
+  }
+
+  function moveItem(index: number, direction: -1 | 1) {
+    const target = index + direction;
+    if (target < 0 || target >= items.length) return;
+    const next = [...items];
+    [next[index], next[target]] = [next[target], next[index]];
+    onChange(next);
+  }
+
+  return (
+    <section className="admin-template-items" aria-label={`${template.label} 반복 항목`}>
+      <div className="admin-template-items-heading">
+        <div><strong>{template.itemLabel ?? "반복 항목"}</strong><small>{template.description}</small></div>
+        <span>{items.length}/{template.maxItems}</span>
+      </div>
+      <button type="button" className="admin-template-item-add" disabled={items.length >= template.maxItems} onClick={addItem}>+ {template.itemLabel ?? "항목"} 추가</button>
+      {items.length === 0 ? <p className="admin-template-item-empty">등록된 항목이 없습니다.</p> : (
+        <div className="admin-template-item-list">
+          {items.map((item, index) => (
+            <article key={item.id} className="admin-template-item" data-template-item-id={item.id}>
+              <header>
+                <strong>{String(index + 1).padStart(2, "0")} · {item.title || template.itemLabel}</strong>
+                <span><button type="button" disabled={index === 0} aria-label={`${item.title} 위로 이동`} onClick={() => moveItem(index, -1)}>↑</button><button type="button" disabled={index === items.length - 1} aria-label={`${item.title} 아래로 이동`} onClick={() => moveItem(index, 1)}>↓</button><button type="button" className="is-danger" onClick={() => onChange(items.filter((candidate) => candidate.id !== item.id))}>삭제</button></span>
+              </header>
+              <div className="admin-section-copy-grid">
+                <label>제목<input maxLength={160} value={item.title} onChange={(event) => updateItem(item.id, { title: event.target.value })} /></label>
+                <label>분류·보조 정보<input maxLength={100} value={item.meta} onChange={(event) => updateItem(item.id, { meta: event.target.value })} /></label>
+              </div>
+              <label>설명<textarea rows={3} maxLength={500} value={item.description} onChange={(event) => updateItem(item.id, { description: event.target.value })} /></label>
+              <div className="admin-section-copy-grid">
+                <label>연결 주소<input maxLength={2048} value={item.href} placeholder="/contact 또는 https://" onChange={(event) => updateItem(item.id, { href: event.target.value })} /></label>
+                <label>이미지 주소<input maxLength={2048} value={item.imageSrc} placeholder="/images/example.jpg 또는 https://" onChange={(event) => updateItem(item.id, { imageSrc: event.target.value })} /></label>
+              </div>
+              <label>이미지 대체 문구<input maxLength={200} value={item.imageAlt} onChange={(event) => updateItem(item.id, { imageAlt: event.target.value })} /></label>
+            </article>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
 function LimitedSectionBlocks({ blocks, onChange }: { blocks: SectionBlock[]; onChange: (blocks: SectionBlock[]) => void }) {
   const counts = {
     text: blocks.filter((block) => block.type === "text").length,
@@ -1233,8 +1427,9 @@ function CreatePageDialog({ onCancel, onConfirm }: { onCancel: () => void; onCon
 
   return <div className="admin-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.currentTarget === event.target && !submitting) onCancel(); }}><form className="admin-delete-dialog admin-create-dialog" role="dialog" aria-modal="true" aria-labelledby="create-page-title" onSubmit={submit}><span className="admin-eyebrow">Create draft</span><h2 id="create-page-title">새 페이지 만들기</h2><p>페이지 유형을 선택해 초안으로 만듭니다. Publish 전에는 공개되지 않습니다.</p><label>페이지 유형<select value={pageType} onChange={(event) => setPageType(event.target.value as "blocks" | "article")}><option value="blocks">블록 조합형</option><option value="article">게시글형</option></select><small>{pageType === "blocks" ? "여러 섹션을 조합하는 기존 페이지입니다." : "제목·요약·자유 본문으로 구성하는 페이지입니다."}</small></label><label>페이지 제목<input autoFocus value={title} maxLength={120} onChange={(event) => setTitle(event.target.value)} placeholder="예: 회사 소개" /></label><label>공개 경로<input value={slug} onChange={(event) => setSlug(event.target.value)} placeholder="예: about-us" /><small>영문 소문자, 숫자, 하이픈만 사용할 수 있습니다.</small></label>{error && <p className="admin-dialog-error" role="alert">{error}</p>}<div><button type="button" onClick={onCancel} disabled={submitting}>취소</button><button type="submit" className="admin-button-primary" disabled={submitting || !title.trim() || !slug.trim()}>{submitting ? "저장 중…" : "초안 만들기"}</button></div></form></div>;
 }
-function CreateSectionDialog({ onCancel, onConfirm }: { onCancel: () => void; onConfirm: (title: string) => Promise<void> }) {
+function CreateSectionDialog({ onCancel, onConfirm }: { onCancel: () => void; onConfirm: (input: { title: string; templateId: SectionTemplateId }) => Promise<void> }) {
   const [title, setTitle] = useState("새 섹션");
+  const [templateId, setTemplateId] = useState<SectionTemplateId>("editorialHero");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -1242,14 +1437,46 @@ function CreateSectionDialog({ onCancel, onConfirm }: { onCancel: () => void; on
     event.preventDefault();
     setSubmitting(true);
     setError("");
-    try { await onConfirm(title); }
+    console.info("[section:template-selected]", { templateId, title });
+    try { await onConfirm({ title, templateId }); }
     catch (cause) { setError(cause instanceof Error ? cause.message : "섹션을 만들지 못했습니다."); }
     finally { setSubmitting(false); }
   }
 
-  return <div className="admin-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.currentTarget === event.target && !submitting) onCancel(); }}><form className="admin-delete-dialog admin-create-dialog" role="dialog" aria-modal="true" aria-labelledby="create-section-title" onSubmit={submit}><span className="admin-eyebrow">Create section draft</span><h2 id="create-section-title">새 섹션 만들기</h2><p>기본 문구 필드가 포함된 섹션을 초안으로 만듭니다. Publish 전에는 공개되지 않습니다.</p><label>관리용 섹션 이름<input autoFocus value={title} maxLength={120} onChange={(event) => setTitle(event.target.value)} /></label>{error && <p className="admin-dialog-error" role="alert">{error}</p>}<div><button type="button" onClick={onCancel} disabled={submitting}>취소</button><button type="submit" className="admin-button-primary" disabled={submitting || !title.trim()}>{submitting ? "저장 중…" : "초안 만들기"}</button></div></form></div>;
-}
-function BulkDeleteBar({ count, onDelete }: { count: number; onDelete: () => void }) {
+  return (
+    <div className="admin-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.currentTarget === event.target && !submitting) onCancel(); }}>
+      <form className="admin-delete-dialog admin-create-dialog admin-template-dialog" role="dialog" aria-modal="true" aria-labelledby="create-section-title" onSubmit={submit}>
+        <span className="admin-eyebrow">코드 템플릿 목록</span>
+        <h2 id="create-section-title">새 섹션 만들기</h2>
+        <p>코드에 등록된 템플릿을 선택하면 해당 스키마와 기본 콘텐츠로 초안이 생성됩니다.</p>
+        <label>관리용 섹션 이름<input autoFocus value={title} maxLength={120} onChange={(event) => setTitle(event.target.value)} /></label>
+        <fieldset className="admin-template-picker">
+          <legend>템플릿 선택</legend>
+          <div role="radiogroup" aria-label="섹션 템플릿">
+            {SECTION_TEMPLATE_REGISTRY.map((template) => (
+              <button
+                key={template.id}
+                type="button"
+                role="radio"
+                aria-checked={templateId === template.id}
+                className={templateId === template.id ? "is-selected" : ""}
+                data-template-card-id={template.id}
+                onClick={() => setTemplateId(template.id)}
+              >
+                <span className="admin-template-card-preview" data-template-preview={template.id} aria-hidden="true" />
+                <strong>{template.label}</strong>
+                <small>{template.description}</small>
+                <em>{template.itemLabel ? `${template.itemLabel} 최대 ${template.maxItems}개` : "반복 항목 없음"}</em>
+              </button>
+            ))}
+          </div>
+        </fieldset>
+        {error && <p className="admin-dialog-error" role="alert">{error}</p>}
+        <div><button type="button" onClick={onCancel} disabled={submitting}>취소</button><button type="submit" className="admin-button-primary" disabled={submitting || !title.trim()}>{submitting ? "저장 중…" : "선택한 템플릿으로 만들기"}</button></div>
+      </form>
+    </div>
+  );
+}function BulkDeleteBar({ count, onDelete }: { count: number; onDelete: () => void }) {
   return <div className="admin-bulk-bar" aria-live="polite"><span>{count > 0 ? count + "개 선택됨" : "삭제할 항목을 선택하세요."}</span><button type="button" className="is-danger" disabled={count === 0} onClick={onDelete}>선택 항목 삭제</button></div>;
 }
 
@@ -1317,10 +1544,40 @@ function ArchiveGroup({ title, items, onRestore }: { title: string; items: Array
 function VisibilityControls({ value, onChange }: { value: VisibilityState; onChange: (next: VisibilityState) => void }) {
   return <fieldset className="admin-visibility-controls"><legend>공개 가시성</legend><label><input type="checkbox" checked={value.menuVisible} onChange={(event) => onChange({ ...value, menuVisible: event.target.checked })} /> 메뉴·목록에 표시</label><label><input type="checkbox" checked={value.searchIndexable} onChange={(event) => onChange({ ...value, searchIndexable: event.target.checked })} /> 검색엔진 색인 허용</label><small>두 설정은 서로 독립적이며 Publish 후 공개 반영됩니다.</small></fieldset>;
 }
-function ContactPanel() {
-  return <div className="admin-contact-layout"><section className="admin-inbox"><div className="admin-panel-heading"><div><span className="admin-eyebrow">Inbox</span><h2>문의함</h2></div><strong>0</strong></div><div className="admin-empty-state"><span>○</span><strong>새 문의가 없습니다.</strong><p>Contact 폼으로 접수된 문의가 이곳에 표시됩니다.</p></div></section><section className="admin-editor-panel"><EditorHeading eyebrow="Contact page" title="Contact content" status="published" /><div className="admin-form"><label>페이지 제목<input defaultValue="Contact" /></label><label>소개 문구<textarea rows={5} defaultValue="새로운 프로젝트와 다음 성장의 순간을 이야기합니다." /></label><label>문의 폼 안내<textarea rows={5} defaultValue="필요한 내용을 남겨주시면 확인 후 연락드리겠습니다." /></label></div><button className="admin-button admin-button-primary">임시저장</button></section></div>;
-}
+const CONTACT_INQUIRY_LABELS: Record<ContactSubmissionRecord["inquiryType"], string> = {
+  brand: "브랜드 전략", campaign: "캠페인", digital: "디지털 경험", collaboration: "협업 제안", other: "기타 문의",
+};
+const CONTACT_BUDGET_LABELS: Record<ContactSubmissionRecord["budget"], string> = {
+  undecided: "예산 미정", "under-5m": "500만 원 미만", "5m-10m": "500만~1,000만 원", "10m-30m": "1,000만~3,000만 원", "over-30m": "3,000만 원 이상",
+};
 
+function ContactPanel({ records, loading, error, onReload, onStatusChange }: {
+  records: ContactSubmissionRecord[]; loading: boolean; error: string; onReload: () => void;
+  onStatusChange: (id: string, status: ContactSubmissionRecord["status"]) => void;
+}) {
+  const [filter, setFilter] = useState<"all" | ContactSubmissionRecord["status"]>("all");
+  const filteredRecords = filter === "all" ? records : records.filter((record) => record.status === filter);
+  const newCount = records.filter((record) => record.status === "new").length;
+  const statusLabel: Record<ContactSubmissionRecord["status"], string> = { new: "새 문의", read: "확인함", archived: "보관됨" };
+  return <div className="admin-contact-layout">
+    <section className="admin-inbox">
+      <div className="admin-panel-heading"><div><span className="admin-eyebrow">문의 관리</span><h2>Contact 문의함</h2><p>공개 Contact 폼으로 접수된 실제 문의입니다.</p></div><strong>{newCount}</strong></div>
+      <div className="admin-contact-toolbar" role="group" aria-label="문의 상태 필터">
+        {(["all", "new", "read", "archived"] as const).map((status) => <button key={status} type="button" className={filter === status ? "is-active" : ""} onClick={() => setFilter(status)}>{status === "all" ? `전체 ${records.length}` : `${statusLabel[status]} ${records.filter((record) => record.status === status).length}`}</button>)}
+        <button type="button" className="admin-contact-reload" onClick={onReload}>새로고침</button>
+      </div>
+      {loading ? <div className="admin-empty-state"><strong>문의를 불러오는 중입니다.</strong></div> : error ? <div className="admin-empty-state is-error"><strong>문의함을 불러오지 못했습니다.</strong><p>{error}</p><button type="button" onClick={onReload}>다시 시도</button></div> : filteredRecords.length === 0 ? <div className="admin-empty-state"><strong>표시할 문의가 없습니다.</strong><p>선택한 상태의 문의가 접수되면 이곳에 표시됩니다.</p></div> : <div className="admin-contact-list">
+        {filteredRecords.map((record) => <article key={record.id} className={`admin-contact-card is-${record.status}`} data-contact-id={record.id}>
+          <header><div><strong>{record.name}</strong><span>{record.company || "회사명 미입력"}</span></div><div><time dateTime={record.createdAt}>{new Intl.DateTimeFormat("ko-KR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(record.createdAt))}</time><span className={`admin-contact-status is-${record.status}`}>{statusLabel[record.status]}</span></div></header>
+          <dl><div><dt>이메일</dt><dd><a href={`mailto:${record.email}`}>{record.email}</a></dd></div><div><dt>문의 유형</dt><dd>{CONTACT_INQUIRY_LABELS[record.inquiryType]}</dd></div><div><dt>예산</dt><dd>{CONTACT_BUDGET_LABELS[record.budget]}</dd></div></dl>
+          <p className="admin-contact-message">{record.message}</p>
+          <footer><button type="button" disabled={record.status === "new"} onClick={() => onStatusChange(record.id, "new")}>새 문의로</button><button type="button" disabled={record.status === "read"} onClick={() => onStatusChange(record.id, "read")}>확인 완료</button><button type="button" disabled={record.status === "archived"} onClick={() => onStatusChange(record.id, "archived")}>보관</button></footer>
+        </article>)}
+      </div>}
+    </section>
+    <aside className="admin-contact-guide"><span className="admin-eyebrow">처리 안내</span><h2>문의 상태를 구분해 관리하세요.</h2><ol><li><strong>새 문의</strong><span>아직 확인하지 않은 요청입니다.</span></li><li><strong>확인함</strong><span>내용을 검토했거나 회신 중인 요청입니다.</span></li><li><strong>보관됨</strong><span>처리가 끝난 요청입니다.</span></li></ol><p>상태 변경은 즉시 저장되며, 문의 원문은 삭제하지 않습니다.</p></aside>
+  </div>;
+}
 function EditorHeading({ eyebrow, title, status }: { eyebrow: string; title: string; status: Status }) {
   return <div className="admin-editor-heading"><div><span className="admin-eyebrow">{eyebrow}</span><h2>{title}</h2></div><StatusBadge status={status} /></div>;
 }

@@ -1,15 +1,26 @@
+import {
+  getSectionTemplateDefinition,
+  isSectionTemplateId,
+  type SectionTemplateId,
+  type SectionTemplateItem,
+} from "../lib/section-templates.ts";
+
+export type { SectionTemplateId, SectionTemplateItem } from "../lib/section-templates.ts";
+
 export type SectionBlock =
   | { id: string; type: "text"; text: string }
   | { id: string; type: "button"; label: string; href: string }
   | { id: string; type: "image"; src: string; alt: string };
 
 export type SectionContent = {
+  templateId: SectionTemplateId;
   eyebrow: string;
   headlinePrimary: string;
   headlineAccent: string;
   subheadline: string;
   description: string;
   ctaLabel: string;
+  items: SectionTemplateItem[];
   blocks: SectionBlock[];
 };
 
@@ -49,7 +60,15 @@ const CREATE_SQL = `CREATE TABLE IF NOT EXISTS content_sections (
 )`;
 const SECTION_ID_PATTERN = /^section-[a-f0-9-]{36}$/;
 const PAGE_ID_PATTERN = /^(home|contact|vlog|page-[a-f0-9-]{36})$/;
-const EMPTY_CONTENT: SectionContent = { eyebrow: "New section", headlinePrimary: "새로운 이야기를", headlineAccent: "시작하세요.", subheadline: "이곳에 핵심 메시지를 입력하세요.", description: "섹션 설명을 입력하세요.", ctaLabel: "", blocks: [] };
+function templateContent(templateId: SectionTemplateId): SectionContent {
+  const definition = getSectionTemplateDefinition(templateId);
+  return {
+    templateId,
+    ...definition.defaults,
+    items: definition.defaults.items.map((item) => ({ ...item })),
+    blocks: [],
+  };
+}
 
 export async function getContentSectionDb(): Promise<D1DatabaseLike> {
   const { env } = await import("cloudflare:workers");
@@ -69,6 +88,7 @@ function text(value: unknown, fallback: string, max: number) {
 }
 
 const BLOCK_ID_PATTERN = /^block-[a-z0-9-]{1,72}$/;
+const ITEM_ID_PATTERN = /^item-[a-z0-9-]{1,72}$/;
 
 function blockUrl(value: unknown, kind: "href" | "src") {
   const result = text(value, "", 2048);
@@ -101,15 +121,41 @@ export function validateSectionBlocks(input: unknown): SectionBlock[] {
   return blocks;
 }
 
+export function validateSectionItems(input: unknown, templateId: SectionTemplateId): SectionTemplateItem[] {
+  const definition = getSectionTemplateDefinition(templateId);
+  if (!Array.isArray(input) || input.length > definition.maxItems) throw new Error("invalid-section-items");
+  const ids = new Set<string>();
+  return input.map((value) => {
+    if (!value || typeof value !== "object") throw new Error("invalid-section-item");
+    const source = value as Record<string, unknown>;
+    const id = String(source.id ?? "");
+    if (!ITEM_ID_PATTERN.test(id) || ids.has(id)) throw new Error("invalid-section-item");
+    ids.add(id);
+    return {
+      id,
+      title: text(source.title, "", 160),
+      meta: text(source.meta, "", 100),
+      description: text(source.description, "", 500),
+      href: blockUrl(source.href, "href"),
+      imageSrc: blockUrl(source.imageSrc, "src"),
+      imageAlt: text(source.imageAlt, "", 200),
+    };
+  });
+}
+
 function parseContent(value: string): SectionContent {
   const source = JSON.parse(value) as Record<string, unknown>;
+  const templateId = isSectionTemplateId(source.templateId) ? source.templateId : "editorialHero";
+  const fallback = templateContent(templateId);
   return {
-    eyebrow: text(source.eyebrow, EMPTY_CONTENT.eyebrow, 100),
-    headlinePrimary: text(source.headlinePrimary, EMPTY_CONTENT.headlinePrimary, 160),
-    headlineAccent: text(source.headlineAccent, EMPTY_CONTENT.headlineAccent, 160),
-    subheadline: text(source.subheadline, EMPTY_CONTENT.subheadline, 300),
-    description: text(source.description, EMPTY_CONTENT.description, 500),
-    ctaLabel: text(source.ctaLabel, EMPTY_CONTENT.ctaLabel, 80),
+    templateId,
+    eyebrow: text(source.eyebrow, fallback.eyebrow, 100),
+    headlinePrimary: text(source.headlinePrimary, fallback.headlinePrimary, 160),
+    headlineAccent: text(source.headlineAccent, fallback.headlineAccent, 160),
+    subheadline: text(source.subheadline, fallback.subheadline, 300),
+    description: text(source.description, fallback.description, 500),
+    ctaLabel: text(source.ctaLabel, fallback.ctaLabel, 80),
+    items: source.items === undefined ? fallback.items : validateSectionItems(source.items, templateId),
     blocks: validateSectionBlocks(source.blocks),
   };
 }
@@ -120,13 +166,18 @@ export function validateSectionDraft(input: Record<string, unknown>) {
   const title = text(input.title, "새 섹션", 120);
   if (!title) throw new Error("invalid-section-title");
   const source = input.content && typeof input.content === "object" ? input.content as Record<string, unknown> : {};
+  const requestedTemplateId = source.templateId ?? input.templateId ?? "editorialHero";
+  if (!isSectionTemplateId(requestedTemplateId)) throw new Error("invalid-section-template");
+  const fallback = templateContent(requestedTemplateId);
   const content: SectionContent = {
-    eyebrow: text(source.eyebrow, EMPTY_CONTENT.eyebrow, 100),
-    headlinePrimary: text(source.headlinePrimary, EMPTY_CONTENT.headlinePrimary, 160),
-    headlineAccent: text(source.headlineAccent, EMPTY_CONTENT.headlineAccent, 160),
-    subheadline: text(source.subheadline, EMPTY_CONTENT.subheadline, 300),
-    description: text(source.description, EMPTY_CONTENT.description, 500),
-    ctaLabel: text(source.ctaLabel, EMPTY_CONTENT.ctaLabel, 80),
+    templateId: requestedTemplateId,
+    eyebrow: text(source.eyebrow, fallback.eyebrow, 100),
+    headlinePrimary: text(source.headlinePrimary, fallback.headlinePrimary, 160),
+    headlineAccent: text(source.headlineAccent, fallback.headlineAccent, 160),
+    subheadline: text(source.subheadline, fallback.subheadline, 300),
+    description: text(source.description, fallback.description, 500),
+    ctaLabel: text(source.ctaLabel, fallback.ctaLabel, 80),
+    items: source.items === undefined ? fallback.items : validateSectionItems(source.items, requestedTemplateId),
     blocks: validateSectionBlocks(source.blocks),
   };
   return { pageId, title, content };
