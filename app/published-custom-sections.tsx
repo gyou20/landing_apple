@@ -1,4 +1,4 @@
-import { getContentSectionDb, listPublishedContentSections, type SectionBlock } from "../db/content-sections";
+import { getContentSectionDb, listPublishedContentSections, type ContentSectionRecord, type SectionBlock } from "../db/content-sections";
 import { publishedDeletionSet } from "../db/content-deletions";
 import { listVisibility } from "../db/content-visibility";
 import { SectionTemplateRenderer } from "./section-template-renderers";
@@ -20,46 +20,56 @@ function PublishedSectionBlocks({ blocks }: { blocks: SectionBlock[] }) {
   );
 }
 
-export async function PublishedCustomSections({ pageId }: { pageId: string }) {
+export async function loadVisiblePublishedCustomSections(pageId: string) {
+  const db = await getContentSectionDb();
+  const [sections, visibility, deleted] = await Promise.all([
+    listPublishedContentSections(db, pageId),
+    listVisibility(db),
+    publishedDeletionSet(db),
+  ]);
+  const visibleSections = sections.filter((section) => {
+    if (deleted.has(`section:${section.id}`)) return false;
+    const record = visibility.find((item) => item.entityType === "section" && item.entityId === section.id);
+    return record?.published.menuVisible ?? true;
+  });
+  console.info("[section:public-loaded]", {
+    pageId,
+    sections: visibleSections.map((section) => ({
+      id: section.id,
+      sortOrder: section.sortOrder,
+      templateId: section.published?.content.templateId,
+      itemCount: section.published?.content.items.length ?? 0,
+      blockCount: section.published?.content.blocks.length ?? 0,
+    })),
+  });
+  return visibleSections;
+}
+
+function PublishedCustomSection({ section, order }: { section: ContentSectionRecord; order: number }) {
+  const content = section.published!.content;
+  return (
+    <section
+      key={section.id}
+      className={`template-section template-section--${content.templateId}`}
+      style={{ order }}
+      aria-labelledby={`${section.id}-title`}
+      data-content-section-id={section.id}
+      data-section-template={content.templateId}
+      data-visibility-entity-type="section"
+      data-visibility-entity-id={section.id}
+      data-public-section-order={order}
+    >
+      <span className="template-section-index" aria-hidden="true">Section {String(order + 1).padStart(2, "0")}</span>
+      <SectionTemplateRenderer content={content} sectionId={section.id} />
+      <PublishedSectionBlocks blocks={content.blocks} />
+    </section>
+  );
+}
+
+export async function PublishedCustomSections({ pageId, sections, orderById }: { pageId: string; sections?: ContentSectionRecord[]; orderById?: Record<string, number> }) {
   try {
-    const db = await getContentSectionDb();
-    const [sections, visibility, deleted] = await Promise.all([
-      listPublishedContentSections(db, pageId),
-      listVisibility(db),
-      publishedDeletionSet(db),
-    ]);
-    const visibleSections = sections.filter((section) => {
-      if (deleted.has(`section:${section.id}`)) return false;
-      const record = visibility.find((item) => item.entityType === "section" && item.entityId === section.id);
-      return record?.published.menuVisible ?? true;
-    });
-    console.info("[section:public-loaded]", {
-      pageId,
-      sections: visibleSections.map((section) => ({
-        id: section.id,
-        templateId: section.published?.content.templateId,
-        itemCount: section.published?.content.items.length ?? 0,
-        blockCount: section.published?.content.blocks.length ?? 0,
-      })),
-    });
-    return visibleSections.map((section, index) => {
-      const content = section.published!.content;
-      return (
-        <section
-          key={section.id}
-          className={`template-section template-section--${content.templateId}`}
-          aria-labelledby={`${section.id}-title`}
-          data-content-section-id={section.id}
-          data-section-template={content.templateId}
-          data-visibility-entity-type="section"
-          data-visibility-entity-id={section.id}
-        >
-          <span className="template-section-index" aria-hidden="true">Section {String(index + 1).padStart(2, "0")}</span>
-          <SectionTemplateRenderer content={content} sectionId={section.id} />
-          <PublishedSectionBlocks blocks={content.blocks} />
-        </section>
-      );
-    });
+    const visibleSections = sections ?? await loadVisiblePublishedCustomSections(pageId);
+    return visibleSections.map((section, index) => <PublishedCustomSection key={section.id} section={section} order={orderById?.[section.id] ?? index} />);
   } catch (error) {
     console.error("[section:public-load-failed]", { pageId, error });
     return null;

@@ -1943,3 +1943,16 @@ a {
   .section-two-standalone .section-two-content { padding-top: 68px; }
   .section-two-standalone .section-index-two { top: 84px; }
 }
+
+.site-shell--ordered {
+  display: flex;
+  flex-direction: column;
+}
+
+.site-shell--ordered > .agency-sections {
+  display: contents;
+}
+
+.home-ordered-navigation {
+  order: -1;
+}

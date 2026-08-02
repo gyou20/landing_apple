@@ -3,14 +3,14 @@ import { notFound } from "next/navigation";
 import { publishedVisibility, publishedVisibilityMap } from "../../db/content-visibility";
 import { isPublishedDeleted } from "../../db/content-deletions";
 import { loadPublicNavigation, type PublicNavigationItem } from "../../db/public-navigation";
-import { resolveHomeLeadMode } from "../../lib/home-lead-mode";
+import { DEFAULT_PAGE_SECTION_ORDERS, loadPublishedPageSectionOrder } from "../../db/page-section-orders";
 import { AgencySections } from "../agency-sections";
 import { EditablePhone } from "../editable-phone";
 import { HeroDiagnostics } from "../hero-diagnostics";
 import { SiteHeader } from "../site-header";
 import { HomeHeroCopy, SectionTwoContent } from "../home-section-copy";
 import { PublishedSectionBackgrounds } from "../published-section-backgrounds";
-import { PublishedCustomSections } from "../published-custom-sections";
+import { loadVisiblePublishedCustomSections, PublishedCustomSections } from "../published-custom-sections";
 
 export async function generateMetadata(): Promise<Metadata> {
   const visibility = await publishedVisibility("page", "home");
@@ -40,11 +40,13 @@ function SectionTwo({ standalone = false }: { standalone?: boolean }) {
   );
 }
 
-function HeroLead({ fullMotion, navigationItems }: { fullMotion: boolean; navigationItems: PublicNavigationItem[] }) {
+function HeroLead({ fullMotion, navigationItems, order, showNavigation }: { fullMotion: boolean; navigationItems: PublicNavigationItem[]; order: number; showNavigation: boolean }) {
   return (
     <section
       className={fullMotion ? "hero" : "hero hero-static"}
+      style={{ order }}
       data-section="hero"
+      data-public-section-order={order}
       data-background-section-id="home-section-01"
       data-visibility-entity-type="section"
       data-visibility-entity-id="home-section-01"
@@ -54,7 +56,7 @@ function HeroLead({ fullMotion, navigationItems }: { fullMotion: boolean; naviga
     >
       <div className="hero-sticky">
         <span className="section-index section-index-one" aria-hidden="true" data-testid="section-index-one">Section 01</span>
-        <HomeNavigation items={navigationItems} />
+        {showNavigation && <HomeNavigation items={navigationItems} />}
         <HomeHeroCopy />
         <EditablePhone motionEnabled={fullMotion} screenContent={fullMotion ? <SectionTwo /> : null} />
         <div className="hero-foot">
@@ -68,10 +70,10 @@ function HeroLead({ fullMotion, navigationItems }: { fullMotion: boolean; naviga
   );
 }
 
-function SectionTwoDirect({ navigationItems }: { navigationItems: PublicNavigationItem[] }) {
+function SectionTwoDirect({ navigationItems, order, showNavigation }: { navigationItems: PublicNavigationItem[]; order: number; showNavigation: boolean }) {
   return (
-    <div className="section-two-direct">
-      <HomeNavigation direct items={navigationItems} />
+    <div className="section-two-direct" style={{ order }} data-public-section-order={order}>
+      {showNavigation && <HomeNavigation direct items={navigationItems} />}
       <SectionTwo standalone />
     </div>
   );
@@ -81,24 +83,41 @@ export default async function Home() {
   if (await isPublishedDeleted("page", "home")) notFound();
   const visibility = await publishedVisibilityMap();
   const navigationItems = await loadPublicNavigation();
+  const customSections = await loadVisiblePublishedCustomSections("home");
+  const fixedSectionIds = DEFAULT_PAGE_SECTION_ORDERS.home;
+  const availableSectionIds = [...fixedSectionIds, ...customSections.map((section) => section.id)];
+  const publishedSectionOrder = await loadPublishedPageSectionOrder("home", availableSectionIds);
+  const sectionOrder = Object.fromEntries(publishedSectionOrder.map((id, index) => [id, index]));
   const sectionVisible = (id: string) => visibility["section:" + id]?.menuVisible ?? true;
-  const leadMode = resolveHomeLeadMode(sectionVisible("home-section-01"), sectionVisible("home-section-02"));
+  const sectionOneVisible = sectionVisible("home-section-01");
+  const sectionTwoVisible = sectionVisible("home-section-02");
   const laterSectionIds = ["home-section-03", "home-section-04", "home-section-05", "home-section-06"].filter(sectionVisible);
+  const visibleCustomIds = new Set(customSections.map((section) => section.id));
+  const visibleOrderedIds = publishedSectionOrder.filter((id) => id.startsWith("section-") ? visibleCustomIds.has(id) : sectionVisible(id));
+  const firstVisibleId = visibleOrderedIds[0] ?? null;
+  const sectionOneIndex = publishedSectionOrder.indexOf("home-section-01");
+  const sectionTwoIndex = publishedSectionOrder.indexOf("home-section-02");
+  const leadSectionsArePaired = sectionOneVisible && sectionTwoVisible && sectionTwoIndex === sectionOneIndex + 1;
+  const needsDirectNavigation = !firstVisibleId || (firstVisibleId !== "home-section-01" && firstVisibleId !== "home-section-02");
+
+  console.info("[section-order:public-resolved]", {
+    pageId: "home",
+    publishedSectionOrder,
+    visibleOrderedIds,
+    leadSectionsArePaired,
+  });
 
   return (
-    <main className="site-shell" id="top" data-home-lead-mode={leadMode}>
-      {leadMode === "full-motion" && <HeroDiagnostics />}
+    <main className="site-shell site-shell--ordered" id="top" data-home-lead-mode={leadSectionsArePaired ? "full-motion" : "ordered"}>
+      {leadSectionsArePaired && <HeroDiagnostics />}
       <PublishedSectionBackgrounds />
 
-      {leadMode === "full-motion" && <HeroLead fullMotion navigationItems={navigationItems} />}
-      {leadMode === "section-one-static" && <HeroLead fullMotion={false} navigationItems={navigationItems} />}
-      {leadMode === "section-two-direct" && <SectionTwoDirect navigationItems={navigationItems} />}
-      {leadMode === "sections-hidden" && (
-        <div className="home-direct-start"><HomeNavigation direct items={navigationItems} /></div>
-      )}
+      {needsDirectNavigation && <div className="home-direct-start home-ordered-navigation"><HomeNavigation direct items={navigationItems} /></div>}
+      {sectionOneVisible && <HeroLead fullMotion={leadSectionsArePaired} navigationItems={navigationItems} order={sectionOrder["home-section-01"]} showNavigation={firstVisibleId === "home-section-01"} />}
+      {sectionTwoVisible && !leadSectionsArePaired && <SectionTwoDirect navigationItems={navigationItems} order={sectionOrder["home-section-02"]} showNavigation={firstVisibleId === "home-section-02"} />}
 
-      <AgencySections visibleSectionIds={laterSectionIds} />
-      <PublishedCustomSections pageId="home" />
+      <AgencySections visibleSectionIds={laterSectionIds} sectionOrder={sectionOrder} />
+      <PublishedCustomSections pageId="home" sections={customSections} orderById={sectionOrder} />
     </main>
   );
 }

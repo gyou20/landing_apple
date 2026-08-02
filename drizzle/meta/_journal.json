@@ -71,6 +71,13 @@
       "when": 1785596425507,
       "tag": "0009_greedy_layla_miller",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1785643837766,
+      "tag": "0010_pale_manta",
+      "breakpoints": true
     }
   ]
 }

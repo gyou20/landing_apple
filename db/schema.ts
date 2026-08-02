@@ -81,6 +81,14 @@ export const contentSections = sqliteTable("content_sections", {
   updatedAt: text("updated_at").notNull(),
   publishedAt: text("published_at"),
 });
+export const pageSectionOrders = sqliteTable("page_section_orders", {
+  pageId: text("page_id").primaryKey(),
+  draftOrder: text("draft_order").notNull(),
+  publishedOrder: text("published_order"),
+  updatedAt: text("updated_at").notNull(),
+  publishedAt: text("published_at"),
+});
+
 export const contentVlogs = sqliteTable("content_vlogs", {
   id: text("id").primaryKey(),
   draftTitle: text("draft_title").notNull(),

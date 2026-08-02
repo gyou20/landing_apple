@@ -8,6 +8,7 @@ import { ImageProcessor } from "./image-processor";
 import { AssetUsagePanel } from "./asset-usage-panel";
 import { ChangeHistoryPanel } from "./change-history-panel";
 import { SectionBackgroundUploader } from "./section-background-uploader";
+import { moveSelectedItems, type SectionSelectionMovement } from "./section-selection-order";
 import type { SectionBlock, SectionContent } from "../../db/content-sections";
 import type { ContactSubmissionRecord } from "../../db/contact-submissions";
 import { SECTION_TEMPLATE_REGISTRY, getSectionTemplateDefinition, type SectionTemplateId, type SectionTemplateItem } from "../../lib/section-templates";
@@ -41,6 +42,11 @@ type SectionApiRecord = {
   id: string;
   pageId: string;
   draft: { title: string; content: AdminSectionContent; status: "draft" | "published" };
+};
+type SectionOrderApiRecord = {
+  pageId: string;
+  draftOrder: string[];
+  publishedOrder: string[] | null;
 };
 type VlogApiRecord = {
   id: string;
@@ -119,6 +125,13 @@ function reorderItemById<T extends { id: string }>(items: T[], sourceId: string,
   return next;
 }
 
+function orderItemsByIds<T extends { id: string }>(items: T[], orderedIds: string[]) {
+  const itemMap = new Map(items.map((item) => [item.id, item]));
+  const ordered = orderedIds.map((id) => itemMap.get(id)).filter((item): item is T => Boolean(item));
+  const included = new Set(ordered.map((item) => item.id));
+  return [...ordered, ...items.filter((item) => !included.has(item.id))];
+}
+
 function recordOrderChange(list: OrderList, sourceId: string, targetId: string, itemIds: string[]) {
   console.info("[admin-order]", {
     list,
@@ -163,7 +176,28 @@ export function AdminShell({ user }: { user: AdminUser }) {
   const pageSaveTimer = useRef<number | null>(null);
   const sectionSaveTimers = useRef(new Map<string, number>());
   const vlogSaveTimers = useRef(new Map<string, number>());
+  const sectionOrderSaveQueues = useRef(new Map<string, Promise<void>>());
   const siteContent = useSiteContent();
+
+  function queueSectionOrderSave(pageId: string, sectionIds: string[]) {
+    const previous = sectionOrderSaveQueues.current.get(pageId) ?? Promise.resolve();
+    const request = previous.catch(() => undefined).then(async () => {
+      console.info("[section-order:admin-save-request]", { pageId, sectionIds });
+      const response = await fetch("/api/admin/section-order", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pageId, sectionIds }),
+      });
+      const data = await response.json() as { error?: string };
+      if (!response.ok) throw new Error(data.error ?? "section-order-save-failed");
+      console.info("[section-order:admin-save-complete]", { pageId, sectionIds });
+    });
+    sectionOrderSaveQueues.current.set(pageId, request);
+    void request.finally(() => {
+      if (sectionOrderSaveQueues.current.get(pageId) === request) sectionOrderSaveQueues.current.delete(pageId);
+    }).catch(() => undefined);
+    return request;
+  }
 
   async function loadContactInbox() {
     setContactLoading(true);
@@ -228,7 +262,12 @@ export function AdminShell({ user }: { user: AdminUser }) {
         if (!response.ok) throw new Error(data.error ?? "section-load-failed");
         return data.sections ?? [];
       }),
-    ]).then(([records, visibilityRecords, sectionRecords]) => {
+      fetch("/api/admin/section-order", { cache: "no-store" }).then(async (response) => {
+        const data = await response.json() as { orders?: SectionOrderApiRecord[]; error?: string };
+        if (!response.ok) throw new Error(data.error ?? "section-order-load-failed");
+        return data.orders ?? [];
+      }),
+    ]).then(([records, visibilityRecords, sectionRecords, sectionOrderRecords]) => {
       if (cancelled) return;
       const dynamicSections = (pageId: string): AdminPageSection[] => sectionRecords.filter((record) => record.pageId === pageId).map((record) => ({
         id: record.id,
@@ -237,22 +276,26 @@ export function AdminShell({ user }: { user: AdminUser }) {
         status: record.draft.status,
         visibility: visibilityRecords.find((item) => item.entityType === "section" && item.entityId === record.id)?.draft ?? PUBLIC_DEFAULT,
       }));
+      const orderedSections = (pageId: string, sections: AdminPageSection[]) => {
+        const stored = sectionOrderRecords.find((record) => record.pageId === pageId)?.draftOrder ?? [];
+        return orderItemsByIds(sections, stored);
+      };
       const createdPages = records.map((record): AdminPageItem => ({
         id: record.id,
         title: record.draft.title,
         slug: record.draft.slug,
         type: record.draft.type,
         status: record.draft.status,
-        sections: dynamicSections(record.id),
+        sections: orderedSections(record.id, dynamicSections(record.id)),
         summary: record.draft.summary,
         body: record.draft.body,
         visibility: visibilityRecords.find((item) => item.entityType === "page" && item.entityId === record.id)?.draft ?? PUBLIC_DEFAULT,
       }));
       setPages((current) => [
-        ...current.filter((page) => !page.id.startsWith("page-")).map((page) => ({ ...page, sections: [...page.sections.filter((section) => !section.id.startsWith("section-")), ...dynamicSections(page.id)] })),
+        ...current.filter((page) => !page.id.startsWith("page-")).map((page) => ({ ...page, sections: orderedSections(page.id, [...page.sections.filter((section) => !section.id.startsWith("section-")), ...dynamicSections(page.id)]) })),
         ...createdPages,
       ]);
-      console.info("[page:admin-hydrated]", { pageCount: createdPages.length, sectionCount: sectionRecords.length });
+      console.info("[page:admin-hydrated]", { pageCount: createdPages.length, sectionCount: sectionRecords.length, orderCount: sectionOrderRecords.length });
     }).catch((error) => {
       console.error("[page:admin-hydrate-failed]", { error });
       if (!cancelled) setNotice("생성한 페이지·섹션 목록을 불러오지 못했습니다. 새로고침 후 다시 확인하세요.");
@@ -598,7 +641,10 @@ export function AdminShell({ user }: { user: AdminUser }) {
     const data = await response.json() as { section?: SectionApiRecord; error?: string };
     if (!response.ok || !data.section) throw new Error("섹션을 만들지 못했습니다.");
     const section: AdminPageSection = { id: data.section.id, title: data.section.draft.title, content: data.section.draft.content, status: data.section.draft.status, visibility: PUBLIC_DEFAULT };
+    const ownerPage = pages.find((page) => page.id === data.section!.pageId);
+    const nextSectionIds = [...(ownerPage?.sections.map((item) => item.id) ?? []), section.id];
     setPages((current) => current.map((page) => page.id === data.section!.pageId ? { ...page, sections: [...page.sections, section] } : page));
+    await queueSectionOrderSave(data.section.pageId, nextSectionIds);
     setCreateSectionPageId(null);
     setNotice("새 섹션을 초안으로 저장했습니다. Publish 전에는 공개되지 않습니다.");
     console.info("[section:admin-create-complete]", { pageId: data.section.pageId, sectionId: data.section.id, templateId: data.section.draft.content.templateId });
@@ -634,8 +680,18 @@ export function AdminShell({ user }: { user: AdminUser }) {
   function updateSelectedPage(patch: Partial<AdminPageItem>) {
     const next = { ...selectedPage, ...patch, status: "draft" as const };
     setPages((current) => current.map((page) => page.id === selectedPage.id ? next : page));
+    if (patch.sections) {
+      const sectionIds = patch.sections.map((section) => section.id);
+      setNotice("섹션 순서를 초안으로 저장하고 있습니다…");
+      void queueSectionOrderSave(selectedPage.id, sectionIds).then(() => {
+        setNotice("섹션 순서를 초안으로 저장했습니다. Publish 후 홈페이지에 반영됩니다.");
+      }).catch((error) => {
+        console.error("[section-order:admin-save-failed]", { pageId: selectedPage.id, sectionIds, error });
+        setNotice("섹션 순서를 저장하지 못했습니다.");
+      });
+    }
     if (!selectedPage.id.startsWith("page-")) {
-      setNotice("변경 내용을 임시저장 대기 상태로 만들었습니다.");
+      if (!patch.sections) setNotice("변경 내용을 임시저장 대기 상태로 만들었습니다.");
       return;
     }
     if (pageSaveTimer.current) window.clearTimeout(pageSaveTimer.current);
@@ -693,6 +749,7 @@ export function AdminShell({ user }: { user: AdminUser }) {
       const data = await response.json() as { error?: string };
       if (!response.ok) throw new Error(data.error ?? "section-save-before-publish-failed");
     }));
+    await queueSectionOrderSave(pageId, sectionIds);
 
     let pageData: { publishedCount?: number; error?: string } = { publishedCount: 0 };
     if (pageId.startsWith("page-")) {
@@ -711,6 +768,9 @@ export function AdminShell({ user }: { user: AdminUser }) {
     const sectionResponse = await fetch("/api/admin/sections/publish", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ pageId }) });
     const sectionData = await sectionResponse.json() as { publishedCount?: number; error?: string };
     if (!sectionResponse.ok) throw new Error(sectionData.error ?? "section-publish-failed");
+    const orderResponse = await fetch("/api/admin/section-order/publish", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ pageId }) });
+    const orderData = await orderResponse.json() as { publishedCount?: number; error?: string };
+    if (!orderResponse.ok) throw new Error(orderData.error ?? "section-order-publish-failed");
 
     const visibilityResponse = await fetch("/api/admin/visibility/publish", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ targets }) });
     const visibilityData = await visibilityResponse.json() as { publishedCount?: number; error?: string };
@@ -732,12 +792,13 @@ export function AdminShell({ user }: { user: AdminUser }) {
     } : page));
     const publishedCount = pageData.publishedCount ?? 0;
     const sectionCount = sectionData.publishedCount ?? 0;
+    const orderCount = orderData.publishedCount ?? 0;
     const visibilityCount = visibilityData.publishedCount ?? 0;
     const backgroundCount = backgroundData.publishedCount ?? 0;
-    setNotice(`현재 페이지 “${selectedPage.title}”만 공개했습니다. 페이지 ${publishedCount}건, 섹션 ${sectionCount}건, 가시성 ${visibilityCount}건, 배경 이미지 ${backgroundCount}건.`);
+    setNotice(`현재 페이지 “${selectedPage.title}”만 공개했습니다. 페이지 ${publishedCount}건, 섹션 ${sectionCount}건, 섹션 순서 ${orderCount}건, 가시성 ${visibilityCount}건, 배경 이미지 ${backgroundCount}건.`);
     window.localStorage.setItem("section-background-published-at", String(Date.now()));
     window.dispatchEvent(new CustomEvent("section-background:published"));
-    console.info("[page:admin-scoped-publish-complete]", { pageId, publishedCount, sectionCount, visibilityCount, backgroundCount, deletedCount: deletionData.deletedCount ?? 0, restoredCount: deletionData.restoredCount ?? 0 });
+    console.info("[page:admin-scoped-publish-complete]", { pageId, publishedCount, sectionCount, orderCount, visibilityCount, backgroundCount, deletedCount: deletionData.deletedCount ?? 0, restoredCount: deletionData.restoredCount ?? 0 });
   }
   async function publishCurrentVlog() {
     if (!selectedArticle) throw new Error("공개할 Vlog를 선택하세요.");
@@ -817,6 +878,7 @@ export function AdminShell({ user }: { user: AdminUser }) {
       sectionSaveTimers.current.clear();
       for (const timer of vlogSaveTimers.current.values()) window.clearTimeout(timer);
       vlogSaveTimers.current.clear();
+      await Promise.all(pages.map((page) => queueSectionOrderSave(page.id, page.sections.map((section) => section.id))));
       const draftVlogs = articles.filter((article) => article.id.startsWith("vlog-"));
       await Promise.all(draftVlogs.map(async (article) => {
         const saveResponse = await fetch("/api/admin/vlogs", {
@@ -852,6 +914,9 @@ export function AdminShell({ user }: { user: AdminUser }) {
       const sectionResponse = await fetch("/api/admin/sections/publish", { method: "POST" });
       const sectionData = await sectionResponse.json() as { publishedCount?: number; error?: string };
       if (!sectionResponse.ok) throw new Error(sectionData.error ?? "section-publish-failed");
+      const orderResponse = await fetch("/api/admin/section-order/publish", { method: "POST" });
+      const orderData = await orderResponse.json() as { publishedCount?: number; error?: string };
+      if (!orderResponse.ok) throw new Error(orderData.error ?? "section-order-publish-failed");
       const vlogResponse = await fetch("/api/admin/vlogs/publish", { method: "POST" });
       const vlogData = await vlogResponse.json() as { publishedCount?: number; error?: string };
       if (!vlogResponse.ok) throw new Error(vlogData.error ?? "vlog-publish-failed");
@@ -869,7 +934,7 @@ export function AdminShell({ user }: { user: AdminUser }) {
       await loadDeletions();
       setPages((current) => current.map((page) => ({ ...page, status: page.id.startsWith("page-") ? "published" : page.status, sections: page.sections.map((section) => section.id.startsWith("section-") ? { ...section, status: "published" } : section) })));
       setArticles((current) => current.map((article) => article.id.startsWith("vlog-") ? { ...article, status: "published" } : article));
-      setNotice("페이지 " + (pageData.publishedCount ?? 0) + "건, 섹션 " + (sectionData.publishedCount ?? 0) + "건, Vlog " + (vlogData.publishedCount ?? 0) + "건, 가시성 " + visibilityCount + "건, 배경 이미지 " + count + "건, 삭제 " + (deletionData.deletedCount ?? 0) + "건, 복원 " + (deletionData.restoredCount ?? 0) + "건을 공개했습니다.");
+      setNotice("페이지 " + (pageData.publishedCount ?? 0) + "건, 섹션 " + (sectionData.publishedCount ?? 0) + "건, 섹션 순서 " + (orderData.publishedCount ?? 0) + "건, Vlog " + (vlogData.publishedCount ?? 0) + "건, 가시성 " + visibilityCount + "건, 배경 이미지 " + count + "건, 삭제 " + (deletionData.deletedCount ?? 0) + "건, 복원 " + (deletionData.restoredCount ?? 0) + "건을 공개했습니다.");
       window.localStorage.setItem("section-background-published-at", String(Date.now()));
       window.dispatchEvent(new CustomEvent("section-background:published"));
       console.info("[section-background:admin-publish-complete]", { count });
@@ -972,11 +1037,20 @@ function SortableListRow({ index, title, meta, status, selected, checked, onChec
 function PageEditor({ page, index, total, siteContent, onSiteContentChange, onChange, onMove, onUndoOrder, canUndoOrder, onCopy, onDelete, visibility, onVisibilityChange, onSectionVisibilityChange, selectedDeleteKeys, draftDeletedKeys, onToggleDelete, onDeleteSections, onCreateSection, onDynamicSectionChange }: { page: AdminPageItem; index: number; total: number; siteContent: SiteContent; onSiteContentChange: (content: SiteContent, field: string) => void; onChange: (patch: Partial<AdminPageItem>) => void; onMove: (id: string, movement: -1 | 1 | "first" | "last") => void; onUndoOrder: () => void; canUndoOrder: boolean; onCopy: (page: AdminPageItem) => void; onDelete: () => void; visibility: VisibilityState; onVisibilityChange: (next: VisibilityState) => void; onSectionVisibilityChange: (id: string, next: VisibilityState) => void; selectedDeleteKeys: Set<string>; draftDeletedKeys: Set<string>; onToggleDelete: (target: DeleteTarget, checked: boolean) => void; onDeleteSections: (targets: DeleteTarget[]) => void; onCreateSection: () => void; onDynamicSectionChange: (sectionId: string, patch: Partial<AdminPageSection>) => void }) {
   const [sectionDrag, setSectionDrag] = useState<{ sourceId: string; targetId: string | null } | null>(null);
   const [expandedSectionId, setExpandedSectionId] = useState<string | null>(null);
-  const sectionMoveAnchorRef = useRef<{ sectionId: string; viewportTop: number } | null>(null);
+  const sectionMoveAnchorRef = useRef<{
+    sectionId: string;
+    source: "section-row" | "selection-controls";
+    placement?: "top" | "bottom";
+    viewportTop: number;
+    scrollY: number;
+  } | null>(null);
   const editableSections = page.sections.filter((section) => section.visibility.menuVisible && !draftDeletedKeys.has(targetKey({ entityType: "section", entityId: section.id })));
   const selectedEditableSections = editableSections.filter((section) => selectedDeleteKeys.has(targetKey({ entityType: "section", entityId: section.id })));
-  const selectedEditableSection = selectedEditableSections.length === 1 ? selectedEditableSections[0] : null;
-  const selectedEditableSectionIndex = selectedEditableSection ? editableSections.findIndex((section) => section.id === selectedEditableSection.id) : -1;
+  const selectedEditableSectionIds = selectedEditableSections.map((section) => section.id);
+  const firstSelectedSectionIndex = editableSections.findIndex((section) => selectedEditableSectionIds.includes(section.id));
+  const lastSelectedSectionIndex = editableSections.findLastIndex((section) => selectedEditableSectionIds.includes(section.id));
+  const selectionAlreadyAtFront = selectedEditableSections.every((section, index) => editableSections[index]?.id === section.id);
+  const selectionAlreadyAtBack = selectedEditableSections.every((section, index) => editableSections[editableSections.length - selectedEditableSections.length + index]?.id === section.id);
   function findSectionEditorElement(sectionId: string) {
     return Array.from(document.querySelectorAll<HTMLElement>("[data-section-editor-id]")).find((element) => element.dataset.sectionEditorId === sectionId) ?? null;
   }
@@ -984,34 +1058,80 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
   useLayoutEffect(() => {
     const anchor = sectionMoveAnchorRef.current;
     if (!anchor) return;
-    const movedElement = findSectionEditorElement(anchor.sectionId);
-    if (!movedElement) {
-      sectionMoveAnchorRef.current = null;
-      console.warn("[section-order-anchor-missing]", { sectionId: anchor.sectionId });
-      return;
+
+    function restoreAnchor(stage: "layout" | "animation-frame") {
+      const anchorElement = anchor.source === "section-row"
+        ? findSectionEditorElement(anchor.sectionId)
+        : document.querySelector<HTMLElement>(`[data-section-order-controls="${anchor.placement}"]`);
+      if (!anchorElement) {
+        console.warn("[section-order-anchor-missing]", { sectionId: anchor.sectionId, source: anchor.source, placement: anchor.placement, stage });
+        return false;
+      }
+      const nextTop = anchorElement.getBoundingClientRect().top;
+      const scrollDelta = nextTop - anchor.viewportTop;
+      if (Math.abs(scrollDelta) >= 1) window.scrollBy(0, scrollDelta);
+      console.info("[section-order-anchor-restored]", {
+        sectionId: anchor.sectionId,
+        source: anchor.source,
+        placement: anchor.placement,
+        stage,
+        previousTop: anchor.viewportTop,
+        nextTop,
+        scrollDelta,
+        scrollYBefore: anchor.scrollY,
+        scrollYAfter: window.scrollY,
+      });
+      return true;
     }
-    const nextTop = movedElement.getBoundingClientRect().top;
-    const scrollDelta = nextTop - anchor.viewportTop;
-    if (Math.abs(scrollDelta) >= 1) window.scrollBy(0, scrollDelta);
-    console.info("[section-order-anchor-restored]", { sectionId: anchor.sectionId, previousTop: anchor.viewportTop, nextTop, scrollDelta });
-    sectionMoveAnchorRef.current = null;
+
+    restoreAnchor("layout");
+    const frameId = window.requestAnimationFrame(() => {
+      restoreAnchor("animation-frame");
+      sectionMoveAnchorRef.current = null;
+    });
+    return () => window.cancelAnimationFrame(frameId);
   }, [page.sections]);
 
-  function moveSection(sectionId: string, movement: -1 | 1 | "first" | "last") {
+  function moveSection(sectionId: string, movement: -1 | 1 | "first" | "last", source: "section-row" | "selection-controls" = "section-row", placement?: "top" | "bottom") {
     const currentIndex = editableSections.findIndex((section) => section.id === sectionId);
     if (currentIndex < 0) return;
     const targetIndex = movement === "first" ? 0 : movement === "last" ? editableSections.length - 1 : currentIndex + movement;
     const targetId = editableSections[targetIndex]?.id;
     const next = targetId ? reorderItemById(page.sections, sectionId, targetId) : page.sections;
     if (next === page.sections || !targetId || targetId === sectionId) return;
-    const movedElement = findSectionEditorElement(sectionId);
-    if (movedElement) {
-      sectionMoveAnchorRef.current = { sectionId, viewportTop: movedElement.getBoundingClientRect().top };
-      console.info("[section-order-anchor-captured]", { sectionId, viewportTop: sectionMoveAnchorRef.current.viewportTop, movement });
+    const anchorElement = source === "section-row"
+      ? findSectionEditorElement(sectionId)
+      : document.querySelector<HTMLElement>(`[data-section-order-controls="${placement}"]`);
+    if (anchorElement) {
+      sectionMoveAnchorRef.current = { sectionId, source, placement, viewportTop: anchorElement.getBoundingClientRect().top, scrollY: window.scrollY };
+      console.info("[section-order-anchor-captured]", { sectionId, source, placement, viewportTop: sectionMoveAnchorRef.current.viewportTop, scrollY: window.scrollY, movement });
     }
     recordOrderChange("sections", sectionId, targetId, next.map((section) => section.id));
     console.info("[section-selection-order-change]", { sectionId, movement, from: currentIndex, to: targetIndex });
     onChange({ sections: next });
+  }
+  function moveSectionSelection(movement: SectionSelectionMovement, placement: "top" | "bottom") {
+    const reorderedEditable = moveSelectedItems(editableSections, selectedEditableSectionIds, movement);
+    if (reorderedEditable === editableSections) return;
+    const editableIds = new Set(editableSections.map((section) => section.id));
+    let editableIndex = 0;
+    const next = page.sections.map((section) => editableIds.has(section.id) ? reorderedEditable[editableIndex++] : section);
+    const anchorElement = document.querySelector<HTMLElement>(`[data-section-order-controls="${placement}"]`);
+    if (anchorElement) {
+      sectionMoveAnchorRef.current = { sectionId: selectedEditableSectionIds[0], source: "selection-controls", placement, viewportTop: anchorElement.getBoundingClientRect().top, scrollY: window.scrollY };
+    }
+    recordOrderChange("sections", selectedEditableSectionIds.join(","), String(movement), next.map((section) => section.id));
+    console.info("[section-selection-batch-order-change]", { sectionIds: selectedEditableSectionIds, movement, placement, nextOrder: next.map((section) => section.id) });
+    onChange({ sections: next });
+  }
+
+  function archiveSectionSelection() {
+    if (selectedEditableSections.length === 0) return;
+    for (const section of selectedEditableSections) {
+      onSectionVisibilityChange(section.id, { ...section.visibility, menuVisible: false });
+      onToggleDelete({ entityType: "section", entityId: section.id }, false);
+    }
+    console.info("[section-selection-batch-archive]", { sectionIds: selectedEditableSectionIds, count: selectedEditableSectionIds.length });
   }
   function updateSectionTitle(sectionId: string, title: string) {
     if (sectionId.startsWith("section-")) {
@@ -1118,7 +1238,7 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
           <button type="button" className="admin-button" onClick={onCreateSection}>+ 새 섹션</button>
         </div>
         <BulkDeleteBar count={page.sections.filter((section) => selectedDeleteKeys.has(targetKey({ entityType: "section", entityId: section.id }))).length} onDelete={() => onDeleteSections(page.sections.filter((section) => selectedDeleteKeys.has(targetKey({ entityType: "section", entityId: section.id }))).map((section) => ({ entityType: "section", entityId: section.id })))} />
-        <SectionSelectionOrderActions placement="top" selectedSection={selectedEditableSection} selectedCount={selectedEditableSections.length} index={selectedEditableSectionIndex} total={editableSections.length} onMove={moveSection} />
+        <SectionSelectionOrderActions placement="top" selectedSections={selectedEditableSections} firstIndex={firstSelectedSectionIndex} lastIndex={lastSelectedSectionIndex} alreadyAtFront={selectionAlreadyAtFront} alreadyAtBack={selectionAlreadyAtBack} total={editableSections.length} onMove={moveSectionSelection} onArchive={archiveSectionSelection} />
         {editableSections.map((section, sectionIndex) => {
           const copy = section.content ? { id: section.id, ...section.content } : siteContent.homeSections.find((item) => item.id === section.id);
           const blocks = section.content?.blocks ?? [];
@@ -1216,33 +1336,37 @@ function PageEditor({ page, index, total, siteContent, onSiteContentChange, onCh
             </div>
           );
         })}
-        <SectionSelectionOrderActions placement="bottom" selectedSection={selectedEditableSection} selectedCount={selectedEditableSections.length} index={selectedEditableSectionIndex} total={editableSections.length} onMove={moveSection} />
+        <SectionSelectionOrderActions placement="bottom" selectedSections={selectedEditableSections} firstIndex={firstSelectedSectionIndex} lastIndex={lastSelectedSectionIndex} alreadyAtFront={selectionAlreadyAtFront} alreadyAtBack={selectionAlreadyAtBack} total={editableSections.length} onMove={moveSectionSelection} onArchive={archiveSectionSelection} />
       </div>
       )}
     </section>
   );
 }
 
-function SectionSelectionOrderActions({ placement, selectedSection, selectedCount, index, total, onMove }: {
+function SectionSelectionOrderActions({ placement, selectedSections, firstIndex, lastIndex, alreadyAtFront, alreadyAtBack, total, onMove, onArchive }: {
   placement: "top" | "bottom";
-  selectedSection: AdminPageSection | null;
-  selectedCount: number;
-  index: number;
+  selectedSections: AdminPageSection[];
+  firstIndex: number;
+  lastIndex: number;
+  alreadyAtFront: boolean;
+  alreadyAtBack: boolean;
   total: number;
-  onMove: (id: string, movement: -1 | 1 | "first" | "last") => void;
+  onMove: (movement: SectionSelectionMovement, placement: "top" | "bottom") => void;
+  onArchive: () => void;
 }) {
-  const ready = Boolean(selectedSection);
-  const guide = selectedCount === 0 ? "순서를 바꿀 섹션을 하나 선택하세요." : selectedCount > 1 ? "순서 변경은 한 번에 한 섹션만 선택하세요." : `${selectedSection!.title} 선택됨`;
-  return <div className={`admin-section-selection-actions is-${placement}`} aria-label={`선택 섹션 순서 작업 ${placement === "top" ? "상단" : "하단"}`}>
+  const selectedCount = selectedSections.length;
+  const ready = selectedCount > 0;
+  const guide = selectedCount === 0 ? "이동하거나 보관할 섹션을 선택하세요." : selectedCount === 1 ? `${selectedSections[0].title} 선택됨` : `${selectedCount}개 섹션 선택됨 · 선택 순서를 유지해 함께 이동합니다.`;
+  return <div className={`admin-section-selection-actions is-${placement}`} data-section-order-controls={placement} aria-label={`선택 섹션 순서 작업 ${placement === "top" ? "상단" : "하단"}`}>
     <strong>{guide}</strong><span>
-      <button type="button" disabled={!ready || index <= 0} onClick={() => selectedSection && onMove(selectedSection.id, "first")}>맨 앞으로</button>
-      <button type="button" disabled={!ready || index <= 0} onClick={() => selectedSection && onMove(selectedSection.id, -1)}>한 칸 위로</button>
-      <button type="button" disabled={!ready || index >= total - 1} onClick={() => selectedSection && onMove(selectedSection.id, 1)}>한 칸 아래로</button>
-      <button type="button" disabled={!ready || index >= total - 1} onClick={() => selectedSection && onMove(selectedSection.id, "last")}>맨 뒤로</button>
+      <button type="button" disabled={!ready || alreadyAtFront} onClick={() => onMove("first", placement)}>맨 앞으로</button>
+      <button type="button" disabled={!ready || firstIndex <= 0} onClick={() => onMove(-1, placement)}>한 칸 위로</button>
+      <button type="button" disabled={!ready || lastIndex >= total - 1} onClick={() => onMove(1, placement)}>한 칸 아래로</button>
+      <button type="button" disabled={!ready || alreadyAtBack} onClick={() => onMove("last", placement)}>맨 뒤로</button>
+      <button type="button" className="admin-section-selection-archive" disabled={!ready} onClick={onArchive}>보관</button>
     </span>
   </div>;
-}
-function PageEditorActions({ placement, page, index, total, canUndoOrder, onMove, onUndoOrder, onCopy, onHide, onDelete }: {
+}function PageEditorActions({ placement, page, index, total, canUndoOrder, onMove, onUndoOrder, onCopy, onHide, onDelete }: {
   placement: "top" | "bottom";
   page: AdminPageItem;
   index: number;

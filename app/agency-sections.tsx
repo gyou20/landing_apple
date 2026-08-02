@@ -330,7 +330,7 @@ function AgencyDiagnostics() {
   return null;
 }
 
-export function AgencySections({ visibleSectionIds }: { visibleSectionIds: string[] }) {
+export function AgencySections({ visibleSectionIds, sectionOrder }: { visibleSectionIds: string[]; sectionOrder?: Record<string, number> }) {
   const { homeSections } = useSiteContent();
   const section03 = homeSections.find((section) => section.id === "home-section-03") ?? DEFAULT_SITE_CONTENT.homeSections[2];
   const section04 = homeSections.find((section) => section.id === "home-section-04") ?? DEFAULT_SITE_CONTENT.homeSections[3];
@@ -347,9 +347,11 @@ export function AgencySections({ visibleSectionIds }: { visibleSectionIds: strin
 
       <section
         className="agency-section agency-section-03"
+        style={{ order: sectionOrder?.["home-section-03"] }}
         id="section-03"
         data-section-id="03"
         data-background-section-id="home-section-03"
+        data-public-section-order={sectionOrder?.["home-section-03"]}
         data-visibility-entity-type="section"
         data-visibility-entity-id="home-section-03"
         hidden={!visibleSectionIds.includes("home-section-03")}
@@ -408,9 +410,11 @@ export function AgencySections({ visibleSectionIds }: { visibleSectionIds: strin
 
       <section
         className="agency-section agency-section-04"
+        style={{ order: sectionOrder?.["home-section-04"] }}
         id="section-04"
         data-section-id="04"
         data-background-section-id="home-section-04"
+        data-public-section-order={sectionOrder?.["home-section-04"]}
         data-visibility-entity-type="section"
         data-visibility-entity-id="home-section-04"
         hidden={!visibleSectionIds.includes("home-section-04")}
@@ -482,9 +486,11 @@ export function AgencySections({ visibleSectionIds }: { visibleSectionIds: strin
 
       <section
         className="agency-section agency-section-05"
+        style={{ order: sectionOrder?.["home-section-05"] }}
         id="section-05"
         data-section-id="05"
         data-background-section-id="home-section-05"
+        data-public-section-order={sectionOrder?.["home-section-05"]}
         data-visibility-entity-type="section"
         data-visibility-entity-id="home-section-05"
         hidden={!visibleSectionIds.includes("home-section-05")}
@@ -547,9 +553,11 @@ export function AgencySections({ visibleSectionIds }: { visibleSectionIds: strin
 
       <section
         className="agency-section agency-section-06"
+        style={{ order: sectionOrder?.["home-section-06"] }}
         id="section-06"
         data-section-id="06"
         data-background-section-id="home-section-06"
+        data-public-section-order={sectionOrder?.["home-section-06"]}
         data-visibility-entity-type="section"
         data-visibility-entity-id="home-section-06"
         hidden={!visibleSectionIds.includes("home-section-06")}

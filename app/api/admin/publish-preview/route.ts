@@ -6,6 +6,7 @@ import { getContentVlogDb, listContentVlogs } from "../../../../db/content-vlogs
 import { getVisibilityDb, listVisibility } from "../../../../db/content-visibility";
 import { getDeletionDb, listDeletions } from "../../../../db/content-deletions";
 import { getSectionBackgroundBindings, listSectionBackgrounds } from "../../../../db/section-backgrounds";
+import { getPageSectionOrderDb, listPageSectionOrders } from "../../../../db/page-section-orders";
 
 export const dynamic = "force-dynamic";
 
@@ -17,13 +18,14 @@ export async function GET() {
   if (!user) return NextResponse.json({ error: "관리자 인증이 필요합니다." }, { status: 401 });
   try {
     const { db: backgroundDb } = getSectionBackgroundBindings();
-    const [pages, sections, vlogs, visibility, backgrounds, deletions] = await Promise.all([
+    const [pages, sections, vlogs, visibility, backgrounds, deletions, sectionOrders] = await Promise.all([
       listContentPages(await getContentPageDb()),
       listContentSections(await getContentSectionDb()),
       listContentVlogs(await getContentVlogDb()),
       listVisibility(await getVisibilityDb()),
       listSectionBackgrounds(backgroundDb),
       listDeletions(await getDeletionDb()),
+      listPageSectionOrders(await getPageSectionOrderDb()),
     ]);
     const pageTitles = new Map(pages.map((page) => [page.id, page.draft.title]));
     const sectionTitles = new Map(sections.map((section) => [section.id, section.draft.title]));
@@ -54,6 +56,12 @@ export async function GET() {
         label: "가시성",
         items: visibility.filter((record) => record.draft.menuVisible !== record.published.menuVisible || record.draft.searchIndexable !== record.published.searchIndexable)
           .map((record) => ({ id: `${record.entityType}:${record.entityId}`, title: entityTitle(record.entityType, record.entityId), detail: `${record.draft.menuVisible ? "메뉴 표시" : "메뉴 숨김"} · ${record.draft.searchIndexable ? "검색 허용" : "검색 제외"}` })),
+      },
+      {
+        key: "section-orders",
+        label: "섹션 순서",
+        items: sectionOrders.filter((record) => JSON.stringify(record.draftOrder) !== JSON.stringify(record.publishedOrder))
+          .map((record) => ({ id: record.pageId, title: pageTitles.get(record.pageId) ?? record.pageId, detail: `${record.draftOrder.length}개 섹션 순서 공개` })),
       },
       {
         key: "backgrounds",

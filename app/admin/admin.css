@@ -609,6 +609,12 @@
   cursor: pointer;
 }
 .admin-section-selection-actions button:disabled { opacity: .35; cursor: not-allowed; }
+.admin-section-selection-actions .admin-section-selection-archive {
+  margin-left: 9px;
+  border-color: #a9a9a9;
+  background: #e1e1e1;
+  font-weight: 700;
+}
 @media (max-width: 720px) {
   .admin-section-selection-actions { align-items: flex-start; flex-direction: column; }
 }
